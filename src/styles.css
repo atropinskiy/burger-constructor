@@ -1,4 +1,6 @@
 :root {
+	height: 100vh;
+	padding: 0;
 	color: rgb(255 255 255 / 87%);
 	font-weight: 400;
 	font-size: 16px;
@@ -13,62 +15,77 @@
 	text-size-adjust: 100%;
 }
 
-a {
-	color: #646cff;
-	font-weight: 500;
-	text-decoration: inherit;
-}
-
-a:hover {
-	color: #535bf2;
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 body {
 	display: flex;
 	justify-content: center;
-	align-items: center;
-	min-width: 320px;
-	min-height: 100vh;
 	margin: 0;
+	padding: 40px;
 }
 
-h1 {
-	font-size: 3.2em;
-	line-height: 1.1;
+header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 88px;
 }
 
-button {
-	padding: 0.6em 1.2em;
-	font-weight: 500;
-	font-size: 1em;
-	font-family: inherit;
-	background-color: #1a1a1a;
-	border: 1px solid transparent;
-	border-radius: 8px;
-	cursor: pointer;
-	transition: border-color 0.25s;
+main {
+	width: 1240px;
+	height: 100%;
+	border: 1px solid gray;
 }
 
-button:hover {
-	border-color: #646cff;
+.d-flex {
+	display: flex;
 }
 
-button:focus,
-button:focus-visible {
-	outline: 4px auto -webkit-focus-ring-color;
+.align-items-stretch {
+	align-items: stretch;
 }
 
-@media (prefers-color-scheme: light) {
-	:root {
-		color: #213547;
-		background-color: #ffffff;
-	}
+.flex-column {
+	flex-direction: column;
+}
 
-	a:hover {
-		color: #747bff;
-	}
+.flex-grow {
+	flex-grow: 1;
+}
 
-	button {
-		background-color: #f9f9f9;
-	}
+.justify-center {
+	justify-content: center;
+}
+
+.justify-end {
+	justify-content: end;
+}
+
+.justify-top {
+	justify-content: top;
+}
+
+.valign-bottom {
+	align-items: bottom;
+}
+
+.valign-center {
+	align-items: center;
+}
+
+.valign-top {
+	align-items: top;
+}
+
+.g-10 {
+	gap: 40px;
+}
+
+.border-box {
+	box-sizing: border-box;
 }
