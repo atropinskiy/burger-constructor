@@ -1,6 +1,4 @@
 :root {
-	height: 100vh;
-	padding: 0;
 	color: rgb(255 255 255 / 87%);
 	font-weight: 400;
 	font-size: 16px;
@@ -15,6 +13,14 @@
 	text-size-adjust: 100%;
 }
 
+.parent {
+	height: 100%; /* теперь можно задать высоту родителя как 100% от body */
+}
+
+.child {
+	height: 100%; /* Дочерний элемент займет всю высоту родителя */
+}
+
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -24,22 +30,23 @@
 body {
 	display: flex;
 	justify-content: center;
+	align-items: top;
+	min-width: 320px;
+	min-height: 100vh;
 	margin: 0;
-	padding: 40px;
 }
 
 header {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100vw;
+	width: 100%;
 	height: 88px;
 }
 
 main {
 	width: 1240px;
 	height: 100%;
-	border: 1px solid gray;
 }
 
 .d-flex {
@@ -88,4 +95,34 @@ main {
 
 .border-box {
 	box-sizing: border-box;
+}
+
+.content-box {
+	box-sizing: content-box;
+}
+
+.grid-col-2 {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 24px;
+}
+
+.ml-auto {
+	margin-left: auto;
+}
+
+.h-100 {
+	height: 100%;
+}
+
+.w-100 {
+	width: 100%;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.flipped {
+	transform: scaleY(-1);
 }

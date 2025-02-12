@@ -1,6 +1,8 @@
 .contructor_container {
-	width: 600px;
-	height: 500px;
-	border: 1px solid gray;
+	width: 100%;
+	height: 912px;
 	box-sizing: border-box;
+	border: 2px solid rgba(76, 76, 255, 1);
+	overflow-y: auto;
+	overflow-x: hidden;
 }
