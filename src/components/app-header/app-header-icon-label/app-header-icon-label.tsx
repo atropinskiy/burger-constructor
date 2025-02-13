@@ -15,7 +15,6 @@ export const AppHeaderIconLabel = ({
 	return (
 		<div className={`${s.bg} text text_type_main-default" ${className}`}>
 			{icon && <span className='mr-2'>{icon}</span>}{' '}
-			{/* Отображаем иконку, если передана */}
 			<p className='text text_type_main-default'>{label}</p>
 		</div>
 	);

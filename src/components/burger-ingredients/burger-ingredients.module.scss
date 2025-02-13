@@ -1,0 +1,11 @@
+.ingredients-block {
+	overflow-y: auto;
+	height: 718px;
+}
+
+.header {
+	position: sticky;
+	top: 0;
+	z-index: 10; /* Убедитесь, что заголовок будет поверх всех других элементов */
+	padding: 0;
+}

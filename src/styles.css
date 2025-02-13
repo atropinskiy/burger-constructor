@@ -126,3 +126,7 @@ main {
 .flipped {
 	transform: scaleY(-1);
 }
+
+.overflow-none {
+	overflow: hidden;
+}

@@ -2,14 +2,27 @@ import React from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Ingredient } from '../../../utils/data';
 import s from './ingredient-card.module.scss';
-
+import { string, number, func, shape } from 'prop-types';
 interface IngredientCardProps {
 	ingredient: Ingredient;
+	onClick: () => void;
 }
 
-const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
+const IngredientCard: React.FC<IngredientCardProps> = ({
+	ingredient,
+	onClick,
+}) => {
 	return (
-		<div className={s.card}>
+		<div
+			className={s.card}
+			onClick={onClick}
+			role='button'
+			tabIndex={0} // Добавлено для поддержки навигации через Tab
+			onKeyDown={(e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					onClick(); // Обработка нажатия Enter или пробела
+				}
+			}}>
 			<img src={ingredient.image} alt={ingredient.name} />
 			<span className='text text_type_digits-default w-100 d-flex justify-center'>
 				<span className='mr-1'>{ingredient.price}</span>
@@ -20,6 +33,24 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
 			</span>
 		</div>
 	);
+};
+
+IngredientCard.propTypes = {
+	ingredient: shape({
+		_id: string.isRequired,
+		name: string.isRequired,
+		type: string.isRequired,
+		proteins: number.isRequired,
+		fat: number.isRequired,
+		carbohydrates: number.isRequired,
+		calories: number.isRequired,
+		price: number.isRequired,
+		image: string.isRequired,
+		image_mobile: string.isRequired,
+		image_large: string.isRequired,
+		__v: number.isRequired,
+	}).isRequired,
+	onClick: func.isRequired,
 };
 
 export default IngredientCard;

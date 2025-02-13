@@ -3,66 +3,47 @@ import {
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
-import Data from '../../utils/data';
+import { Ingredient } from '../../utils/data';
+import s from './burger-constructor.module.scss';
 
-const BurgerConstructor = () => {
+interface BurgerConstructorProps {
+	currentIngredients: Ingredient[];
+}
+const BurgerConstructor: React.FC<BurgerConstructorProps> = ({
+	currentIngredients,
+}) => {
+	if (!currentIngredients || currentIngredients.length === 0) {
+		return <div>Нет ингредиентов для конструктора</div>;
+	}
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+		<div>
 			<ConstructorElement
 				type='top'
 				isLocked={true}
-				text='Краторная булка N-200i (верх)'
-				price={200}
-				thumbnail={Data[0].image_mobile}
+				text={currentIngredients[0].name + ' (верх)'}
+				price={currentIngredients[0].price}
+				thumbnail={currentIngredients[0].image_mobile}
 				extraClass='ml-8'
 			/>
-			<div className='d-flex  valign-center'>
-				<DragIcon type='primary' className='mr-2' />
-				<ConstructorElement
-					text='Краторная булка N-200i (верх)'
-					price={50}
-					thumbnail={Data[1].image_mobile}
-				/>
-			</div>
-			<div className='d-flex  valign-center'>
-				<DragIcon type='primary' className='mr-2' />
-				<ConstructorElement
-					text='Краторная булка N-200i (верх)'
-					price={50}
-					thumbnail={Data[2].image_mobile}
-				/>
-			</div>
-			<div className='d-flex  valign-center'>
-				<DragIcon type='primary' className='mr-2' />
-				<ConstructorElement
-					text='Краторная булка N-200i (верх)'
-					price={50}
-					thumbnail={Data[3].image_mobile}
-				/>
-			</div>
-			<div className='d-flex  valign-center'>
-				<DragIcon type='primary' className='mr-2' />
-				<ConstructorElement
-					text='Краторная булка N-200i (верх)'
-					price={50}
-					thumbnail={Data[4].image_mobile}
-				/>
-			</div>
-			<div className='d-flex  valign-center'>
-				<DragIcon type='primary' className='mr-2' />
-				<ConstructorElement
-					text='Краторная булка N-200i (верх)'
-					price={50}
-					thumbnail={Data[5].image_mobile}
-				/>
+			<div className={s['ingredients-scroll']}>
+				{currentIngredients.slice(1, 12).map((item, index) => (
+					<div className='d-flex valign-center mt-4' key={index}>
+						<DragIcon type='primary' className='mr-2' />
+						<ConstructorElement
+							text={item.name}
+							price={item.price}
+							thumbnail={item.image_mobile}
+						/>
+					</div>
+				))}
 			</div>
 			<ConstructorElement
 				type='bottom'
 				isLocked={true}
-				text='Краторная булка N-200i (низ)'
-				price={200}
-				thumbnail={Data[0].image_mobile}
-				extraClass='ml-8'
+				text={currentIngredients[0].name + ' (низ)'}
+				price={currentIngredients[0].price}
+				thumbnail={currentIngredients[0].image_mobile}
+				extraClass='ml-8 mt-4'
 			/>
 		</div>
 	);
