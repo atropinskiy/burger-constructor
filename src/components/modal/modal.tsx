@@ -3,12 +3,11 @@ import { createPortal } from 'react-dom';
 import { ModalOverlay } from './modal-overlay/modal-overlay';
 
 interface ModalProps {
-	title?: string;
 	onClose: () => void;
 	children: React.ReactNode;
 }
 
-export const Modal: React.FC<ModalProps> = ({ title, onClose, children }) => {
+export const Modal: React.FC<ModalProps> = ({ onClose, children }) => {
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
@@ -21,9 +20,7 @@ export const Modal: React.FC<ModalProps> = ({ title, onClose, children }) => {
 	}, [onClose]);
 
 	return createPortal(
-		<ModalOverlay title={title} onClose={onClose}>
-			{children}
-		</ModalOverlay>,
+		<ModalOverlay onClose={onClose}>{children}</ModalOverlay>,
 		document.getElementById('modal-root') as HTMLElement
 	);
 };

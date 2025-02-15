@@ -15,7 +15,8 @@ export const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
 	ingredients,
 }) => {
 	const [current, setCurrent] = useState<string>('one');
-	const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
+	const [selectedIngredient, setSelectedIngredient] =
+		useState<Ingredient | null>(null);
 	const { isModalOpen, openModal, closeModal } = useModal();
 
 	const bunRef = useRef<HTMLDivElement | null>(null);
@@ -122,8 +123,11 @@ export const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
 			</div>
 
 			{isModalOpen && selectedIngredient && (
-				<Modal title="Детали ингредиента" onClose={closeModal}>
-					<IngredientDetails ingredient={selectedIngredient} />
+				<Modal onClose={closeModal}>
+					<IngredientDetails
+						ingredient={selectedIngredient}
+						onClose={closeModal}
+					/>
 				</Modal>
 			)}
 		</div>
