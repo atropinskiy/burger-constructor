@@ -11,6 +11,7 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-size-adjust: 100%;
+	
 }
 
 .parent {
@@ -47,6 +48,7 @@ header {
 main {
 	width: 1240px;
 	height: 100%;
+	box-sizing: border-box;
 }
 
 .d-flex {
@@ -129,4 +131,8 @@ main {
 
 .overflow-none {
 	overflow: hidden;
+}
+
+.cursor-pointer {
+	cursor: pointer;
 }

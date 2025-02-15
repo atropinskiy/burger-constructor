@@ -1,19 +1,14 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Ingredient } from '@utils/data';
 import { ModalOverlay } from './modal-overlay/modal-overlay';
 
 interface ModalProps {
-	orderNumber?: number;
-	ingredient?: Ingredient;
+	title?: string;
 	onClose: () => void;
+	children: React.ReactNode;
 }
 
-export const Modal: React.FC<ModalProps> = ({
-	orderNumber,
-	ingredient,
-	onClose,
-}) => {
+export const Modal: React.FC<ModalProps> = ({ title, onClose, children }) => {
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
@@ -26,11 +21,9 @@ export const Modal: React.FC<ModalProps> = ({
 	}, [onClose]);
 
 	return createPortal(
-		<ModalOverlay
-			onClose={onClose}
-			ingredient={ingredient}
-			orderNumber={orderNumber}
-		/>,
+		<ModalOverlay title={title} onClose={onClose}>
+			{children}
+		</ModalOverlay>,
 		document.getElementById('modal-root') as HTMLElement
 	);
 };

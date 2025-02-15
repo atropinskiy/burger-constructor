@@ -1,27 +1,21 @@
 import React from 'react';
 import s from './modal-overlay.module.scss';
 import { ModalHeader } from '../modal-header/modal-header';
-import { Ingredient } from '@utils/data';
-import { IngredientDetails } from '../ingredient-details/ingredient-details';
-import { OrderDetails } from '../order-details/order-details';
 
-interface ModalProps {
+interface ModalOverlayProps {
+	title?: string;
 	onClose: () => void;
-	ingredient?: Ingredient;
-	orderNumber?: number;
+	children: React.ReactNode;
 }
 
-export const ModalOverlay: React.FC<ModalProps> = ({
+export const ModalOverlay: React.FC<ModalOverlayProps> = ({
+	title,
 	onClose,
-	ingredient,
-	orderNumber,
+	children,
 }) => {
-	const title = orderNumber ? '' : 'Детали ингредиента';
-
-	// Функция для обработки нажатия клавиш
 	const handleKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter' || e.key === ' ') {
-			onClose(); // Закрытие модалки по нажатию Enter или пробела
+			onClose();
 		}
 	};
 
@@ -30,18 +24,15 @@ export const ModalOverlay: React.FC<ModalProps> = ({
 			className={s['modal-overlay']}
 			onClick={onClose}
 			role='button'
-			tabIndex={0} // Это позволяет элементу быть доступным для навигации с помощью клавиши Tab
-			onKeyDown={handleKeyDown} // Обработка нажатия клавиш
+			tabIndex={0}
+			onKeyDown={handleKeyDown}
 		>
-			<div className={s['modal-content']}>
+			<div
+				className={s['modal-content']}
+				onClick={(e) => e.stopPropagation()}
+			>
 				<ModalHeader title={title} onClose={onClose} />
-				{orderNumber ? (
-					<OrderDetails orderNumber={orderNumber} />
-				) : ingredient ? (
-					<IngredientDetails ingredient={ingredient} />
-				) : (
-					<p className='text text_type_main-medium'>Нет данных</p>
-				)}
+				{children}
 			</div>
 		</div>
 	);

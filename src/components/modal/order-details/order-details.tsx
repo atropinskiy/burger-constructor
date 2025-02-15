@@ -2,11 +2,7 @@ import React from 'react';
 import s from './order-details.module.scss';
 import doneImg from './assets/done.png';
 
-interface ModalProps {
-	orderNumber: number;
-}
-
-export const OrderDetails: React.FC<ModalProps> = () => {
+export const OrderDetails: React.FC = () => {
 	return (
 		<div className='mt-10 d-flex flex-column valign-center'>
 			<h1 className={`text text_type_digits-large ${s.digits}`}>034536</h1>

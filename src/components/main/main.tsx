@@ -1,24 +1,23 @@
-import { useState } from 'react';
 import s from './main.module.scss';
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Ingredient } from '@utils/data';
 import { Modal } from '../modal/modal';
+import { useModal } from '../../hooks/use-modal';
+import { OrderDetails } from '../modal/order-details/order-details';
 
 interface MainProps {
 	ingredients: Ingredient[];
 }
 
 export const Main: React.FC<MainProps> = ({ ingredients }) => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const { isModalOpen, openModal, closeModal } = useModal();
 
-	const handleOpenModal = () => setIsModalOpen(true);
-	const handleCloseModal = () => setIsModalOpen(false);
 	return (
 		<main>
 			<div className='d-flex g-10 h-100'>
-				<section className={`${s.contructor_container} ${s.bordered}`}>
+				<section className={`${s.contructor_container}`}>
 					<BurgerIngredients ingredients={ingredients} />
 				</section>
 				<section className={s.contructor_container}>
@@ -29,14 +28,18 @@ export const Main: React.FC<MainProps> = ({ ingredients }) => {
 								htmlType='button'
 								type='primary'
 								size='large'
-								onClick={handleOpenModal}>
+								onClick={openModal}>
 								Оформить заказ
 							</Button>
 						</div>
 					</div>
 				</section>
 			</div>
-			{isModalOpen && <Modal onClose={handleCloseModal} orderNumber={12345} />}
+			{isModalOpen && (
+				<Modal title='' onClose={closeModal}>
+					<OrderDetails />
+				</Modal>
+			)}
 		</main>
 	);
 };
