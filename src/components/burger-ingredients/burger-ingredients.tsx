@@ -123,11 +123,8 @@ export const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
 			</div>
 
 			{isModalOpen && selectedIngredient && (
-				<Modal onClose={closeModal}>
-					<IngredientDetails
-						ingredient={selectedIngredient}
-						onClose={closeModal}
-					/>
+				<Modal onClose={closeModal} title='Детали ингредиента'>
+					<IngredientDetails ingredient={selectedIngredient} />
 				</Modal>
 			)}
 		</div>

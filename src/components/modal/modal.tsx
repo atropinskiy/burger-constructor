@@ -5,9 +5,10 @@ import { ModalOverlay } from './modal-overlay/modal-overlay';
 interface ModalProps {
 	onClose: () => void;
 	children: React.ReactNode;
+	title?: string;
 }
 
-export const Modal: React.FC<ModalProps> = ({ onClose, children }) => {
+export const Modal: React.FC<ModalProps> = ({ onClose, children, title }) => {
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
@@ -20,7 +21,9 @@ export const Modal: React.FC<ModalProps> = ({ onClose, children }) => {
 	}, [onClose]);
 
 	return createPortal(
-		<ModalOverlay onClose={onClose}>{children}</ModalOverlay>,
+		<ModalOverlay onClose={onClose} title={title}>
+			{children}
+		</ModalOverlay>,
 		document.getElementById('modal-root') as HTMLElement
 	);
 };

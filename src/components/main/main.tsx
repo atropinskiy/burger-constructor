@@ -37,7 +37,7 @@ export const Main: React.FC<MainProps> = ({ ingredients }) => {
 			</div>
 			{isModalOpen && (
 				<Modal onClose={closeModal}>
-					<OrderDetails onClose={closeModal} />
+					<OrderDetails />
 				</Modal>
 			)}
 		</main>
