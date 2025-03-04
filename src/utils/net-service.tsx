@@ -1,8 +1,8 @@
-import { Ingredient } from './data';
+import { IngredientModel } from '../utils/data';
 
 const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
 
-export const getIngredients = async (): Promise<Ingredient[]> => {
+export const getIngredients = async (): Promise<IngredientModel[]> => {
 	try {
 		const response = await fetch(API_URL);
 

@@ -2,13 +2,13 @@ import s from './main.module.scss';
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Ingredient } from '@utils/data';
+import { IngredientModel } from '@utils/data';
 import { Modal } from '../modal/modal';
 import { useModal } from '../../hooks/use-modal';
 import { OrderDetails } from '../modal/order-details/order-details';
 
 interface MainProps {
-	ingredients: Ingredient[];
+	ingredients: IngredientModel[];
 }
 
 export const Main: React.FC<MainProps> = ({ ingredients }) => {

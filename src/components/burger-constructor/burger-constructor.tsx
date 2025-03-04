@@ -3,11 +3,11 @@ import {
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
-import { Ingredient } from '../../utils/data';
+import { IngredientModel } from '../../utils/data';
 import s from './burger-constructor.module.scss';
 
 interface BurgerConstructorProps {
-	currentIngredients: Ingredient[];
+	currentIngredients: IngredientModel[];
 }
 const BurgerConstructor: React.FC<BurgerConstructorProps> = ({
 	currentIngredients,

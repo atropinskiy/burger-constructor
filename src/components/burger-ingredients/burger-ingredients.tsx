@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Ingredient } from '../../utils/data';
+import { IngredientModel } from '../../utils/data';
 import IngredientCard from './ingredient-card/ingredient-card';
 import { Modal } from '../modal/modal';
 import s from './burger-ingredients.module.scss';
@@ -8,7 +8,7 @@ import { useModal } from '../../hooks/use-modal';
 import { IngredientDetails } from '../modal/ingredient-details/ingredient-details';
 
 interface BurgerIngredientsProps {
-	ingredients: Ingredient[];
+	ingredients: IngredientModel[];
 }
 
 export const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
@@ -16,7 +16,7 @@ export const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
 }) => {
 	const [current, setCurrent] = useState<string>('one');
 	const [selectedIngredient, setSelectedIngredient] =
-		useState<Ingredient | null>(null);
+		useState<IngredientModel | null>(null);
 	const { isModalOpen, openModal, closeModal } = useModal();
 
 	const bunRef = useRef<HTMLDivElement | null>(null);
@@ -30,7 +30,7 @@ export const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
 		}
 		acc[type].push(ingredient);
 		return acc;
-	}, {} as { [key: string]: Ingredient[] });
+	}, {} as { [key: string]: IngredientModel[] });
 
 	const handleTabClick = (tab: string) => {
 		setCurrent(tab);
@@ -52,7 +52,7 @@ export const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
 		}
 	};
 
-	const handleIngredientClick = (ingredient: Ingredient) => {
+	const handleIngredientClick = (ingredient: IngredientModel) => {
 		setSelectedIngredient(ingredient);
 		openModal();
 	};

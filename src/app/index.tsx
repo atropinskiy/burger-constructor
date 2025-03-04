@@ -1,30 +1,29 @@
 import s from './app.module.scss';
 import { AppHeader } from '../components/app-header/app-header';
 import { Main } from '../components/main/main';
-import { Ingredient } from '@utils/data';
-import { getIngredients } from '@utils/net-service';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchIngredients } from '../services/reducers/ingredients';
+import { RootState, AppDispatch } from '../services/store';
 
 export const App = () => {
-	const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+	const dispatch = useDispatch<AppDispatch>();
+	const {
+		items: ingredients,
+		loading,
+		error,
+	} = useSelector((state: RootState) => state.ingredients);
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const data = await getIngredients();
-				setIngredients(data);
-			} catch (error) {
-				console.error('Ошибка при загрузке данных', error);
-			}
-		};
-
-		fetchData();
-	}, []);
+		dispatch(fetchIngredients());
+	}, [dispatch]);
 
 	return (
 		<div className={s.app}>
 			<AppHeader />
-			<Main ingredients={ingredients} />
+			{loading && <p>Загрузка...</p>}
+			{error && <p className='error'>Ошибка: {error}</p>}
+			{!loading && !error && <Main ingredients={ingredients} />}
 		</div>
 	);
 };
