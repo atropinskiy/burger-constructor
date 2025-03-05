@@ -1,4 +1,4 @@
-import { IngredientModel } from '../utils/data';
+import { IngredientModel } from './models';
 
 const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
 

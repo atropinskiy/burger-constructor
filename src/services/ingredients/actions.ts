@@ -1,24 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IngredientModel } from "../../utils/data";
-import { setIngredients } from "./reducer";
+import { IngredientModel } from "../../utils/models";
+import { addSelectedIngredient } from "./slices";
 
-// Пример асинхронного экшена для загрузки ингредиентов
+// Асинхронный экшен для получения ингредиентов с API
 export const fetchIngredients = createAsyncThunk<IngredientModel[], void>(
   "ingredients/loadIngredients",
   async () => {
-    // Используем полный URL API
     const response = await fetch("https://norma.nomoreparties.space/api/ingredients");
-
     if (!response.ok) {
       throw new Error("Не удалось загрузить ингредиенты");
     }
-
     const data = await response.json();
-    return data.data as IngredientModel[]; // Убедитесь, что данные находятся в data.data
+    return data.data as IngredientModel[]; // Возвращаем массив ингредиентов
   }
 );
 
-// Асинхронный экшен для добавления ингредиента (используем обычный экшен, а не асинхронный)
-export const addIngredient = (ingredient: IngredientModel) => {
-  return setIngredients([ingredient]); // Используем редьюсер setIngredients для добавления
+// Экшен для добавления выбранного ингредиента в список selectedItems
+export const addSelectedIngredientAction = (ingredient: IngredientModel) => {
+  return (dispatch: any) => {
+    dispatch(addSelectedIngredient(ingredient));  // Используем правильный экшен
+  };
 };

@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ingredientsReducer from "./ingredients/reducer"; // Импорт вашего редьюсера
+import ingredientsReducer from "./ingredients/slices"; // Импорт вашего редьюсера
 
 export const store = configureStore({
   reducer: {

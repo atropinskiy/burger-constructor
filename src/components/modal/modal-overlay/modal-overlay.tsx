@@ -14,7 +14,7 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({
 	title,
 }) => {
 	return (
-		<div className={s['modal-overlay']} onClick={onClose} aria-hidden='true'>
+		<div className={s['modal-overlay']} onClick={onClose}>
 			<div
 				role='button'
 				aria-hidden='true'

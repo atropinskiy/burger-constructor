@@ -11,7 +11,7 @@ export const App = () => {
   
   // Получаем состояние ингредиентов из Redux
   const {
-    items: ingredients,
+    selectedItems: ingredients,  // Изменили на selectedItems
     loading,
     error,
   } = useSelector((state: RootState) => state.ingredients);
@@ -26,7 +26,7 @@ export const App = () => {
       <AppHeader />
       {loading && <p>Загрузка...</p>}
       {error && <p className="error">Ошибка: {error}</p>}
-      {!loading && !error && <Main ingredients={ingredients} />}
+      {!loading && !error && <Main ingredients={ingredients} />}  {/* Передаем ингредиенты в Main */}
     </div>
   );
 };

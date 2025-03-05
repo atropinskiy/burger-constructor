@@ -1,6 +1,6 @@
 import React from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientModel } from '../../../utils/data';
+import { IngredientModel } from '../../../utils/models';
 import s from './ingredient-card.module.scss';
 import { string, number, func, shape } from 'prop-types';
 interface IngredientCardProps {

@@ -1,29 +1,45 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ModalOverlay } from './modal-overlay/modal-overlay';
 
 interface ModalProps {
-	onClose: () => void;
-	children: React.ReactNode;
-	title?: string;
+  onClose: () => void;
+  children: React.ReactNode;
+  title?: string;
 }
 
 export const Modal: React.FC<ModalProps> = ({ onClose, children, title }) => {
-	useEffect(() => {
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === 'Escape') {
-				onClose();
-			}
-		};
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-		document.addEventListener('keydown', handleKeyDown);
-		return () => document.removeEventListener('keydown', handleKeyDown);
-	}, [onClose]);
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
 
-	return createPortal(
-		<ModalOverlay onClose={onClose} title={title}>
-			{children}
-		</ModalOverlay>,
-		document.getElementById('modal-root') as HTMLElement
-	);
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Устанавливаем фокус на модальное окно при открытии
+    if (modalRef.current) {
+      modalRef.current.focus();
+    }
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
+  return createPortal(
+    <ModalOverlay onClose={onClose} title={title}>
+      <div
+        ref={modalRef}
+        tabIndex={-1} // Сделаем модальное окно фокусируемым
+        aria-labelledby="modal-title"
+        aria-hidden="false"
+      >
+        {title && <h2 id="modal-title">{title}</h2>}
+        {children}
+      </div>
+    </ModalOverlay>,
+    document.getElementById('modal-root') as HTMLElement
+  );
 };
