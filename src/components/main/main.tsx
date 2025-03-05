@@ -19,7 +19,6 @@ export const Main: React.FC<MainProps> = ({ ingredients }) => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useDispatch<AppDispatch>();
 
-  const selectedIngredients = useSelector((state: RootState) => state.ingredients.selectedItems); 
 
   const handleAddIngredient = (ingredient: IngredientModel) => {
     // Убедитесь, что все данные передаются корректно
