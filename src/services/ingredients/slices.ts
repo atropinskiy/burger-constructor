@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { IngredientModel } from "../../utils/models";
 import { fetchIngredients } from "./actions";  // Импорт асинхронного экшена
 
@@ -23,12 +23,18 @@ const ingredientsSlice = createSlice({
     setAllIngredients: (state, action: PayloadAction<IngredientModel[]>) => {
       state.allItems = action.payload;
     },
-    addSelectedIngredient: (state, action: PayloadAction<IngredientModel>) => {
-      // Добавляем выбранный ингредиент в список
-      state.selectedItems.push(action.payload);
+    addSelectedIngredient: {
+      reducer: (state, action: PayloadAction<IngredientModel>) => {
+        state.selectedItems.push(action.payload);
+      },
+      prepare: (ingredient: IngredientModel) => {
+        return {
+          payload: { ...ingredient, id: nanoid() }
+        };
+      }
     },
     removeSelectedIngredient: (state, action: PayloadAction<string>) => {
-      state.selectedItems = state.selectedItems.filter(item => item._id !== action.payload);
+      state.selectedItems = state.selectedItems.filter(item => item.id !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -39,7 +45,10 @@ const ingredientsSlice = createSlice({
       })
       .addCase(fetchIngredients.fulfilled, (state, action) => {
         state.loading = false;
-        state.allItems = action.payload;  // Заполняем список всех ингредиентов
+        state.allItems = action.payload.map((item) => ({
+          ...item,
+          id: item.id || nanoid()  // Если id нет, генерируем новый
+        }));
       })
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.loading = false;

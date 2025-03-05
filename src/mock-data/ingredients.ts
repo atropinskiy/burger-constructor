@@ -6,7 +6,7 @@ export const IngredientMock: IngredientModel =
 {
 	_id: '1',
 	name: 'Краторвфыафыва200i',
-	type: 'bun',
+	type: 'filling',
 	proteins: 80,
 	fat: 24,
 	carbohydrates: 53,

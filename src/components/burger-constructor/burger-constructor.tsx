@@ -1,48 +1,79 @@
 import React from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import s from './burger-constructor.module.scss';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addSelectedIngredient, removeSelectedIngredient } from '../../services/ingredients/slices';
 import { RootState } from '../../services/store';
+import { IngredientMock } from '../../mock-data/ingredients';
+import { IngredientModel } from '@utils/models';
 
 const BurgerConstructor: React.FC = () => {
-  // Получаем список выбранных ингредиентов из состояния Redux
+  const dispatch = useDispatch();
   const selectedIngredients = useSelector((state: RootState) => state.ingredients.selectedItems);
+
+  // Ищем булки (верх и низ)
+  const bun = selectedIngredients.find(item => item.type === 'bun') || null;
+  // Фильтруем только начинки (не булки)
+  const fillings = selectedIngredients.filter(item => item.type !== 'bun');
+
+  // Удаляем выбранный ингредиент
+  const handleRemoveIngredient = (id: string) => {
+    dispatch(removeSelectedIngredient(id)); // Удаляем только конкретный ингредиент
+  };
+
+  // Добавление ингредиента
+  const handleAddIngredient = (ingredient: IngredientModel) => {
+    dispatch(addSelectedIngredient(ingredient));
+  };
 
   return (
     <div className={s.constructorContainer}>
       <div className="ml-10">
         {/* Булка сверху */}
-        {selectedIngredients.length > 0 && selectedIngredients[0].type === 'bun' && (
+        {bun && (
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={`${selectedIngredients[0].name} (верх)`}
-            price={selectedIngredients[0].price}
-            thumbnail={selectedIngredients[0].image}
+            text={`${bun.name} (верх)`}
+            price={bun.price}
+            thumbnail={bun.image}
           />
         )}
 
         {/* Начинки */}
-        {selectedIngredients.slice(1, selectedIngredients.length - 1).map((ingredient) => (
-          <div key={ingredient._id} className="d-flex align-center mb-2">
+        {fillings.map((ingredient) => (
+          <div key={ingredient.id} className="d-flex align-center mb-2 mt-2">
             <ConstructorElement
               text={ingredient.name}
               price={ingredient.price}
               thumbnail={ingredient.image}
+							handleClose={() => {
+								if (ingredient.id) {
+									handleRemoveIngredient(ingredient.id);
+								}
+							}}
             />
           </div>
         ))}
 
         {/* Булка снизу */}
-        {selectedIngredients.length > 0 && selectedIngredients[selectedIngredients.length - 1].type === 'bun' && (
+        {/* {bun && (
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={`${selectedIngredients[selectedIngredients.length - 1].name} (низ)`}
-            price={selectedIngredients[selectedIngredients.length - 1].price}
-            thumbnail={selectedIngredients[selectedIngredients.length - 1].image}
+            text={`${bun.name} (низ)`}
+            price={bun.price}
+            thumbnail={bun.image}
           />
-        )}
+        )} */}
+      </div>
+
+      {/* Компонент для добавления ингредиентов */}
+      <div className="ingredient-selector">
+        {/* Здесь могут быть кнопки для добавления ингредиентов */}
+        <button onClick={() => handleAddIngredient(IngredientMock)}>
+          Добавить начинку
+        </button>
       </div>
     </div>
   );

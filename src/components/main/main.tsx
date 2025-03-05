@@ -8,8 +8,8 @@ import { useModal } from '../../hooks/use-modal';
 import { OrderDetails } from '../modal/order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from "../../services/store";
-import { addSelectedIngredientAction  } from "../../services/ingredients/actions";
 import { IngredientMock } from '../../mock-data/ingredients';
+import { addSelectedIngredient } from '../../services/ingredients/slices';
 
 interface MainProps {
   ingredients: IngredientModel[];
@@ -21,13 +21,12 @@ export const Main: React.FC<MainProps> = ({ ingredients }) => {
 
   const selectedIngredients = useSelector((state: RootState) => state.ingredients.selectedItems); 
 
-  const handleAddIngredient = async (ingredient: IngredientModel) => {
-    try {
-      await dispatch(addSelectedIngredientAction(ingredient));
-    } catch (error) {
-      console.error("Ошибка при добавлении ингредиента", error);
-    }
+  const handleAddIngredient = (ingredient: IngredientModel) => {
+    // Убедитесь, что все данные передаются корректно
+    console.log(ingredient); // Проверка содержимого ингредиента
+    dispatch(addSelectedIngredient(ingredient));  // Добавление в редуктор
   };
+  
 
   return (
     <main>

@@ -3,23 +3,20 @@ import { AppHeader } from '../components/app-header/app-header';
 import { Main } from '../components/main/main';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchIngredients } from '../services/ingredients/actions';  // Импортируем правильно из actions.ts
+import { fetchIngredients } from '../services/ingredients/actions'; 
 import { RootState, AppDispatch } from '../services/store';
 
 export const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   
   // Получаем состояние ингредиентов из Redux
-  const {
-    selectedItems: ingredients,  // Изменили на selectedItems
-    loading,
-    error,
-  } = useSelector((state: RootState) => state.ingredients);
+  const { selectedItems: ingredients, loading, error } = useSelector((state: RootState) => state.ingredients);
 
   useEffect(() => {
-    // Загрузка ингредиентов при монтировании компонента
-    dispatch(fetchIngredients());
-  }, [dispatch]);
+    if (!ingredients.length) { // Запрашиваем только если ингредиенты еще не загружены
+      dispatch(fetchIngredients());
+    }
+  }, [dispatch, ingredients.length]);
 
   return (
     <div className={s.app}>
