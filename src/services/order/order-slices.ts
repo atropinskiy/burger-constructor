@@ -23,7 +23,6 @@ const orderSlice = createSlice({
 		},
 		clearOrder: (state) => {
 			state.ingredients = [];
-			state.number = null;
 			state.error = null;
 		},
 		removeIngredientFromOrder: (state, action: PayloadAction<string>) => {
@@ -65,6 +64,7 @@ export const {
 	removeBunsFromOrderById,
 	removeIngredientFromOrder,
 	addBunsToOrderById,
+	clearOrder,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

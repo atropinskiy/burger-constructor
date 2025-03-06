@@ -2,7 +2,7 @@ import React from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop } from 'react-dnd';
 import s from './burger-constructor.module.scss';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from '@hooks/index';
 import {
 	addSelectedIngredient,
 	updateOrder,
@@ -12,7 +12,6 @@ import {
 	removeBunsFromOrderById,
 	addBunsToOrderById,
 } from '../../services/order/order-slices';
-import { RootState } from '../../services/store';
 import { IngredientModel } from '@utils/models';
 import FillingsElement from './fillings_element/fillings-element';
 import IngredientCell from '../ingredient-cell/ingredient-cell';
@@ -20,7 +19,7 @@ import IngredientCell from '../ingredient-cell/ingredient-cell';
 const BurgerConstructor: React.FC = () => {
 	const dispatch = useDispatch();
 	const { bun, fillings } = useSelector(
-		(state: RootState) => state.ingredients.selectedItems
+		(state) => state.ingredients.selectedItems
 	);
 
 	const handleAddIngredient = (ingredient: IngredientModel) => {

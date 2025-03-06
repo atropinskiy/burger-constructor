@@ -1,36 +1,31 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '@hooks/index';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '../../utils/models';
 import IngredientCard from './ingredient-card/ingredient-card';
 import { Modal } from '../modal/modal';
 import s from './burger-ingredients.module.scss';
-import { RootState } from '../../services/store';
 import { IngredientDetails } from '../modal/ingredient-details/ingredient-details';
 import { openModal, closeModal } from '../../services/modal/modal-slices';
 
 export const BurgerIngredients: React.FC = () => {
 	const [current, setCurrent] = useState<string>('one');
-	const [, setSelectedIngredient] = useState<IngredientModel | null>(null);
 	const dispatch = useDispatch();
-	const { isOpen, title, ingredient } = useSelector(
-		(state: RootState) => state.modal
-	);
-
-	const ingredients = useSelector(
-		(state: RootState) => state.ingredients.allItems
-	);
+	const { isOpen, title, ingredient } = useSelector((state) => state.modal);
+	const ingredients = useSelector((state) => state.ingredients.allItems);
 	const bunRef = useRef<HTMLDivElement | null>(null);
 	const sauceRef = useRef<HTMLDivElement | null>(null);
 	const mainRef = useRef<HTMLDivElement | null>(null);
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
+	// Группировка данных по типу ингредиента
 	const groupedData = ingredients.reduce((acc, ingredient) => {
 		const { type, _id } = ingredient;
 		if (!acc[type]) {
 			acc[type] = [];
 		}
 
+		// Добавляем только уникальные ингредиенты
 		if (!acc[type].some((item) => item._id === _id)) {
 			acc[type].push(ingredient);
 		}
@@ -42,6 +37,7 @@ export const BurgerIngredients: React.FC = () => {
 		setCurrent(tab);
 		let scrollTarget: HTMLElement | null = null;
 
+		// Определяем, к какой секции прокрутить
 		if (tab === 'one' && bunRef.current) {
 			scrollTarget = bunRef.current;
 		} else if (tab === 'two' && sauceRef.current) {
@@ -50,6 +46,7 @@ export const BurgerIngredients: React.FC = () => {
 			scrollTarget = mainRef.current;
 		}
 
+		// Прокручиваем к целевой секции
 		if (scrollTarget) {
 			scrollTarget.scrollIntoView({
 				behavior: 'smooth',
@@ -59,7 +56,6 @@ export const BurgerIngredients: React.FC = () => {
 	};
 
 	const handleIngredientClick = (ingredient: IngredientModel) => {
-		setSelectedIngredient(ingredient);
 		dispatch(
 			openModal({
 				title: 'Детали ингредиента',
@@ -78,6 +74,7 @@ export const BurgerIngredients: React.FC = () => {
 		let currentTab = 'one';
 		let closestElementDistance = Infinity;
 
+		// Определяем текущую вкладку, в зависимости от прокрутки
 		sections.forEach(({ ref, tab }) => {
 			if (ref.current) {
 				const rect = ref.current.getBoundingClientRect();
@@ -98,6 +95,7 @@ export const BurgerIngredients: React.FC = () => {
 			container.addEventListener('scroll', onScroll);
 		}
 
+		// Очистка событий при размонтировании
 		return () => {
 			if (container) {
 				container.removeEventListener('scroll', onScroll);
@@ -135,45 +133,51 @@ export const BurgerIngredients: React.FC = () => {
 
 			<div
 				ref={containerRef}
-				className={`w-100 р100 mt-10 ml-2 ${s['ingredients-block']}`}>
-				<div ref={bunRef} className='ingredient-group'>
-					<h3 className='text text_type_main-medium'>Булки</h3>
-					<div className='grid-col-2'>
-						{groupedData['bun']?.map((ingredient) => (
-							<IngredientCard
-								key={ingredient._id}
-								ingredient={ingredient}
-								onClick={() => handleIngredientClick(ingredient)}
-							/>
-						))}
+				className={`w-100 p100 mt-10 ml-2 ${s['ingredients-block']}`}>
+				{groupedData['bun']?.length > 0 && (
+					<div ref={bunRef} className='ingredient-group'>
+						<h3 className='text text_type_main-medium'>Булки</h3>
+						<div className='grid-col-2'>
+							{groupedData['bun'].map((ingredient) => (
+								<IngredientCard
+									key={ingredient._id}
+									ingredient={ingredient}
+									onClick={() => handleIngredientClick(ingredient)}
+								/>
+							))}
+						</div>
 					</div>
-				</div>
+				)}
 
-				<div ref={sauceRef} className='ingredient-group'>
-					<h3 className='text text_type_main-medium'>Соусы</h3>
-					<div className='grid-col-2'>
-						{groupedData['sauce']?.map((ingredient) => (
-							<IngredientCard
-								key={ingredient._id}
-								ingredient={ingredient}
-								onClick={() => handleIngredientClick(ingredient)}
-							/>
-						))}
+				{groupedData['sauce']?.length > 0 && (
+					<div ref={sauceRef} className='ingredient-group'>
+						<h3 className='text text_type_main-medium'>Соусы</h3>
+						<div className='grid-col-2'>
+							{groupedData['sauce'].map((ingredient) => (
+								<IngredientCard
+									key={ingredient._id}
+									ingredient={ingredient}
+									onClick={() => handleIngredientClick(ingredient)}
+								/>
+							))}
+						</div>
 					</div>
-				</div>
+				)}
 
-				<div ref={mainRef} className='ingredient-group'>
-					<h3 className='text text_type_main-medium'>Начинки</h3>
-					<div className='grid-col-2'>
-						{groupedData['main']?.map((ingredient) => (
-							<IngredientCard
-								key={ingredient._id}
-								ingredient={ingredient}
-								onClick={() => handleIngredientClick(ingredient)}
-							/>
-						))}
+				{groupedData['main']?.length > 0 && (
+					<div ref={mainRef} className='ingredient-group'>
+						<h3 className='text text_type_main-medium'>Начинки</h3>
+						<div className='grid-col-2'>
+							{groupedData['main'].map((ingredient) => (
+								<IngredientCard
+									key={ingredient._id}
+									ingredient={ingredient}
+									onClick={() => handleIngredientClick(ingredient)}
+								/>
+							))}
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 
 			{isOpen && ingredient && (

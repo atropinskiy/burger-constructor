@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '@hooks/index';
 import { removeSelectedIngredient } from '../../../services/ingredients/constructor_slices';
 import { removeIngredientFromOrder } from '../../../services/order/order-slices';
 import { IngredientModel } from '@utils/models';

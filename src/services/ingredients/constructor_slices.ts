@@ -77,6 +77,12 @@ const ingredientsSlice = createSlice({
 				);
 			}
 		},
+		clearSelectedItems: (state) => {
+			// Очищаем выбранные ингредиенты
+			state.selectedItems.bun = null;
+			state.selectedItems.fillings = [];
+			state.totalPrice = 0; // Сбрасываем общую цену
+		},
 
 		removeSelectedIngredient: (state, action: PayloadAction<string>) => {
 			const ingredientId = action.payload;
@@ -121,6 +127,7 @@ export const {
 	setAllIngredients,
 	addSelectedIngredient,
 	removeSelectedIngredient,
+	clearSelectedItems,
 	updateOrder,
 } = ingredientsSlice.actions;
 export default ingredientsSlice.reducer;

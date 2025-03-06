@@ -2,17 +2,14 @@ import s from './app.module.scss';
 import { AppHeader } from '../components/app-header/app-header';
 import { Main } from '../components/main/main';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '@hooks/index'; // Импортируем типизированные хуки
 import { fetchIngredients } from '../services/actions';
-import { RootState, AppDispatch } from '../services/store';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const App = () => {
-	const dispatch = useDispatch<AppDispatch>();
-	const { loading, error } = useSelector(
-		(state: RootState) => state.ingredients
-	);
+	const dispatch = useDispatch();
+	const { loading, error } = useSelector((state) => state.ingredients); // Типизация автоматически добавляется
 
 	useEffect(() => {
 		dispatch(fetchIngredients());
