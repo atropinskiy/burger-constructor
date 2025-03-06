@@ -42,7 +42,6 @@ const ingredientsSlice = createSlice({
           state.totalPrice += ingredient.price * 2;
         } else {
           state.totalPrice += ingredient.price;
-          
         }
       },
       prepare: (ingredient: IngredientModel) => {
@@ -56,12 +55,27 @@ const ingredientsSlice = createSlice({
     },
     updateOrder(state, action: PayloadAction<{ fromIndex: number; toIndex: number }>) {
       const { fromIndex, toIndex } = action.payload;
-      const movedItem = state.selectedItems[fromIndex];
-      state.selectedItems.splice(fromIndex, 1);  // Убираем элемент из старой позиции
-      state.selectedItems.splice(toIndex, 0, movedItem);  // Вставляем элемент на новую позицию
-      state.selectedItems = state.selectedItems.map((item, index) => ({ ...item, order: index }));  // Пересчитываем порядок
+
+      // Перемещение ингредиента в новом порядке
+      if (fromIndex !== toIndex) {
+        const movedItem = state.selectedItems[fromIndex];
+        state.selectedItems.splice(fromIndex, 1);
+        state.selectedItems.splice(toIndex, 0, movedItem);
+
+        // Пересчитываем порядок всех элементов
+        state.selectedItems = state.selectedItems.map((item, index) => ({
+          ...item,
+          sort_order: index,  // Обновляем порядок сортировки
+        }));
+
+        // Пересчитываем общую цену (если необходимо)
+        state.totalPrice = state.selectedItems.reduce(
+          (total, item) => total + item.price,
+          state.bun ? state.bun.price * 2 : 0 // Добавляем цену булки, если она есть
+        );
+      }
     },
-    
+
     removeSelectedIngredient: (state, action: PayloadAction<string>) => {
       const index = state.selectedItems.findIndex(item => item.id === action.payload);
       if (index !== -1) {

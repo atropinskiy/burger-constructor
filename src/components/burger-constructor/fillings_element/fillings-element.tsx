@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { removeSelectedIngredient } from "../../../services/ingredients/constructor_slices";
-import { removeIngredientFromOrder } from "../../../services/order/order-slices"
+import { removeIngredientFromOrder } from "../../../services/order/order-slices";
 import { IngredientModel } from "@utils/models";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
@@ -27,16 +27,16 @@ const FillingsElement: React.FC<FillingsElementProps> = ({ ingredient, index, mo
   // Хук для обработки drop
   const [, drop] = useDrop({
     accept: "moveIngredient",  // Принимаем только "moveIngredient"
-    hover: (item: { index: number }) => {
+    drop: (item: { index: number }) => {
       if (item.index !== index) {
-        moveIngredient(item.index, index);  // Перемещаем ингредиент
+        moveIngredient(item.index, index);  // Перемещаем ингредиент по завершении перетаскивания
       }
     },
   });
 
   const handleRemoveIngredient = (id: string, id_: string) => {
     dispatch(removeSelectedIngredient(id));
-    dispatch(removeIngredientFromOrder(id_))
+    dispatch(removeIngredientFromOrder(id_));
   };
 
   return (
