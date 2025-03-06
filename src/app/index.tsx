@@ -10,12 +10,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
-
-	const {
-		allItems: ingredients,
-		loading,
-		error,
-	} = useSelector((state: RootState) => state.ingredients);
+	const { loading, error } = useSelector(
+		(state: RootState) => state.ingredients
+	);
 
 	useEffect(() => {
 		dispatch(fetchIngredients());
@@ -27,7 +24,7 @@ export const App = () => {
 				<AppHeader />
 				{loading && <p>Загрузка...</p>}
 				{error && <p className='error'>Ошибка: {error}</p>}
-				{!loading && !error && <Main ingredients={ingredients} />}
+				{!loading && !error && <Main />}
 			</div>
 		</DndProvider>
 	);

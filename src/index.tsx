@@ -11,6 +11,8 @@ const root = createRoot(domNode);
 root.render(
 	<StrictMode>
 		<Provider store={store}>
+			{' '}
+			{/* Оборачиваем приложение */}
 			<App />
 		</Provider>
 	</StrictMode>
