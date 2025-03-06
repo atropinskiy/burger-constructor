@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from "react-redux";
+import { RootState } from "../../../services/store";
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '../../../utils/models';
 import s from './ingredient-card.module.scss';
@@ -9,8 +11,11 @@ interface IngredientCardProps {
   onClick: () => void;
 }
 
+
+
 const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient, onClick }) => {
-  // Используем useDrag для перетаскивания
+  const orderIngredients = useSelector((state: RootState) => state.order.ingredients);
+  const count = orderIngredients.filter(id => id === ingredient._id).length;
   const [{ isDragging }, drag] = useDrag({
     type: 'addIngredient',  // Определяем тип перетаскиваемого элемента
     item: { ingredient },  // Передаем сам объект ингредиента
@@ -41,6 +46,11 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient, onClick }) 
       <span className="text text_type_main-default mt-1 w-100 d-flex justify-center text-center">
         {ingredient.name}
       </span>
+      {count > 0 && (
+        <div className={s.circle}>
+          <span className="text text_type_digits-default">{count}</span>
+        </div>
+      )}
     </div>
   );
 };

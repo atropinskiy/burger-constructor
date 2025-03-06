@@ -8,10 +8,8 @@ import { useModal } from '../../hooks/use-modal';
 import { OrderDetails } from '../modal/order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from "../../services/store";
-import { addSelectedIngredient } from '../../services/ingredients/constructor_slices';
 import { TotalPrice } from '../total-price/total-price';
 import { createOrder } from '../../services/actions';
-import { IngredientMock } from '../../mock-data/ingredients';
 
 interface MainProps {
   ingredients: IngredientModel[];
@@ -22,19 +20,16 @@ export const Main: React.FC<MainProps> = ({ ingredients }) => {
   const dispatch = useDispatch<AppDispatch>();
   const totalPrice = useSelector((state: RootState) => state.ingredients.totalPrice)
   const orderNumber = useSelector((state: RootState) => state.order.number);
-
-  const handleAddIngredient = (ingredient: IngredientModel) => {
-    // Убедитесь, что все данные передаются корректно
-    console.log(ingredient); // Проверка содержимого ингредиента
-    dispatch(addSelectedIngredient(ingredient));  // Добавление в редуктор
-  };
-
+  const orderIngredients = useSelector((state: RootState) => state.order.ingredients);
+  const error = useSelector((state: RootState) => state.order.error);
+  
   const handleOrderClick = async () => {
-    const selectedIngredientIds = [IngredientMock._id]; // Моковый ингредиент
-    const resultAction = await dispatch(createOrder(selectedIngredientIds));
-
+    const resultAction = await dispatch(createOrder(orderIngredients));
     if (createOrder.fulfilled.match(resultAction)) {
-      openModal(); // Открываем модалку только если запрос успешен
+      openModal();
+    } else {
+      // Если запрос не успешен, выводим ошибку
+      console.log("Ошибка при оформлении заказа:", error);
     }
   };
   

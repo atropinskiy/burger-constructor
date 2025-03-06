@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { removeSelectedIngredient } from "../../../services/ingredients/constructor_slices";
-import { removeIngredientFromOrder } from "../../../services/order/order_slices"
+import { removeIngredientFromOrder } from "../../../services/order/order-slices"
 import { IngredientModel } from "@utils/models";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";

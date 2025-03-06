@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '../../utils/models';
@@ -17,6 +17,7 @@ export const BurgerIngredients: React.FC = () => {
   const bunRef = useRef<HTMLDivElement | null>(null);
   const sauceRef = useRef<HTMLDivElement | null>(null);
   const mainRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Группируем ингредиенты, но добавляем проверку на уникальность по _id
   const groupedData = ingredients.reduce((acc, ingredient) => {
@@ -58,6 +59,55 @@ export const BurgerIngredients: React.FC = () => {
     openModal(); // Открываем модалку
   };
 
+  // Функция для отслеживания прокрутки внутри контейнера
+  // Функция для отслеживания прокрутки
+// Функция для отслеживания прокрутки
+const onScroll = () => {
+  const sections = [
+    { ref: bunRef, tab: 'one' },
+    { ref: sauceRef, tab: 'two' },
+    { ref: mainRef, tab: 'three' },
+  ];
+
+  let currentTab = 'one'; // По умолчанию активный таб - булки
+  let closestElementDistance = Infinity; // Для поиска самого близкого элемента
+
+  // Проверяем, какой раздел ближе всего к верхней границе контейнера
+  sections.forEach(({ ref, tab }) => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      
+      // Вычисляем расстояние от верхней границы элемента до верхней границы контейнера
+      const distanceToTop = Math.abs(rect.top);
+
+      // Если элемент ближе к верхней границе, меняем активный таб
+      if (distanceToTop < closestElementDistance) {
+        closestElementDistance = distanceToTop;
+        currentTab = tab;
+      }
+    }
+  });
+
+  setCurrent(currentTab); // Обновляем текущий активный таб
+};
+
+
+
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('scroll', onScroll); // Слушаем прокрутку именно контейнера
+    }
+
+    // Убираем слушателя при размонтировании компонента
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', onScroll);
+      }
+    };
+  }, []);
+
   return (
     <div>
       <h1 className={'text text_type_main-large mt-10'}>Соберите бургер</h1>
@@ -85,7 +135,10 @@ export const BurgerIngredients: React.FC = () => {
         </Tab>
       </div>
 
-      <div className={`w-100 р100 mt-10 ml-2 ${s['ingredients-block']}`}>
+      <div
+        ref={containerRef}
+        className={`w-100 р100 mt-10 ml-2 ${s['ingredients-block']}`}
+      >
         <div ref={bunRef} className="ingredient-group">
           <h3 className="text text_type_main-medium">Булки</h3>
           <div className="grid-col-2">

@@ -4,7 +4,7 @@ import { useDrop } from 'react-dnd';
 import s from './burger-constructor.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { addSelectedIngredient, removeSelectedIngredient, updateOrder } from '../../services/ingredients/constructor_slices';
-import { addIngredientToOrder, removeBunsFromOrderById, addBunsToOrderById } from '../../services/order/order_slices'
+import { addIngredientToOrder, removeBunsFromOrderById, addBunsToOrderById } from '../../services/order/order-slices'
 import { RootState } from '../../services/store';
 import { IngredientModel } from '@utils/models';
 import FillingsElement from './fillings_element/fillings-element';
@@ -28,13 +28,12 @@ const BurgerConstructor: React.FC = () => {
       dispatch(addSelectedIngredient(ingredient)); 
       dispatch(addSelectedIngredient(ingredient)); 
     } else {
-      dispatch(addSelectedIngredient(ingredient)); // Добавляем в заказ
+      dispatch(addSelectedIngredient(ingredient));
       dispatch(addIngredientToOrder(ingredient._id))
     }
   };
   
 
-  // Функция для перемещения ингредиента
   const moveIngredient = useCallback(
     (fromIndex: number, toIndex: number) => {
       if (fromIndex !== toIndex && dragging === null) {
@@ -46,9 +45,8 @@ const BurgerConstructor: React.FC = () => {
     [dispatch, dragging]
   );
 
-  // Настройка drop (перетаскивания)
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: 'addIngredient',  // Принимаем только добавление ингредиента
+    accept: 'addIngredient', 
     drop: (item: { ingredient?: IngredientModel; fromIndex?: number; toIndex?: number }) => {
       if (item.ingredient) {
         handleAddIngredient(item.ingredient); // Добавляем ингредиент

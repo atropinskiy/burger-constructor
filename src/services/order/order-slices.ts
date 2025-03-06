@@ -40,7 +40,8 @@ const orderSlice = createSlice({
     addBunsToOrderById: (state, action: PayloadAction<string>) => {
       state.ingredients.push(action.payload);
       state.ingredients.push(action.payload);
-    }
+    },
+    
   },
   extraReducers: (builder) => {
     builder
