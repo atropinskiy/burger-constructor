@@ -14,15 +14,15 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({
 	title,
 }) => {
 	return (
+		/* eslint-disable jsx-a11y/click-events-have-key-events */
+		/* eslint-disable jsx-a11y/no-static-element-interactions */
 		<div className={s['modal-overlay']} onClick={onClose}>
-			<div
-				role='button'
-				aria-hidden='true'
-				className={s['modal-content']}
-				onClick={(e) => e.stopPropagation()}>
+			<div className={s['modal-content']} onClick={(e) => e.stopPropagation()}>
 				<ModalHeader title={title} onClose={onClose} />
 				{children}
 			</div>
 		</div>
+		/* eslint-enable jsx-a11y/click-events-have-key-events */
+		/* eslint-enable jsx-a11y/no-static-element-interactions */
 	);
 };

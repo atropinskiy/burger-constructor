@@ -3,7 +3,7 @@
 export interface IngredientModel {
 	sort_order?: number;
 	id?: string;
-	count?: number
+	count?: number;
 	_id: string;
 	name: string;
 	type: string;
@@ -19,12 +19,11 @@ export interface IngredientModel {
 
 export interface OrderModel {
 	id: number;
-	ingredients: IngredientModel[]
+	ingredients: IngredientModel[];
 }
 
 export interface OrderResponse {
-  name: string;
-  order: { number: number };
-  success: boolean;
+	name: string;
+	order: { number: number };
+	success: boolean;
 }
-
