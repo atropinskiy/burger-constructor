@@ -1,6 +1,7 @@
 // src/utils/data.ts
 
 export interface IngredientModel {
+	order?: number;
 	id?: string;
 	_id: string;
 	name: string;

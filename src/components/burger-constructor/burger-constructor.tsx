@@ -1,120 +1,102 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDrop } from 'react-dnd'; // Хук для перетаскивания
+import { useDrop } from 'react-dnd';
 import s from './burger-constructor.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
-import { addSelectedIngredient, removeSelectedIngredient } from '../../services/ingredients/slices';
+import { addSelectedIngredient, removeSelectedIngredient, updateOrder } from '../../services/ingredients/slices';
 import { RootState } from '../../services/store';
-import { IngredientMock } from '../../mock-data/ingredients';
 import { IngredientModel } from '@utils/models';
-
+import FillingsElement from './fillings_element/fillings-element';
 
 const BurgerConstructor: React.FC = () => {
   const dispatch = useDispatch();
   const selectedIngredients = useSelector((state: RootState) => state.ingredients.selectedItems);
-
-  const bun = selectedIngredients.find(item => item.type === 'bun') || null;
+  const allIngredients = useSelector((state: RootState) => state.ingredients.allItems);
+  const bun = useSelector((state: RootState) => state.ingredients.bun);
   const fillings = selectedIngredients.filter(item => item.type !== 'bun');
 
-  const handleRemoveIngredient = (id: string) => {
-    dispatch(removeSelectedIngredient(id));
-  };
-
+  // Функции для работы с ингредиентами
   const handleAddIngredient = (ingredient: IngredientModel) => {
     dispatch(addSelectedIngredient(ingredient));
   };
 
   const handleReplaceBun = (newBun: IngredientModel) => {
     if (bun && bun.id) {
-      dispatch(removeSelectedIngredient(bun.id)); 
+      dispatch(removeSelectedIngredient(bun.id)); // Удаляем старую булку
     }
-    dispatch(addSelectedIngredient(newBun));
+    dispatch(addSelectedIngredient(newBun)); // Добавляем новую булку
   };
 
-  const BunPlaceholder = () => (
-    <div className={s.placeholder}>Добавьте булку</div>
+  // Перемещение ингредиента в списке
+  const moveIngredient = useCallback(
+    (fromIndex: number, toIndex: number) => {
+      console.log(fromIndex, toIndex)
+    },
+    [dispatch]
   );
 
-  const [{ isOver }, drop] = useDrop({
-    accept: 'ingredient', 
-    drop: (item: { ingredient: IngredientModel }) => {
-      if (item.ingredient.type === 'bun') {
-        handleReplaceBun(item.ingredient);
-      } else {
-        handleAddIngredient(item.ingredient);
+  // Настройка drop (перетаскивания)
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: 'addIngredient',  // Принимаем только добавление ингредиента
+    drop: (item: { ingredient?: IngredientModel; fromIndex?: number; toIndex?: number }) => {
+      if (item.ingredient) {
+        handleAddIngredient(item.ingredient); // Добавляем ингредиент
+      } else if (item.fromIndex !== undefined && item.toIndex !== undefined) {
+        moveIngredient(item.fromIndex, item.toIndex); // Перемещаем ингредиент только на отпускании
       }
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
     }),
   });
 
   return (
     <div ref={drop} className={s.constructorContainer}>
       <div className="ml-10">
-        {/* Булка сверху */}
+        {/* Вставка булки сверху */}
         {bun ? (
-          <div>
+          <div className="ml-7 mb-2">
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={`${bun.name} (верх)`}
-              price={bun.price}
-              thumbnail={bun.image}
-              handleClose={() => handleReplaceBun(IngredientMock)} // Кнопка замены
+              text={`${bun.name} (верх)`} 
+              price={bun.price} 
+              thumbnail={bun.image} 
+              handleClose={() => handleReplaceBun(bun)} // Замена булки
             />
           </div>
         ) : (
-          <BunPlaceholder />
+          <div className={s.placeholder}>Добавьте булку</div>
         )}
 
-        {/* Начинки */}
-				<div className = {s.ingredients_scroll}>
-        {fillings.map((ingredient) => (
-          <div key={ingredient.id} className="d-flex align-center mb-2 mt-2">
-            <ConstructorElement
-              text={ingredient.name}
-              price={ingredient.price}
-              thumbnail={ingredient.image}
-              handleClose={() => {
-                if (ingredient.id) {
-                  handleRemoveIngredient(ingredient.id);
-                }
-              }}
+        {/* Список начинок */}
+        {fillings.map((ingredient, index) => (
+          <div key={ingredient.id}>
+            <FillingsElement
+              ingredient={ingredient}
+              index={index}
+              moveIngredient={moveIngredient}
             />
           </div>
         ))}
-				</div>
 
-        {/* Булка снизу */}
+        {/* Вставка булки снизу */}
         {bun ? (
-          <div>
+          <div className="ml-7 mt-2">
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={`${bun.name} (низ)`}
-              price={bun.price}
-              thumbnail={bun.image}
-              handleClose={() => handleReplaceBun(IngredientMock)} // Кнопка замены
+              text={`${bun.name} (низ)`} 
+              price={bun.price} 
+              thumbnail={bun.image} 
+              handleClose={() => handleReplaceBun(bun)} // Замена булки
             />
-            <button onClick={() => handleReplaceBun(IngredientMock)}>
-              Заменить булку снизу
-            </button>
           </div>
         ) : (
-          <BunPlaceholder />
+          <div className={s.placeholder}>Добавьте булку</div>
         )}
       </div>
-
-      {/* Компонент для добавления ингредиентов */}
-      <div className="ingredient-selector">
-        <button onClick={() => handleAddIngredient(IngredientMock)}>
-          Добавить начинку
-        </button>
-      </div>
-
-      {/* Стиль для отображения визуального состояния перетаскивания */}
-      {isOver && <div className={s.dropIndicator}>Перетащите сюда ингредиент</div>}
     </div>
   );
 };

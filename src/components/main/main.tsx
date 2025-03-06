@@ -18,7 +18,7 @@ interface MainProps {
 export const Main: React.FC<MainProps> = ({ ingredients }) => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useDispatch<AppDispatch>();
-
+  const totalPrice = useSelector((state: RootState) => state.ingredients.totalPrice)
 
   const handleAddIngredient = (ingredient: IngredientModel) => {
     // Убедитесь, что все данные передаются корректно
@@ -37,7 +37,7 @@ export const Main: React.FC<MainProps> = ({ ingredients }) => {
           <div className="mt-25 d-flex flex-column valign-center pb-4">
             <BurgerConstructor />
             <div className="ml-auto mt-10 pr-4 pb-10 d-flex">
-              <TotalPrice price={123} />
+              <TotalPrice price={totalPrice} />
               <Button
                 htmlType="button"
                 type="primary"

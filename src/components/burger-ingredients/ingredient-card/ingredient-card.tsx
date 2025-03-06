@@ -12,7 +12,7 @@ interface IngredientCardProps {
 const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient, onClick }) => {
   // Используем useDrag для перетаскивания
   const [{ isDragging }, drag] = useDrag({
-    type: 'ingredient',  // Определяем тип перетаскиваемого элемента
+    type: 'addIngredient',  // Определяем тип перетаскиваемого элемента
     item: { ingredient },  // Передаем сам объект ингредиента
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),  // Определяем, в процессе ли перетаскивания
