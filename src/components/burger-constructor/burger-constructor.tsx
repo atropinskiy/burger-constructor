@@ -8,50 +8,44 @@ import { RootState } from '../../services/store';
 import { IngredientMock } from '../../mock-data/ingredients';
 import { IngredientModel } from '@utils/models';
 
+
 const BurgerConstructor: React.FC = () => {
   const dispatch = useDispatch();
   const selectedIngredients = useSelector((state: RootState) => state.ingredients.selectedItems);
 
-  // Ищем булки (верх и низ)
   const bun = selectedIngredients.find(item => item.type === 'bun') || null;
-  // Фильтруем только начинки (не булки)
   const fillings = selectedIngredients.filter(item => item.type !== 'bun');
 
-  // Удаляем выбранный ингредиент
   const handleRemoveIngredient = (id: string) => {
-    dispatch(removeSelectedIngredient(id)); // Удаляем только конкретный ингредиент
+    dispatch(removeSelectedIngredient(id));
   };
 
-  // Добавление ингредиента
   const handleAddIngredient = (ingredient: IngredientModel) => {
     dispatch(addSelectedIngredient(ingredient));
   };
 
-  // Обработчик для замены булки
   const handleReplaceBun = (newBun: IngredientModel) => {
     if (bun && bun.id) {
-      dispatch(removeSelectedIngredient(bun.id)); // Удаляем текущую булку
+      dispatch(removeSelectedIngredient(bun.id)); 
     }
-    dispatch(addSelectedIngredient(newBun)); // Добавляем новую булку
+    dispatch(addSelectedIngredient(newBun));
   };
 
-  // Заглушка для булок
   const BunPlaceholder = () => (
     <div className={s.placeholder}>Добавьте булку</div>
   );
 
-  // Обработчик drop
   const [{ isOver }, drop] = useDrop({
-    accept: 'ingredient',  // Разрешаем "дропать" ингредиенты
+    accept: 'ingredient', 
     drop: (item: { ingredient: IngredientModel }) => {
       if (item.ingredient.type === 'bun') {
-        handleReplaceBun(item.ingredient); // Заменяем булку
+        handleReplaceBun(item.ingredient);
       } else {
-        handleAddIngredient(item.ingredient);  // Добавляем начинку
+        handleAddIngredient(item.ingredient);
       }
     },
     collect: (monitor) => ({
-      isOver: monitor.isOver(),  // Проверка, перетаскивается ли элемент в зону конструктора
+      isOver: monitor.isOver(),
     }),
   });
 
@@ -75,6 +69,7 @@ const BurgerConstructor: React.FC = () => {
         )}
 
         {/* Начинки */}
+				<div className = {s.ingredients_scroll}>
         {fillings.map((ingredient) => (
           <div key={ingredient.id} className="d-flex align-center mb-2 mt-2">
             <ConstructorElement
@@ -89,6 +84,7 @@ const BurgerConstructor: React.FC = () => {
             />
           </div>
         ))}
+				</div>
 
         {/* Булка снизу */}
         {bun ? (

@@ -23,16 +23,10 @@ const ingredientsSlice = createSlice({
     setAllIngredients: (state, action: PayloadAction<IngredientModel[]>) => {
       state.allItems = action.payload;
     },
-    addSelectedIngredient: {
-      reducer: (state, action: PayloadAction<IngredientModel>) => {
-        state.selectedItems.push(action.payload);
-      },
-      prepare: (ingredient: IngredientModel) => {
-        return {
-          payload: { ...ingredient, id: nanoid() }
-        };
-      }
+    addSelectedIngredient: (state, action: PayloadAction<IngredientModel>) => {
+      state.selectedItems.push(action.payload);
     },
+    
     removeSelectedIngredient: (state, action: PayloadAction<string>) => {
       state.selectedItems = state.selectedItems.filter(item => item.id !== action.payload);
     },

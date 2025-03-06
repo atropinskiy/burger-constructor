@@ -8,8 +8,8 @@ import { useModal } from '../../hooks/use-modal';
 import { OrderDetails } from '../modal/order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from "../../services/store";
-import { IngredientMock } from '../../mock-data/ingredients';
 import { addSelectedIngredient } from '../../services/ingredients/slices';
+import { TotalPrice } from '../total-price/total-price';
 
 interface MainProps {
   ingredients: IngredientModel[];
@@ -36,15 +36,8 @@ export const Main: React.FC<MainProps> = ({ ingredients }) => {
         <section className={s.contructor_container}>
           <div className="mt-25 d-flex flex-column valign-center pb-4">
             <BurgerConstructor />
-            <div className="ml-auto mt-10 pr-4 pb-10">
-              <Button
-                htmlType="button"
-                type="secondary"
-                size="large"
-                onClick={() => handleAddIngredient(IngredientMock)} // Добавляем ингредиент по кнопке
-              >
-                Добавить ингредиент
-              </Button>
+            <div className="ml-auto mt-10 pr-4 pb-10 d-flex">
+              <TotalPrice price={123} />
               <Button
                 htmlType="button"
                 type="primary"
