@@ -36,7 +36,6 @@ export const Modal: React.FC<ModalProps> = ({ onClose, children, title }) => {
         aria-labelledby="modal-title"
         aria-hidden="false"
       >
-        {title && <h2 id="modal-title">{title}</h2>}
         {children}
       </div>
     </ModalOverlay>,

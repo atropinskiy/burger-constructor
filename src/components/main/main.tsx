@@ -4,35 +4,48 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '@utils/models';
 import { Modal } from '../modal/modal';
-import { useModal } from '../../hooks/use-modal';
-import { OrderDetails } from '../modal/order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from "../../services/store";
 import { TotalPrice } from '../total-price/total-price';
 import { createOrder } from '../../services/actions';
+import { OrderDetails } from '../modal/order-details/order-details';
+import { openModal, closeModal, setLoading } from '../../services/modal/modal-slices';
 
 interface MainProps {
   ingredients: IngredientModel[];
 }
 
 export const Main: React.FC<MainProps> = ({ ingredients }) => {
-  const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useDispatch<AppDispatch>();
-  const totalPrice = useSelector((state: RootState) => state.ingredients.totalPrice)
-  const orderNumber = useSelector((state: RootState) => state.order.number);
+  const totalPrice = useSelector((state: RootState) => state.ingredients.totalPrice);
   const orderIngredients = useSelector((state: RootState) => state.order.ingredients);
   const error = useSelector((state: RootState) => state.order.error);
   
+  const isModalOpen = useSelector((state: RootState) => state.modal.isOpen);
+  const modalTitle = useSelector((state: RootState) => state.modal.title);
+  const modalContent = useSelector((state: RootState) => state.modal.content);
+
   const handleOrderClick = async () => {
+    dispatch(setLoading(true)); // Включаем прогресс-бар
+
     const resultAction = await dispatch(createOrder(orderIngredients));
+    
     if (createOrder.fulfilled.match(resultAction)) {
-      openModal();
+      // Получаем orderNumber из результата
+      const updatedOrderNumber = resultAction.payload.order.number;
+
+      // Если orderNumber обновлен, открываем модалку
+      if (updatedOrderNumber) {
+        dispatch(openModal({
+          content: <OrderDetails orderNumber={updatedOrderNumber} />
+        }));
+      }
     } else {
-      // Если запрос не успешен, выводим ошибку
       console.log("Ошибка при оформлении заказа:", error);
     }
+
+    dispatch(setLoading(false)); // Останавливаем прогресс-бар
   };
-  
 
   return (
     <main>
@@ -59,8 +72,8 @@ export const Main: React.FC<MainProps> = ({ ingredients }) => {
       </div>
 
       {isModalOpen && (
-        <Modal onClose={closeModal}>
-          <OrderDetails orderNumber={orderNumber} />
+        <Modal onClose={() => dispatch(closeModal())} title={modalTitle}>
+          {modalContent}
         </Modal>
       )}
     </main>

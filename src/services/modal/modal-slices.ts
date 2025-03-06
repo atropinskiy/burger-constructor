@@ -1,30 +1,40 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IngredientModel } from "../../utils/models";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ModalState {
   isOpen: boolean;
-  ingredient: IngredientModel | null;
+  title?: string;
+  content?: React.ReactNode;
+  isLoading: boolean;  // Добавляем флаг загрузки
 }
 
 const initialState: ModalState = {
   isOpen: false,
-  ingredient: null,
+  title: undefined,
+  content: undefined,
+  isLoading: false,  // Изначально не загружается
 };
 
 const modalSlice = createSlice({
-  name: "modal",
+  name: 'modal',
   initialState,
   reducers: {
-    openModal: (state, action: PayloadAction<IngredientModel>) => {
+    openModal: (state, action: PayloadAction<{ title?: string, content?: React.ReactNode }>) => {
       state.isOpen = true;
-      state.ingredient = action.payload;
+      state.title = action.payload.title;
+      state.content = action.payload.content;
+      state.isLoading = true; // Начинаем загрузку
     },
     closeModal: (state) => {
       state.isOpen = false;
-      state.ingredient = null;
+      state.title = undefined;
+      state.content = undefined;
+      state.isLoading = false; // Закрываем модалку, загрузка завершена
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
     },
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { openModal, closeModal, setLoading } = modalSlice.actions;
 export default modalSlice.reducer;

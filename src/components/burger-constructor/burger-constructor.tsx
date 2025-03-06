@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop } from 'react-dnd';
 import s from './burger-constructor.module.scss';
@@ -15,9 +15,6 @@ const BurgerConstructor: React.FC = () => {
   const selectedIngredients = useSelector((state: RootState) => state.ingredients.selectedItems);
   const bun = useSelector((state: RootState) => state.ingredients.bun);
   const fillings = selectedIngredients.filter(item => item.type !== 'bun');
-  
-  // Логика для перемещения ингредиентов
-  const [dragging, setDragging] = useState<number | null>(null);  // Храним индекс элемента, который перетаскиваем
 
   const handleAddIngredient = (ingredient: IngredientModel) => {
     if (ingredient.type === 'bun') {
@@ -26,24 +23,18 @@ const BurgerConstructor: React.FC = () => {
       }
       dispatch(addBunsToOrderById(ingredient._id));
       dispatch(addSelectedIngredient(ingredient)); 
-      dispatch(addSelectedIngredient(ingredient)); 
     } else {
       dispatch(addSelectedIngredient(ingredient));
       dispatch(addIngredientToOrder(ingredient._id))
     }
   };
-  
 
-  const moveIngredient = useCallback(
-    (fromIndex: number, toIndex: number) => {
-      if (fromIndex !== toIndex && dragging === null) {
-        setDragging(fromIndex);
-        dispatch(updateOrder({ fromIndex, toIndex }));
-        setDragging(null);
-      }
-    },
-    [dispatch, dragging]
-  );
+  const moveIngredient = (fromIndex: number, toIndex: number) => {
+    console.log(fromIndex, toIndex)
+    if (fromIndex !== toIndex) {
+      dispatch(updateOrder({ fromIndex, toIndex }));
+    }
+  };
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: 'addIngredient', 
@@ -77,7 +68,7 @@ const BurgerConstructor: React.FC = () => {
               />
             </div>
           ) : (
-            <IngredientCell title='Выберите булочку' type='top' />
+            <IngredientCell title="Выберите булочку" type="top" />
           )}
         </div>
 
@@ -107,7 +98,7 @@ const BurgerConstructor: React.FC = () => {
             </div>
           ) : (
             <div className="w-100 mt-2">
-              <IngredientCell title='Выберите булочку' type='bottom' />
+              <IngredientCell title="Выберите булочку" type="bottom" />
             </div>
           )}
         </div>
