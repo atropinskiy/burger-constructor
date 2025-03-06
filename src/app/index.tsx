@@ -3,7 +3,7 @@ import { AppHeader } from '../components/app-header/app-header';
 import { Main } from '../components/main/main';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchIngredients } from '../services/ingredients/actions';
+import { fetchIngredients } from '../services/actions';
 import { RootState, AppDispatch } from '../services/store';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';

@@ -1,8 +1,9 @@
 // src/utils/data.ts
 
 export interface IngredientModel {
-	order?: number;
+	sort_order?: number;
 	id?: string;
+	count?: number
 	_id: string;
 	name: string;
 	type: string;
@@ -16,4 +17,14 @@ export interface IngredientModel {
 	image_large: string;
 }
 
+export interface OrderModel {
+	id: number;
+	ingredients: IngredientModel[]
+}
+
+export interface OrderResponse {
+  name: string;
+  order: { number: number };
+  success: boolean;
+}
 

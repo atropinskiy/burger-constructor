@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
-import { removeSelectedIngredient } from "../../../services/ingredients/slices";
+import { removeSelectedIngredient } from "../../../services/ingredients/constructor_slices";
+import { removeIngredientFromOrder } from "../../../services/order/order_slices"
 import { IngredientModel } from "@utils/models";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
@@ -33,12 +34,13 @@ const FillingsElement: React.FC<FillingsElementProps> = ({ ingredient, index, mo
     },
   });
 
-  const handleRemoveIngredient = (id: string) => {
-    dispatch(removeSelectedIngredient(id));  // Удаляем ингредиент
+  const handleRemoveIngredient = (id: string, id_: string) => {
+    dispatch(removeSelectedIngredient(id));
+    dispatch(removeIngredientFromOrder(id_))
   };
 
   return (
-    <div className="d-flex" ref={(node) => drag(drop(node))} style={{ opacity: isDragging ? 0.5 : 1 }}>
+    <div className="d-flex mt-2" ref={(node) => drag(drop(node))} style={{ opacity: isDragging ? 0.5 : 1 }}>
       <div className="d-flex valign-center">
         <DragIcon type="primary" className="cursor-pointer" />
       </div>
@@ -48,7 +50,7 @@ const FillingsElement: React.FC<FillingsElementProps> = ({ ingredient, index, mo
         thumbnail={ingredient.image}
         handleClose={() => {
           if (ingredient.id) {
-            handleRemoveIngredient(ingredient.id); // Удаляем ингредиент при закрытии
+            handleRemoveIngredient(ingredient.id, ingredient._id); 
           }
         }}
       />

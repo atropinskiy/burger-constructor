@@ -4,7 +4,7 @@ import { IngredientModel } from "@utils/models";
 
 export const IngredientMock: IngredientModel =
 {
-	_id: '1',
+	_id: '643d69a5c3f7b9001cfa0949',
 	name: 'Краторвфыафыва200i',
 	type: 'filling',
 	proteins: 80,

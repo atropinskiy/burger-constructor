@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { IngredientModel } from "../../utils/models";
-import { fetchIngredients } from "./actions";  // Импорт асинхронного экшена
+import { fetchIngredients } from "../actions";  // Импорт асинхронного экшена
 
 interface IngredientsState {
   allItems: IngredientModel[];  
@@ -31,7 +31,7 @@ const ingredientsSlice = createSlice({
       reducer: (state, action: PayloadAction<IngredientModel>) => {
         const ingredient = action.payload;
         const newOrder = state.selectedItems.length;
-        state.selectedItems.push({ ...ingredient, order: newOrder });
+        state.selectedItems.push({ ...ingredient, sort_order: newOrder });
 
         // Если это булка, записываем её отдельно
         if (ingredient.type === "bun") {
@@ -39,9 +39,10 @@ const ingredientsSlice = createSlice({
             state.totalPrice -= state.bun.price * 2;  // Убираем цену старой булки
           }
           state.bun = ingredient;  // Записываем новую булку в отдельный стейт
-          state.totalPrice += ingredient.price * 2;  // Добавляем цену новой булки
+          state.totalPrice += ingredient.price * 2;
         } else {
-          state.totalPrice += ingredient.price;  // Добавляем цену обычного ингредиента
+          state.totalPrice += ingredient.price;
+          
         }
       },
       prepare: (ingredient: IngredientModel) => {
