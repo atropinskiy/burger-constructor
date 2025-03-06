@@ -7,15 +7,15 @@ import { Modal } from '../modal/modal';
 import s from './burger-ingredients.module.scss';
 import { RootState } from '../../services/store';
 import { IngredientDetails } from '../modal/ingredient-details/ingredient-details';
-import { openModal, closeModal } from '../../services/modal/modal-slices'; // Импортируем экшены из слайсера
+import { openModal, closeModal } from '../../services/modal/modal-slices';
 
 export const BurgerIngredients: React.FC = () => {
 	const [current, setCurrent] = useState<string>('one');
 	const [, setSelectedIngredient] = useState<IngredientModel | null>(null);
 	const dispatch = useDispatch();
-	const { isOpen, title, content } = useSelector(
+	const { isOpen, title, ingredient } = useSelector(
 		(state: RootState) => state.modal
-	); // Извлекаем состояние из Redux
+	);
 
 	const ingredients = useSelector(
 		(state: RootState) => state.ingredients.allItems
@@ -63,7 +63,7 @@ export const BurgerIngredients: React.FC = () => {
 		dispatch(
 			openModal({
 				title: 'Детали ингредиента',
-				content: <IngredientDetails ingredient={ingredient} />,
+				ingredient: ingredient,
 			})
 		);
 	};
@@ -104,6 +104,10 @@ export const BurgerIngredients: React.FC = () => {
 			}
 		};
 	}, []);
+
+	const handleModalClose = () => {
+		dispatch(closeModal());
+	};
 
 	return (
 		<div>
@@ -172,9 +176,9 @@ export const BurgerIngredients: React.FC = () => {
 				</div>
 			</div>
 
-			{isOpen && content && (
-				<Modal onClose={() => dispatch(closeModal())} title={title}>
-					{content}
+			{isOpen && ingredient && (
+				<Modal onClose={handleModalClose} title={title}>
+					<IngredientDetails ingredient={ingredient} />
 				</Modal>
 			)}
 		</div>

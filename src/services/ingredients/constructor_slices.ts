@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
 import { IngredientModel } from '../../utils/models';
-import { fetchIngredients } from '../actions'; // Импорт асинхронного экшена
+import { fetchIngredients } from '../actions';
 
 interface IngredientsState {
 	allItems: IngredientModel[];
 	selectedItems: {
-		bun: IngredientModel | null; // Булка
-		fillings: IngredientModel[]; // Начинки
+		bun: IngredientModel | null;
+		fillings: IngredientModel[];
 	};
-	bun: IngredientModel | null; // Стейт для булки
+	bun: IngredientModel | null;
 	totalPrice: number;
 	loading: boolean;
 	error: string | null;

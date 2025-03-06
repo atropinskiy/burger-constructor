@@ -1,39 +1,49 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IngredientModel } from '@utils/models';
 
 interface ModalState {
 	isOpen: boolean;
 	title?: string;
-	content?: React.ReactNode;
-	isLoading: boolean; // Добавляем флаг загрузки
+	content?: string;
+	ingredient?: IngredientModel;
+	isLoading: boolean;
 }
 
 const initialState: ModalState = {
 	isOpen: false,
 	title: undefined,
 	content: undefined,
-	isLoading: false, // Изначально не загружается
+	ingredient: undefined,
+	isLoading: false,
 };
 
+// Слайс с явным указанием типа состояния
 const modalSlice = createSlice({
 	name: 'modal',
 	initialState,
 	reducers: {
 		openModal: (
-			state,
-			action: PayloadAction<{ title?: string; content?: React.ReactNode }>
+			state: ModalState,
+			action: PayloadAction<{
+				title?: string;
+				content?: string;
+				ingredient?: IngredientModel;
+			}>
 		) => {
 			state.isOpen = true;
 			state.title = action.payload.title;
 			state.content = action.payload.content;
-			state.isLoading = true; // Начинаем загрузку
+			state.ingredient = action.payload.ingredient;
+			state.isLoading = true;
 		},
-		closeModal: (state) => {
+		closeModal: (state: ModalState) => {
 			state.isOpen = false;
 			state.title = undefined;
 			state.content = undefined;
-			state.isLoading = false; // Закрываем модалку, загрузка завершена
+			state.ingredient = undefined;
+			state.isLoading = false;
 		},
-		setLoading: (state, action: PayloadAction<boolean>) => {
+		setLoading: (state: ModalState, action: PayloadAction<boolean>) => {
 			state.isLoading = action.payload;
 		},
 	},

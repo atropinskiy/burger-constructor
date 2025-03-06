@@ -3,8 +3,8 @@ import { OrderResponse } from '../../utils/models';
 import { createOrder } from '../actions';
 
 interface OrderState {
-	number: number | null; // Номер заказа
-	error: string | null; // Ошибка, если она возникла
+	number: number | null;
+	error: string | null;
 	ingredients: string[];
 }
 
@@ -22,7 +22,7 @@ const orderSlice = createSlice({
 			state.ingredients.push(action.payload);
 		},
 		clearOrder: (state) => {
-			state.ingredients = []; // Очищаем после оформления
+			state.ingredients = [];
 			state.number = null;
 			state.error = null;
 		},
@@ -51,11 +51,11 @@ const orderSlice = createSlice({
 			.addCase(
 				createOrder.fulfilled,
 				(state, action: PayloadAction<OrderResponse>) => {
-					state.number = action.payload.order.number; // Сохраняем номер заказа в состояние
+					state.number = action.payload.order.number;
 				}
 			)
 			.addCase(createOrder.rejected, (state, action) => {
-				state.error = action.payload as string; // Если ошибка, сохраняем сообщение об ошибке
+				state.error = action.payload as string;
 			});
 	},
 });

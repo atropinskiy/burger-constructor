@@ -10,7 +10,13 @@ export const store = configureStore({
 		modal: modalReducer,
 	},
 	devTools: process.env.NODE_ENV !== 'production',
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: {
+				ignoredActions: ['modal/openModal', 'modal/setLoading'],
+			},
+		}),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch; // Определяем тип AppDispatch
+export type AppDispatch = typeof store.dispatch;

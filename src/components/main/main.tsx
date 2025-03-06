@@ -7,12 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../services/store';
 import { TotalPrice } from '../total-price/total-price';
 import { createOrder } from '../../services/actions';
-import { OrderDetails } from '../modal/order-details/order-details';
 import {
 	openModal,
 	closeModal,
 	setLoading,
 } from '../../services/modal/modal-slices';
+import { OrderDetails } from '../modal/order-details/order-details';
 
 export const Main: React.FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -25,8 +25,8 @@ export const Main: React.FC = () => {
 	const error = useSelector((state: RootState) => state.order.error);
 
 	const isModalOpen = useSelector((state: RootState) => state.modal.isOpen);
-	const modalTitle = useSelector((state: RootState) => state.modal.title);
 	const modalContent = useSelector((state: RootState) => state.modal.content);
+	const orderNumber = useSelector((state: RootState) => state.order.number);
 
 	const handleOrderClick = async () => {
 		dispatch(setLoading(true));
@@ -38,7 +38,8 @@ export const Main: React.FC = () => {
 			if (updatedOrderNumber) {
 				dispatch(
 					openModal({
-						content: <OrderDetails orderNumber={updatedOrderNumber} />,
+						title: 'Номер заказа',
+						content: `Ваш номер заказа: ${updatedOrderNumber}`,
 					})
 				);
 			}
@@ -72,9 +73,9 @@ export const Main: React.FC = () => {
 				</section>
 			</div>
 
-			{isModalOpen && (
-				<Modal onClose={() => dispatch(closeModal())} title={modalTitle}>
-					{modalContent}
+			{isModalOpen && modalContent && (
+				<Modal onClose={() => dispatch(closeModal())} title=''>
+					<OrderDetails orderNumber={orderNumber} />
 				</Modal>
 			)}
 		</main>
