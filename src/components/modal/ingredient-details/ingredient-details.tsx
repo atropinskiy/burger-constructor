@@ -1,9 +1,9 @@
 import React from 'react';
-import { Ingredient } from '@utils/data';
+import { IngredientModel } from '@utils/models';
 import s from './ingredient-details.module.scss';
 
 interface ModalProps {
-	ingredient: Ingredient;
+	ingredient: IngredientModel;
 }
 
 export const IngredientDetails: React.FC<ModalProps> = ({ ingredient }) => {

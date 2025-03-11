@@ -1,10 +1,12 @@
 import React from 'react';
+import { useSelector } from '@hooks/index'; // Импортируем типизированные хуки
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Ingredient } from '../../../utils/data';
+import { IngredientModel } from '../../../utils/models';
 import s from './ingredient-card.module.scss';
-import { string, number, func, shape } from 'prop-types';
+import { useDrag } from 'react-dnd';
+
 interface IngredientCardProps {
-	ingredient: Ingredient;
+	ingredient: IngredientModel;
 	onClick: () => void;
 }
 
@@ -12,17 +14,32 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 	ingredient,
 	onClick,
 }) => {
+	// Получаем список ингредиентов из состояния с помощью типизированного useSelector
+	const orderIngredients = useSelector((state) => state.order.ingredients);
+	const count = orderIngredients.filter((id) => id === ingredient._id).length;
+	const [{ isDragging }, drag] = useDrag({
+		type: 'addIngredient',
+		item: { ingredient },
+		collect: (monitor) => ({
+			isDragging: monitor.isDragging(),
+		}),
+	});
+
+	const handleKeyDown = (e: React.KeyboardEvent) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			onClick();
+		}
+	};
+
 	return (
 		<div
+			ref={drag}
 			className={s.card}
 			onClick={onClick}
 			role='button'
-			tabIndex={0} // Добавлено для поддержки навигации через Tab
-			onKeyDown={(e) => {
-				if (e.key === 'Enter' || e.key === ' ') {
-					onClick(); // Обработка нажатия Enter или пробела
-				}
-			}}>
+			tabIndex={0}
+			onKeyDown={handleKeyDown} // Используем улучшенный обработчик
+			style={{ opacity: isDragging ? 0.5 : 1 }}>
 			<img src={ingredient.image} alt={ingredient.name} />
 			<span className='text text_type_digits-default w-100 d-flex justify-center'>
 				<span className='mr-1'>{ingredient.price}</span>
@@ -31,26 +48,13 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 			<span className='text text_type_main-default mt-1 w-100 d-flex justify-center text-center'>
 				{ingredient.name}
 			</span>
+			{count > 0 && (
+				<div className={s.circle}>
+					<span className='text text_type_digits-default'>{count}</span>
+				</div>
+			)}
 		</div>
 	);
-};
-
-IngredientCard.propTypes = {
-	ingredient: shape({
-		_id: string.isRequired,
-		name: string.isRequired,
-		type: string.isRequired,
-		proteins: number.isRequired,
-		fat: number.isRequired,
-		carbohydrates: number.isRequired,
-		calories: number.isRequired,
-		price: number.isRequired,
-		image: string.isRequired,
-		image_mobile: string.isRequired,
-		image_large: string.isRequired,
-		__v: number.isRequired,
-	}).isRequired,
-	onClick: func.isRequired,
 };
 
 export default IngredientCard;

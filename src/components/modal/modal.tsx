@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ModalOverlay } from './modal-overlay/modal-overlay';
 
@@ -9,6 +9,8 @@ interface ModalProps {
 }
 
 export const Modal: React.FC<ModalProps> = ({ onClose, children, title }) => {
+	const modalRef = useRef<HTMLDivElement | null>(null);
+
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
@@ -17,12 +19,23 @@ export const Modal: React.FC<ModalProps> = ({ onClose, children, title }) => {
 		};
 
 		document.addEventListener('keydown', handleKeyDown);
+
+		if (modalRef.current) {
+			modalRef.current.focus();
+		}
+
 		return () => document.removeEventListener('keydown', handleKeyDown);
 	}, [onClose]);
 
 	return createPortal(
 		<ModalOverlay onClose={onClose} title={title}>
-			{children}
+			<div
+				ref={modalRef}
+				tabIndex={-1}
+				aria-labelledby='modal-title'
+				aria-hidden='false'>
+				{children}
+			</div>
 		</ModalOverlay>,
 		document.getElementById('modal-root') as HTMLElement
 	);

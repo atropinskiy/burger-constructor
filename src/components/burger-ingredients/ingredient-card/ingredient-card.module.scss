@@ -8,4 +8,19 @@
 	margin: 0;
 	padding: 0;
 	cursor: pointer;
+	position: relative;
+}
+
+.circle {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(76, 76, 255, 1);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
