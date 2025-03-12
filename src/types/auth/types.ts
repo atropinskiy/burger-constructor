@@ -66,3 +66,14 @@ export interface FetchUserResponse {
 	success: boolean,
 	user: User
 }
+
+export interface RefreshTokenResponse {
+	success: boolean,
+	accessToken: string;
+	refreshToken: string;
+}
+
+export interface LogoutResponse {
+	success: boolean,
+	message: string,
+}

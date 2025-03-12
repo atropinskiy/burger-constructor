@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LoginResponse, User } from '@customTypes/auth/types'; // Импортируем типы для логина
+import { User } from '@customTypes/auth/types'; // Импортируем типы для логина
 import { loginUser, registerUser } from './actions';
 
 interface UserState {
@@ -12,8 +12,8 @@ interface UserState {
 
 const initialState: UserState = {
   user: null,
-  accessToken: null,
-  refreshToken: null,
+  accessToken: localStorage.getItem('accessToken') || null,
+  refreshToken: localStorage.getItem('refreshToken') || null,
   error: null,
   loading: false,
 };
@@ -28,6 +28,8 @@ const userSlice = createSlice({
     setTokens: (state, action: PayloadAction<{ accessToken: string; refreshToken: string }>) => {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
+      localStorage.setItem('accessToken', action.payload.accessToken);
+      localStorage.setItem('refreshToken', action.payload.refreshToken);
     },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
@@ -38,6 +40,8 @@ const userSlice = createSlice({
       state.refreshToken = null;
       state.error = null;
       state.loading = false;
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
     },
   },
   extraReducers: (builder) => {

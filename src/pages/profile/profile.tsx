@@ -1,8 +1,20 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import React from "react";
 import s from "./profile.module.scss";
+import { useDispatch } from "@hooks/index";
+import { logOut } from "@services/auth/actions";
 
 export const Profile: React.FC = () => {
+  const dispatch = useDispatch(); // Правильное место для вызова useDispatch
+  const navigate = useNavigate(); 
+  const handleLogout = async () => {
+    try {
+      await dispatch(logOut()); // Вызываем экшен для логаута
+      navigate("/login"); // Редиректим на страницу логина после успешного логаута
+    } catch (error) {
+      console.error("Ошибка при логауте:", error);
+    }
+  };
   return (
     <div className="d-flex mr-auto mt-30">
       <div>
@@ -31,10 +43,11 @@ export const Profile: React.FC = () => {
             </li>
             <li className={s.profile__li}>
               <NavLink
-                to="/profile/exit"
+                to="/login"
                 className={({ isActive }) =>
                   `${s.profile__link} ${isActive ? s.profile__active : ""}`
                 }
+                onClick={handleLogout}
               >
                 Выход
               </NavLink>

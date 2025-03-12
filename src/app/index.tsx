@@ -2,6 +2,7 @@ import s from './app.module.scss';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from '@hooks/index';
 import { fetchIngredients } from '../services/actions';
+import { fetchUser } from '@services/auth/actions';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -13,9 +14,13 @@ import { ProfileForm } from '@components/profile-form/profile-form';
 export const App = () => {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.ingredients);
+  const accessToken = useSelector((state) => state.user.accessToken);
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    if (accessToken) {
+      dispatch(fetchUser()); // Если есть токен, запрашиваем данные пользователя
+    }
   }, [dispatch]);
 
   return (
