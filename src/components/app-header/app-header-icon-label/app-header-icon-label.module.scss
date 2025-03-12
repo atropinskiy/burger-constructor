@@ -7,3 +7,8 @@
 	padding: 16px 20px;
 	box-sizing: border-box;
 }
+
+.disabled {
+  pointer-events: none !important; /* Отключение кликов */
+  cursor: not-allowed !important; /* Изменение курсора */
+}

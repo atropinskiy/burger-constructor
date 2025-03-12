@@ -165,3 +165,8 @@ main {
 .cursor-pointer {
 	cursor: pointer;
 }
+
+.link_disabled {
+  pointer-events: none;
+	cursor: not-allowed !important;
+}

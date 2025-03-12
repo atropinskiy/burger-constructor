@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LoginForm, LoginResponse, RegistrationForm, RegistrationResponse } from '@customTypes/auth/types';
+import { LoginForm, LoginResponse, RegistrationForm, RegistrationResponse, FetchUserResponse } from '@customTypes/auth/types';
 import { BASE_URL } from '@utils/constants';
 
 export const loginUser = createAsyncThunk<LoginResponse, LoginForm, { rejectValue: string }>(
@@ -46,6 +46,33 @@ export const registerUser = createAsyncThunk<RegistrationResponse, RegistrationF
         return rejectWithValue(error.message);
       }
       return rejectWithValue("Неизвестная ошибка");
+    }
+  }
+);
+
+export const fetchUser = createAsyncThunk<FetchUserResponse, void, { rejectValue: string }>(
+  'user/fetchUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/auth/user`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Не удалось получить данные пользователя');
+      }
+
+      const data = await response.json();
+      if (!data.success) {
+        return rejectWithValue(data.message);
+      }
+
+      return data.user;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
   }
 );

@@ -57,3 +57,12 @@ export interface LoginResponse {
 	refreshToken: string;
 	user: User;
 }
+
+export interface Token {
+	token: string
+}
+
+export interface FetchUserResponse {
+	success: boolean,
+	user: User
+}
