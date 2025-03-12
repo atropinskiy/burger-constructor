@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
-import { IngredientModel } from '../../utils/models';
+import { IngredientModel } from '../../types/auth/types';
 import { fetchIngredients } from '../actions';
 
 interface IngredientsState {

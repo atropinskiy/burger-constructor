@@ -76,11 +76,12 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.jsx', '.tsx', '.ts', '.json'], //указываем файлы с которыми будет работать webpack
 		alias: {
-			'@pages': path.resolve(__dirname, './src/pages'),
-			'@components': path.resolve(__dirname, './src/components'),
+			'@pages': path.resolve(__dirname, '..', './src/pages'),
+			'@components': path.resolve(__dirname, '..', './src/components'),
 			'@utils': path.resolve(__dirname, '..', './src/utils'),
 			'@hooks': path.resolve(__dirname, '..', './src/hooks'),
 			'@services': path.resolve(__dirname, '..', './src/services'),
+			'@customTypes': path.resolve(__dirname, '..', './src/types'),
 		}
 	},
 	plugins: [

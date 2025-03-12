@@ -1,21 +1,21 @@
 import s from './main.module.scss';
-import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
+import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
+import BurgerConstructor from '@components/burger-constructor/burger-constructor';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Modal } from '../modal/modal';
+import { Modal } from '@components/modal/modal';
 import { useDispatch, useSelector } from '@hooks/index';
 import { RootState } from '../../services/store';
-import { TotalPrice } from '../total-price/total-price';
+import { TotalPrice } from '@components/total-price/total-price';
 import { createOrder } from '../../services/actions';
 import {
 	openModal,
 	closeModal,
 	setLoading,
 } from '../../services/modal/modal-slices';
-import { OrderDetails } from '../modal/order-details/order-details';
+import { OrderDetails } from '@components/modal/order-details/order-details';
 import { clearSelectedItems } from '@services/ingredients/constructor_slices'; // Импортируем экшен очистки ингредиентов
 import { clearOrder } from '@services/order/order-slices';
-
+import { AppHeader } from '@components/app-header/app-header';
 export const Main: React.FC = () => {
 	const dispatch = useDispatch();
 	const totalPrice = useSelector(

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from '@hooks/index'; // Импортируем типизированные хуки
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientModel } from '../../../utils/models';
+import { IngredientModel } from '../../../types/auth/types';
 import s from './ingredient-card.module.scss';
 import { useDrag } from 'react-dnd';
 

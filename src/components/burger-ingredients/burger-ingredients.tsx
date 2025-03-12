@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from '@hooks/index';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientModel } from '../../utils/models';
+import { IngredientModel } from '../../types/auth/types';
 import IngredientCard from './ingredient-card/ingredient-card';
 import { Modal } from '../modal/modal';
 import s from './burger-ingredients.module.scss';

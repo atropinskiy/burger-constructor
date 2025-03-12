@@ -1,4 +1,4 @@
-import { store } from './services/store'; // Добавляем импорт store
+import { store } from '../services/store'; // Добавляем импорт store
 
 // Определение типа для Redux Store
 export type RootState = ReturnType<typeof store.getState>;

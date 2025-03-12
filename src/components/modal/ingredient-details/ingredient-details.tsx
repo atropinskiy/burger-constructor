@@ -1,5 +1,5 @@
 import React from 'react';
-import { IngredientModel } from '@utils/models';
+import { IngredientModel } from '../../../types/auth/types';
 import s from './ingredient-details.module.scss';
 
 interface ModalProps {
