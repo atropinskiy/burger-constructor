@@ -10,6 +10,8 @@ import { ForgotPassword, ResetPassword, Register, Main, Login, Profile } from '@
 import { AppHeader } from '@components/app-header/app-header';
 import { OrdersList } from '@components/orders-list/orders-list';
 import { ProfileForm } from '@components/profile-form/profile-form';
+import { IngredientDetailsPage } from '@pages/ingredient-details-page/ingredient-details-page';
+import ProtectedRouteElement from '@components/protected-route-element/protected-route-element';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -17,11 +19,16 @@ export const App = () => {
   const accessToken = useSelector((state) => state.user.accessToken);
 
   useEffect(() => {
+    // Загрузка ингредиентов
     dispatch(fetchIngredients());
+  }, []); // Этот эффект выполняется только один раз при монтировании
+
+  useEffect(() => {
+    // Если есть accessToken, выполняем запрос для данных пользователя
     if (accessToken) {
-      dispatch(fetchUser()); // Если есть токен, запрашиваем данные пользователя
+      dispatch(fetchUser());
     }
-  }, [dispatch]);
+  }, [accessToken]);
 
   return (
     <Router>
@@ -34,10 +41,14 @@ export const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/profile" element={<Profile />}>
+            <Route
+              path="/profile"
+              element={<ProtectedRouteElement element={<Profile />} restrictedPaths={['/profile']} />}
+            >
               <Route index element={<ProfileForm />} />
               <Route path="orders" element={<OrdersList />} />
             </Route>
+            <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
           </Routes>
           {loading && <p>Загрузка...</p>}
           {error && <p className="error">Ошибка: {error}</p>}

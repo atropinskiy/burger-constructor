@@ -15,7 +15,6 @@ import {
 import { OrderDetails } from '@components/modal/order-details/order-details';
 import { clearSelectedItems } from '@services/ingredients/constructor_slices'; // Импортируем экшен очистки ингредиентов
 import { clearOrder } from '@services/order/order-slices';
-import { AppHeader } from '@components/app-header/app-header';
 export const Main: React.FC = () => {
 	const dispatch = useDispatch();
 	const totalPrice = useSelector(

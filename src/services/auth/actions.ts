@@ -148,7 +148,7 @@ export const refreshToken = createAsyncThunk<RefreshTokenResponse, void, { rejec
         return rejectWithValue('Не удалось обновить токен');
       }
 
-      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('accessToken', data.accessToken.slice(7));
       localStorage.setItem('refreshToken', data.refreshToken);
 
       // Возвращаем объект, который соответствует RefreshTokenResponse
