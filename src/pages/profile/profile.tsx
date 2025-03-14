@@ -5,12 +5,13 @@ import { useDispatch } from "@hooks/index";
 import { logOut } from "@services/auth/actions";
 
 export const Profile: React.FC = () => {
-  const dispatch = useDispatch(); // Правильное место для вызова useDispatch
+  const dispatch = useDispatch();
   const navigate = useNavigate(); 
+
   const handleLogout = async () => {
     try {
-      await dispatch(logOut()); // Вызываем экшен для логаута
-      navigate("/login"); // Редиректим на страницу логина после успешного логаута
+      await dispatch(logOut());
+      navigate("/login");
     } catch (error) {
       console.error("Ошибка при логауте:", error);
     }

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from '@hooks/index';
 import { fetchIngredients } from '../services/actions';
 import { fetchUser } from '@services/auth/actions';
+import { setUserChecked } from '@services/auth/slices'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { ForgotPassword, ResetPassword, Register, Main, Login, Profile, NotFound } from '@pages/index';
 import { AppHeader } from '@components/app-header/app-header';
@@ -19,10 +20,11 @@ export const App = () => {
   const navigate = useNavigate();
   const background = location.state?.background;
   const { loading, error } = useSelector((state) => state.ingredients);
+  const isUserChecked = useSelector((state) => state.user.isUserChecked);
   const accessToken = localStorage.getItem('accessToken');
 
   const handleModalClose = () => {
-    navigate(-1); 
+    navigate(-1);
   };
 
   useEffect(() => {
@@ -30,17 +32,19 @@ export const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (accessToken) {
-      dispatch(fetchUser());
-    }
+    const checkUser = async () => {
+      if (accessToken) {
+        await dispatch(fetchUser());
+      }
+      dispatch(setUserChecked(true)); // Устанавливаем флаг после загрузки
+    };
+
+    checkUser();
   }, [accessToken, dispatch]);
 
-  if (loading) {
-    return <p className={s.loading}>Загрузка...</p>;
-  }
-
-  if (error) {
-    return <p className={s.error}>Ошибка: {error}</p>;
+  // Ожидаем загрузку пользователя перед рендерингом
+  if (!isUserChecked) {
+    return <p className={s.loading}>Загрузка пользователя...</p>; // Можно заменить на спиннер
   }
 
   return (
@@ -49,26 +53,12 @@ export const App = () => {
       <Routes location={background || location}>
         <Route path="/" element={<Main />} />
         
-        {/* Защищаем путь /login для залогиненных пользователей */}
-        <Route
-          path="/login"
-          element={<ProtectedRouteElement element={<Login />} redirectPath="/" />}
-        />
-        
-        {/* Защищаем путь /register для залогиненных пользователей */}
-        <Route
-          path="/register"
-          element={<ProtectedRouteElement element={<Register />} redirectPath="/" />}
-        />
-        
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/login" element={<ProtectedRouteElement element={<Login />} redirectPath="/" />} />
+        <Route path="/register" element={<ProtectedRouteElement element={<Register />} redirectPath="/" />} />
+        <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPassword />} redirectPath="/" />} />
+        <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPassword />} redirectPath="/" />} />
 
-        {/* Защищаем путь /profile и его подмаршруты */}
-        <Route
-          path="/profile"
-          element={<ProtectedRouteElement element={<Profile />} redirectPath="/login" />}
-        >
+        <Route path="/profile" element={<ProtectedRouteElement element={<Profile />} redirectPath="/login" />}>
           <Route index element={<ProfileForm />} />
           <Route path="orders" element={<OrdersList />} />
         </Route>
@@ -77,7 +67,6 @@ export const App = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      {/* Рендерим модалку, если background существует */}
       {background && (
         <Routes>
           <Route

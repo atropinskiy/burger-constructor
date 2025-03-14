@@ -240,13 +240,14 @@ export const resetPassword = createAsyncThunk<ResetPasswordResponse, ResetPasswo
   }
 );
 
+
 export const updateUser = createAsyncThunk<
   { user: User },
-  { email: string; name: string; token: string }, // Данные для обновления
+  { email: string; name: string; password: string; token: string }, // Данные для обновления
   { rejectValue: string }
 >(
   'user/updateUser',
-  async ({ email, name, token }, { rejectWithValue }) => {
+  async ({ email, name, password, token }, { rejectWithValue }) => {  // Добавлен password в параметры
     try {
       const response = await fetch(`${BASE_URL}/auth/user`, {
         method: 'PATCH',
@@ -254,7 +255,7 @@ export const updateUser = createAsyncThunk<
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({ email, name, password }), // Теперь password также передаётся в запрос
       });
 
       await handleError(response);

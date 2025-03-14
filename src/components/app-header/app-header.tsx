@@ -25,11 +25,22 @@ export const AppHeader = () => {
               label='Конструктор'
             />
           </Link>
-          <AppHeaderIconLabel
+
+          {user ? (
+            <Link to='/profile/orders'>
+              <AppHeaderIconLabel
+                icon={<ListIcon type={user ? 'primary' : 'secondary'} />}
+                label='Лента заказов'
+              />
+            </Link>
+          ) : (
+            <AppHeaderIconLabel
             icon={<ListIcon type={user ? 'primary' : 'secondary'} />}
             label='Лента заказов'
-            disabled={!user}
+            disabled={true}
           />
+          )}
+
 
           <div className={`mt-2 ${s.ml_14}`}>
             <Logo />
@@ -40,14 +51,13 @@ export const AppHeader = () => {
             <AppHeaderIconLabel
               icon={<ProfileIcon type={user ? 'primary' : 'secondary'} />}
               label='Личный кабинет'
-              disabled={!user} // Блокируем, если пользователь не авторизован
             />
           </Link>
         ) : (
           <AppHeaderIconLabel
             icon={<ProfileIcon type={user ? 'primary' : 'secondary'} />}
             label='Личный кабинет'
-						className='mr-2 color-white'
+            className='mr-2 color-white'
             disabled={true} // Блокируем, если нет пользователя
           />
         )}

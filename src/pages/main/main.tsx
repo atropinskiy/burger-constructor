@@ -13,6 +13,7 @@ import { clearSelectedItems } from '@services/ingredients/constructor_slices';
 import { clearOrder } from '@services/order/order-slices';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Link } from 'react-router-dom';
 
 export const Main: React.FC = () => {
 	const dispatch = useDispatch();
@@ -22,10 +23,11 @@ export const Main: React.FC = () => {
 	const orderIngredients = useSelector(
 		(state: RootState) => state.order.ingredients
 	);
-	const error = useSelector((state: RootState) => state.order.error);
-	const isModalOpen = useSelector((state: RootState) => state.modal.isOpen);
-	const modalContent = useSelector((state: RootState) => state.modal.content);
-	const orderNumber = useSelector((state: RootState) => state.order.number);
+	const isLogged = useSelector((state) => state.user.isLogged) === true
+	const error = useSelector((state) => state.order.error);
+	const isModalOpen = useSelector((state) => state.modal.isOpen);
+	const modalContent = useSelector((state) => state.modal.content);
+	const orderNumber = useSelector((state) => state.order.number);
 
 	const handleOrderClick = async () => {
 		dispatch(setLoading(true));
@@ -64,14 +66,27 @@ export const Main: React.FC = () => {
 							<BurgerConstructor />
 							<div className='ml-auto mt-10 pr-4 pb-10 d-flex'>
 								<TotalPrice price={totalPrice} />
-								<Button
-									htmlType='button'
-									type='primary'
-									size='large'
-									disabled={orderIngredients.length === 0}
-									onClick={handleOrderClick}>
-									Оформить заказ
-								</Button>
+								{!isLogged ? (
+									<Link to={'/login'}>
+										<Button
+											htmlType='button'
+											type='primary'
+											size='large'
+											disabled={orderIngredients.length === 0 || isLogged === false}
+											onClick={handleOrderClick}>
+											Оформить заказ
+										</Button>
+									</Link>
+								) : (
+									<Button
+										htmlType='button'
+										type='primary'
+										size='large'
+										disabled={orderIngredients.length === 0}
+										onClick={handleOrderClick}>
+										Оформить заказ
+									</Button>
+								)}
 							</div>
 						</div>
 					</section>

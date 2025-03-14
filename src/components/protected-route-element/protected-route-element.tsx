@@ -5,7 +5,6 @@ import { useSelector } from '@hooks/index';
 interface ProtectedRouteElementProps {
   element: React.ReactNode;
   redirectPath?: string;
-  restrictedPaths?: string[]; // Можно убрать, если оно больше не нужно
 }
 
 const ProtectedRouteElement: React.FC<ProtectedRouteElementProps> = ({
@@ -15,13 +14,14 @@ const ProtectedRouteElement: React.FC<ProtectedRouteElementProps> = ({
   const location = useLocation();
   const isLogged = useSelector((state) => state.user.isLogged);
 
-  if (!isLogged && location.pathname.startsWith('/profile')) {
-    return <Navigate to={redirectPath} replace />;
+  const restrictedPaths = ['/login', '/register', '/forgot-password', '/reset-password'];
+
+  if (isLogged && restrictedPaths.includes(location.pathname)) {
+    return <Navigate to="/" replace />;
   }
 
-  // Если пользователь залогинен и пытается попасть на /login или /register
-  if (isLogged && (location.pathname === '/login' || location.pathname === '/register')) {
-    return <Navigate to="/" replace />;
+  if (!isLogged && location.pathname.startsWith('/profile')) {
+    return <Navigate to={redirectPath} replace />;
   }
 
   return <>{element}</>;

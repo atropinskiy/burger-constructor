@@ -7,6 +7,7 @@ interface UserState {
   error: string | null;
   loading: boolean;
   isLogged: boolean | null;
+  isUserChecked: boolean,
 }
 
 const initialState: UserState = {
@@ -14,6 +15,7 @@ const initialState: UserState = {
   error: null,
   loading: false,
   isLogged: null,
+  isUserChecked: false
 };
 
 const userSlice = createSlice({
@@ -35,8 +37,12 @@ const userSlice = createSlice({
       state.user = null;
       state.error = null;
       state.loading = false;
+      state.isLogged = false;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
+    },
+    setUserChecked: (state, action) => {
+      state.isUserChecked = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -68,6 +74,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, setTokens, setError, logout } = userSlice.actions;
+export const { setUser, setUserChecked, setTokens, setError, logout } = userSlice.actions;
 
 export default userSlice.reducer;
