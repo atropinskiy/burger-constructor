@@ -25,7 +25,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
 
 	return (
 		<Link
-      key={ingredient._id}
+      key={ingredient.id}
       to={`/ingredients/${ingredient._id}`}
       state={{ background: location }}
     >

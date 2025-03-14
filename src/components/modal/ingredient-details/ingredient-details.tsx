@@ -1,12 +1,11 @@
 import React from 'react';
 import s from './ingredient-details.module.scss';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from '@hooks/index';
+import { useSelector } from '@hooks/index';
 
 
 export const IngredientDetails: React.FC = () => {
 	const { id } = useParams<{ id: string }>()
-	const dispatch = useDispatch();
 	const ingredient = useSelector((state) => 
 		state.ingredients.allItems.find((item) => item._id === id) // Исправили ошибку в параметре
 	);

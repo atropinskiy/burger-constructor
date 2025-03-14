@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from '@hooks/index';
 import { fetchIngredients } from '../services/actions';
 import { fetchUser } from '@services/auth/actions';
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { ForgotPassword, ResetPassword, Register, Main, Login, Profile } from '@pages/index';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { ForgotPassword, ResetPassword, Register, Main, Login, Profile, NotFound } from '@pages/index';
 import { AppHeader } from '@components/app-header/app-header';
 import { OrdersList } from '@components/orders-list/orders-list';
 import { ProfileForm } from '@components/profile-form/profile-form';
@@ -27,7 +27,7 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (accessToken) {
@@ -48,27 +48,42 @@ export const App = () => {
       <AppHeader />
       <Routes location={background || location}>
         <Route path="/" element={<Main />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        
+        {/* Защищаем путь /login для залогиненных пользователей */}
+        <Route
+          path="/login"
+          element={<ProtectedRouteElement element={<Login />} redirectPath="/" />}
+        />
+        
+        {/* Защищаем путь /register для залогиненных пользователей */}
+        <Route
+          path="/register"
+          element={<ProtectedRouteElement element={<Register />} redirectPath="/" />}
+        />
+        
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+
+        {/* Защищаем путь /profile и его подмаршруты */}
         <Route
           path="/profile"
-          element={<ProtectedRouteElement element={<Profile />} restrictedPaths={['/profile']} />}
+          element={<ProtectedRouteElement element={<Profile />} redirectPath="/login" />}
         >
           <Route index element={<ProfileForm />} />
           <Route path="orders" element={<OrdersList />} />
         </Route>
+
         <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {/* Рендерим модалку, если background существует */}
       {background && (
         <Routes>
           <Route
-            path='/ingredients/:id'
+            path="/ingredients/:id"
             element={
-              <Modal onClose={handleModalClose}>
+              <Modal onClose={handleModalClose} title='Детали ингредиента:'>
                 <IngredientDetails />
               </Modal>
             }
@@ -78,4 +93,3 @@ export const App = () => {
     </div>
   );
 };
-

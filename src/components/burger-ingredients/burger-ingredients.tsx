@@ -3,11 +3,8 @@ import { useDispatch, useSelector } from '@hooks/index';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '../../types/auth/types';
 import IngredientCard from './ingredient-card/ingredient-card';
-import { Modal } from '../modal/modal';
 import s from './burger-ingredients.module.scss';
-import { IngredientDetails } from '../modal/ingredient-details/ingredient-details';
-import { openModal, closeModal } from '../../services/modal/modal-slices';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { closeModal } from '../../services/modal/modal-slices';
 
 export const BurgerIngredients: React.FC = () => {
 	const [current, setCurrent] = useState<string>('one');
@@ -117,6 +114,7 @@ export const BurgerIngredients: React.FC = () => {
 							{groupedData['bun'].map((ingredient) => (
 								<IngredientCard
 									ingredient={ingredient}
+									key = {ingredient._id}
 								/>
 							))}
 						</div>
@@ -130,6 +128,7 @@ export const BurgerIngredients: React.FC = () => {
 							{groupedData['sauce'].map((ingredient) => (
 								<IngredientCard
 									ingredient={ingredient}
+									key = {ingredient._id}
 								/>
 							))}
 						</div>
@@ -143,6 +142,7 @@ export const BurgerIngredients: React.FC = () => {
 							{groupedData['main'].map((ingredient) => (
 								<IngredientCard
 									ingredient={ingredient}
+									key = {ingredient._id}
 								/>
 							))}
 						</div>

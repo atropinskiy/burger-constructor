@@ -6,12 +6,14 @@ interface UserState {
   user: User | null;
   error: string | null;
   loading: boolean;
+  isLogged: boolean | null;
 }
 
 const initialState: UserState = {
   user: null,
   error: null,
   loading: false,
+  isLogged: null,
 };
 
 const userSlice = createSlice({
@@ -20,6 +22,7 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
+      state.isLogged = true
     },
     setTokens: (state, action: PayloadAction<{ accessToken: string; refreshToken: string }>) => {
       localStorage.setItem('accessToken', action.payload.accessToken);

@@ -1,27 +1,32 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux"; // Для работы с Redux
-import { loginUser } from "@services/auth/actions"; // Импортируем экшен для логина
+import { useDispatch, useSelector } from "react-redux"; 
+import { loginUser } from "@services/auth/actions";
 import s from './login.module.scss';
-import { RootState } from '@services/store'; // Типизация состояния Redux
-import { AppDispatch } from '@services/store'; // Типизация для dispatch
+import { RootState } from '@services/store';
+import { AppDispatch } from '@services/store';
 
 export const Login: React.FC = () => {
-  const [login, setLogin] = React.useState<string>(""); // Указываем тип строка
-  const [password, setPassword] = React.useState<string>(""); // Указываем тип строка
+  const [login, setLogin] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
   const loginRef = React.useRef<HTMLInputElement | null>(null);
   const passwordRef = React.useRef<HTMLInputElement | null>(null);
-
-  const dispatch = useDispatch<AppDispatch>(); // Типизируем dispatch как AppDispatch
-  const { error, loading } = useSelector((state: RootState) => state.user); // Получаем ошибку и состояние загрузки из Redux
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate()
+  const { error, loading, user } = useSelector((state: RootState) => state.user);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Отправляем данные для логина с типизацией
     dispatch(loginUser({ email: login, password }));
   };
 
+  React.useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+  
   return (
     <div className={s.auth_div}>
       <form onSubmit={handleSubmit}>
@@ -36,8 +41,8 @@ export const Login: React.FC = () => {
             onChange={(e) => setLogin(e.target.value)}
             ref={loginRef}
             name="login"
-            error={error ? true : false} // Показ ошибки, если есть
-            errorText={error || "Ошибка"} // Показываем текст ошибки
+            error={error ? true : false}
+            errorText={error || "Ошибка"}
             size="default"
             extraClass="mb-6"
           />
@@ -52,14 +57,13 @@ export const Login: React.FC = () => {
             icon="ShowIcon"
             ref={passwordRef}
             name="password"
-            error={error ? true : false} // Показ ошибки, если есть
-            errorText={error || "Ошибка"} // Показываем текст ошибки
+            error={error ? true : false}
+            errorText={error || "Ошибка"}
             size="default"
             extraClass="mb-6"
           />
         </div>
 
-        {/* Если есть ошибка, показываем её */}
         {error && (
           <div className="text text_type_main-default text_color_inactive mb-4">
             {error}
@@ -72,7 +76,7 @@ export const Login: React.FC = () => {
             type="primary"
             size="medium"
             extraClass="mb-20"
-            disabled={loading} // Отключаем кнопку при загрузке
+            disabled={loading}
           >
             Войти
           </Button>

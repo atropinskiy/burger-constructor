@@ -5,9 +5,6 @@ import { IngredientDetails } from "@components/modal/ingredient-details/ingredie
 export const IngredientDetailsPage = () => {
   const { id } = useParams();
   const ingredients = useSelector((state) => state.ingredients.allItems);
-  
-  console.log("ID из useParams:", id);
-  console.log("Все ингредиенты:", ingredients);
 
   const ingredient = ingredients.find((item) => item._id === id);
 
@@ -17,7 +14,6 @@ export const IngredientDetailsPage = () => {
 
   return (
     <div>
-      <p>Тут отображается информация об ингредиенте с ID: {id}</p>
       <IngredientDetails />
     </div>
   );

@@ -3,6 +3,13 @@ import { LoginForm, LoginResponse, RegistrationForm, RegistrationResponse, Fetch
 import { BASE_URL } from '@utils/constants';
 import { setTokens, setUser, logout } from './slices';
 
+const handleError = async (response: Response) => {
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Неизвестная ошибка');
+  }
+};
+
 export const loginUser = createAsyncThunk<LoginResponse, LoginForm, { rejectValue: string }>(
   'user/login',
   async (data: LoginForm, { rejectWithValue, dispatch }) => {  // <-- добавили dispatch!
@@ -13,9 +20,7 @@ export const loginUser = createAsyncThunk<LoginResponse, LoginForm, { rejectValu
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error('Ошибка авторизации');
-      }
+      await handleError(response);
 
       const responseData = await response.json();
 
@@ -51,9 +56,7 @@ export const registerUser = createAsyncThunk<RegistrationResponse, RegistrationF
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        throw new Error("Ошибка при регистрации");
-      }
+      await handleError(response);
 
       const data: RegistrationResponse = await response.json();
       return data;
@@ -138,9 +141,7 @@ export const refreshToken = createAsyncThunk<RefreshTokenResponse, void, { rejec
         body: JSON.stringify({ token: refreshToken }), // передаем refreshToken в теле запроса
       });
 
-      if (!response.ok) {
-        throw new Error('Не удалось обновить токен');
-      }
+      await handleError(response);
 
       const data: RefreshTokenResponse = await response.json();
 
@@ -180,9 +181,7 @@ export const logOut = createAsyncThunk<LogoutResponse, void, { rejectValue: stri
         body: JSON.stringify({ token: refreshToken }),
       });
 
-      if (!response.ok) {
-        throw new Error('Не удалось завершить сессию на сервере');
-      }
+      await handleError(response);
 
       // Выполняем логаут в Redux
       dispatch(logout());
@@ -207,9 +206,7 @@ export const forgotPassword = createAsyncThunk<ForgotPasswordResponse, { email: 
         body: JSON.stringify({ email }),
       });
 
-      if (!response.ok) {
-        throw new Error('Не удалось отправить письмо на восстановление пароля');
-      }
+      await handleError(response);
 
       // Возвращаем успешный ответ
       return { success: true, message: 'Reset email sent' };
@@ -233,9 +230,7 @@ export const resetPassword = createAsyncThunk<ResetPasswordResponse, ResetPasswo
         body: JSON.stringify({ password, token }),
       });
 
-      if (!response.ok) {
-        throw new Error('Не удалось сбросить пароль');
-      }
+      await handleError(response);
 
       const data: ResetPasswordResponse = await response.json();
       return data;
