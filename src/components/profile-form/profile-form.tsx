@@ -7,14 +7,12 @@ import { useSelector, useDispatch } from '@hooks/index';
 import s from './profile-form.module.scss';
 import { useForm } from '@hooks/use-form';
 import { updateUser } from '@services/auth/actions';
-import { useNavigate } from 'react-router-dom';
 
 export const ProfileForm: React.FC = () => {
 	const loginRef = useRef<HTMLInputElement | null>(null);
 	const user = useSelector((state) => state.user.user);
 	const token = localStorage.getItem('accessToken');
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	const { values, handleChange, setValues } = useForm({
 		login: user?.name || '',
@@ -22,8 +20,8 @@ export const ProfileForm: React.FC = () => {
 		password: '',
 	});
 
-	const [isEditing, setIsEditing] = React.useState<boolean>(false);
-	const [error, setError] = React.useState<string>('');
+	const [isEditing, setIsEditing] = useState<boolean>(false);
+	const [error, setError] = useState<string>('');
 
 	useEffect(() => {
 		if (user) {
