@@ -17,12 +17,12 @@ export const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const background = location.state && location.state.background;
+  const background = location.state?.background;
   const { loading, error } = useSelector((state) => state.ingredients);
-  const accessToken = localStorage.getItem('accessToken')
+  const accessToken = localStorage.getItem('accessToken');
 
   const handleModalClose = () => {
-    navigate(-1);
+    navigate(-1); 
   };
 
   useEffect(() => {
@@ -44,36 +44,38 @@ export const App = () => {
   }
 
   return (
-      <div className={s.app}>
-        <AppHeader />
+    <div className={s.app}>
+      <AppHeader />
+      <Routes location={background || location}>
+        <Route path="/" element={<Main />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route
+          path="/profile"
+          element={<ProtectedRouteElement element={<Profile />} restrictedPaths={['/profile']} />}
+        >
+          <Route index element={<ProfileForm />} />
+          <Route path="orders" element={<OrdersList />} />
+        </Route>
+        <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
+      </Routes>
+
+      {/* Рендерим модалку, если background существует */}
+      {background && (
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
           <Route
-            path="/profile"
-            element={<ProtectedRouteElement element={<Profile />} restrictedPaths={['/profile']} />}
-          >
-            <Route index element={<ProfileForm />} />
-            <Route path="orders" element={<OrdersList />} />
-          </Route>
-          <Route path="/ingredients/:id" element={<IngredientDetailsPage />}
+            path='/ingredients/:id'
+            element={
+              <Modal onClose={handleModalClose}>
+                <IngredientDetails />
+              </Modal>
+            }
           />
         </Routes>
-        {background && (
-        <Routes>
-	        <Route
-	          path='/ingredients/:id'
-	          element={
-	            <Modal onClose={handleModalClose}>
-	              <IngredientDetails />
-	            </Modal>
-	          }
-	        />
-        </Routes>
       )}
-      </div>
+    </div>
   );
 };
+
