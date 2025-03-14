@@ -7,10 +7,13 @@ import { Modal } from '../modal/modal';
 import s from './burger-ingredients.module.scss';
 import { IngredientDetails } from '../modal/ingredient-details/ingredient-details';
 import { openModal, closeModal } from '../../services/modal/modal-slices';
+import { useLocation, Link } from 'react-router-dom';
+
 
 export const BurgerIngredients: React.FC = () => {
 	const [current, setCurrent] = useState<string>('one');
 	const dispatch = useDispatch();
+	const location = useLocation(); // Используем useLocation для отслеживания текущего пути
 	const { isOpen, title, ingredient } = useSelector((state) => state.modal);
 	const ingredients = useSelector((state) => state.ingredients.allItems);
 	const bunRef = useRef<HTMLDivElement | null>(null);
@@ -18,26 +21,20 @@ export const BurgerIngredients: React.FC = () => {
 	const mainRef = useRef<HTMLDivElement | null>(null);
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
-	// Группировка данных по типу ингредиента
 	const groupedData = ingredients.reduce((acc, ingredient) => {
 		const { type, _id } = ingredient;
 		if (!acc[type]) {
 			acc[type] = [];
 		}
-
-		// Добавляем только уникальные ингредиенты
 		if (!acc[type].some((item) => item._id === _id)) {
 			acc[type].push(ingredient);
 		}
-
 		return acc;
 	}, {} as { [key: string]: IngredientModel[] });
 
 	const handleTabClick = (tab: string) => {
 		setCurrent(tab);
 		let scrollTarget: HTMLElement | null = null;
-
-		// Определяем, к какой секции прокрутить
 		if (tab === 'one' && bunRef.current) {
 			scrollTarget = bunRef.current;
 		} else if (tab === 'two' && sauceRef.current) {
@@ -45,8 +42,6 @@ export const BurgerIngredients: React.FC = () => {
 		} else if (tab === 'three' && mainRef.current) {
 			scrollTarget = mainRef.current;
 		}
-
-		// Прокручиваем к целевой секции
 		if (scrollTarget) {
 			scrollTarget.scrollIntoView({
 				behavior: 'smooth',
@@ -55,14 +50,14 @@ export const BurgerIngredients: React.FC = () => {
 		}
 	};
 
-	const handleIngredientClick = (ingredient: IngredientModel) => {
-		dispatch(
-			openModal({
-				title: 'Детали ингредиента',
-				ingredient: ingredient,
-			})
-		);
-	};
+  const handleIngredientClick = (ingredient: IngredientModel) => {
+    dispatch(
+      openModal({
+        title: 'Детали ингредиента',
+        ingredient: ingredient,
+      })
+    );
+  };
 
 	const onScroll = () => {
 		const sections = [
@@ -74,7 +69,6 @@ export const BurgerIngredients: React.FC = () => {
 		let currentTab = 'one';
 		let closestElementDistance = Infinity;
 
-		// Определяем текущую вкладку, в зависимости от прокрутки
 		sections.forEach(({ ref, tab }) => {
 			if (ref.current) {
 				const rect = ref.current.getBoundingClientRect();
@@ -95,13 +89,21 @@ export const BurgerIngredients: React.FC = () => {
 			container.addEventListener('scroll', onScroll);
 		}
 
-		// Очистка событий при размонтировании
 		return () => {
 			if (container) {
 				container.removeEventListener('scroll', onScroll);
 			}
 		};
 	}, []);
+
+	useEffect(() => {
+		// Эффект, чтобы обработать изменение пути, не перерисовывая компонент
+		const ingredientId = location.pathname.split('/').pop();
+		if (ingredientId) {
+			// Обработка состояния на основе текущего пути
+			// Например, если ingredientId соответствует какому-то ингредиенту
+		}
+	}, [location.pathname]); // Зависимость от пути URL
 
 	const handleModalClose = () => {
 		dispatch(closeModal());

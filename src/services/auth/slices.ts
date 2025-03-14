@@ -4,16 +4,12 @@ import { loginUser, registerUser } from './actions';
 
 interface UserState {
   user: User | null;
-  accessToken: string | null;
-  refreshToken: string | null;
   error: string | null;
   loading: boolean;
 }
 
 const initialState: UserState = {
   user: null,
-  accessToken: localStorage.getItem('accessToken') || null,
-  refreshToken: localStorage.getItem('refreshToken') || null,
   error: null,
   loading: false,
 };
@@ -26,8 +22,6 @@ const userSlice = createSlice({
       state.user = action.payload;
     },
     setTokens: (state, action: PayloadAction<{ accessToken: string; refreshToken: string }>) => {
-      state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
       localStorage.setItem('accessToken', action.payload.accessToken);
       localStorage.setItem('refreshToken', action.payload.refreshToken);
     },
@@ -36,8 +30,6 @@ const userSlice = createSlice({
     },
     logout: (state) => {
       state.user = null;
-      state.accessToken = null;
-      state.refreshToken = null;
       state.error = null;
       state.loading = false;
       localStorage.removeItem('accessToken');
@@ -53,8 +45,6 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -67,8 +57,6 @@ const userSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;

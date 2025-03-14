@@ -77,3 +77,18 @@ export interface LogoutResponse {
 	success: boolean,
 	message: string,
 }
+
+export interface ForgotPasswordResponse {
+	success: boolean,
+	message: string,	
+}
+
+export interface ResetPasswordRequest {
+	password: string,
+	token: string
+}
+
+export interface ResetPasswordResponse {
+	success: boolean,
+	message: string,	
+}

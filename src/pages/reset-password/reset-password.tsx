@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch } from "@hooks/index";
+import { resetPassword } from "@services/auth/actions";
 import React from "react";
 import s from '../login/login.module.scss';
 
 export const ResetPassword: React.FC = () => {
+  const dispatch = useDispatch();
   const [newPassword, setNewPassword] = React.useState("");
   const [resetCode, setResetCode] = React.useState("");
 
@@ -12,9 +15,7 @@ export const ResetPassword: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Новый пароль:", newPassword);
-    console.log("Код из письма:", resetCode);
-    // Тут может быть отправка запроса на сброс пароля на сервер
+    dispatch(resetPassword({ password: newPassword, token: resetCode }));
   };
 
   return (
@@ -35,7 +36,7 @@ export const ResetPassword: React.FC = () => {
             error={false}
             errorText="Ошибка"
             size="default"
-            extraClass="mb-6" // Добавил отступ между инпутами
+            extraClass="mb-6"
           />
         </div>
 
@@ -50,7 +51,7 @@ export const ResetPassword: React.FC = () => {
             error={false}
             errorText="Ошибка"
             size="default"
-            extraClass="mb-6" // Добавил отступ между инпутами
+            extraClass="mb-6"
           />
         </div>
 

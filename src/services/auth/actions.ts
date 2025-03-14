@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LoginForm, LoginResponse, RegistrationForm, RegistrationResponse, FetchUserResponse, RefreshTokenResponse, LogoutResponse } from '@customTypes/auth/types';
+import { LoginForm, LoginResponse, RegistrationForm, RegistrationResponse, FetchUserResponse, RefreshTokenResponse, LogoutResponse, ForgotPasswordResponse, ResetPasswordResponse, ResetPasswordRequest } from '@customTypes/auth/types';
 import { BASE_URL } from '@utils/constants';
 import { setTokens, setUser, logout } from './slices';
 
@@ -20,7 +20,7 @@ export const loginUser = createAsyncThunk<LoginResponse, LoginForm, { rejectValu
       const responseData = await response.json();
 
       // Извлекаем токены
-      const accessToken = responseData.accessToken.split(' ')[1]; 
+      const accessToken = responseData.accessToken.split(' ')[1];
       const refreshToken = responseData.refreshToken;
 
       // ✅ Сохраняем в localStorage
@@ -109,7 +109,7 @@ export const fetchUser = createAsyncThunk<FetchUserResponse, void, { rejectValue
         throw new Error('Не удалось получить данные пользователя');
       }
 
-      
+
 
       const data = await response.json();
       dispatch(setUser(data.user));
@@ -189,6 +189,56 @@ export const logOut = createAsyncThunk<LogoutResponse, void, { rejectValue: stri
 
       // Возвращаем успешный ответ с сообщением
       return { success: true, message: 'Successful logout' };
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const forgotPassword = createAsyncThunk<ForgotPasswordResponse, { email: string }, { rejectValue: string }>(
+  'user/forgotPassword',
+  async ({ email }, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/password-reset`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Не удалось отправить письмо на восстановление пароля');
+      }
+
+      // Возвращаем успешный ответ
+      return { success: true, message: 'Reset email sent' };
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk<ResetPasswordResponse, ResetPasswordRequest,
+  { rejectValue: string }
+>(
+  'user/resetPassword',
+  async ({ password, token }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/password-reset/reset`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password, token }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Не удалось сбросить пароль');
+      }
+
+      const data: ResetPasswordResponse = await response.json();
+      return data;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }

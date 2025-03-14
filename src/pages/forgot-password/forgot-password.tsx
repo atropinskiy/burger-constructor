@@ -1,17 +1,30 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import s from '../login/login.module.scss';
+import { useDispatch } from "@hooks/index";
+import { forgotPassword } from "@services/auth/actions";
+
 
 export const ForgotPassword: React.FC = () => {
   const [email, setEmail] = React.useState("");
-  
+  const dispatch = useDispatch();
   const emailRef = React.useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("E-mail для восстановления пароля:", email);
-    // Тут может быть отправка запроса на восстановление пароля на сервер
+
+    const response = await dispatch(forgotPassword({ email }));
+
+    if (response.meta.requestStatus === 'fulfilled') {
+      // Если запрос успешен, перенаправляем на страницу reset-password
+      navigate('/reset-password');
+    } else {
+      // Обработка ошибки, если запрос не удался
+      console.error('Ошибка восстановления пароля:', response.payload);
+    }
   };
 
   return (
