@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LoginForm, LoginResponse, RegistrationForm, RegistrationResponse, FetchUserResponse, RefreshTokenResponse, LogoutResponse, ForgotPasswordResponse, ResetPasswordResponse, ResetPasswordRequest } from '@customTypes/auth/types';
+import { LoginForm, LoginResponse, RegistrationForm, RegistrationResponse, FetchUserResponse, RefreshTokenResponse, LogoutResponse, ForgotPasswordResponse, ResetPasswordResponse, ResetPasswordRequest, User } from '@customTypes/auth/types';
 import { BASE_URL } from '@utils/constants';
 import { setTokens, setUser, logout } from './slices';
 
@@ -234,6 +234,34 @@ export const resetPassword = createAsyncThunk<ResetPasswordResponse, ResetPasswo
 
       const data: ResetPasswordResponse = await response.json();
       return data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk<
+  { user: User },
+  { email: string; name: string; token: string }, // Данные для обновления
+  { rejectValue: string }
+>(
+  'user/updateUser',
+  async ({ email, name, token }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/auth/user`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ email, name }),
+      });
+
+      await handleError(response);
+
+      const data = await response.json();
+
+      return { user: data.user };
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
