@@ -1,12 +1,18 @@
 import React from 'react';
-import { IngredientModel } from '../../../types/auth/types';
 import s from './ingredient-details.module.scss';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from '@hooks/index';
 
-interface ModalProps {
-	ingredient: IngredientModel;
-}
 
-export const IngredientDetails: React.FC<ModalProps> = ({ ingredient }) => {
+export const IngredientDetails: React.FC = () => {
+	const { id } = useParams<{ id: string }>()
+	const dispatch = useDispatch();
+	const ingredient = useSelector((state) => 
+		state.ingredients.allItems.find((item) => item._id === id) // Исправили ошибку в параметре
+	);
+	if (!ingredient) {
+		return <p>Ингредиент не найден</p>; // Можно вывести сообщение, если ingredient не найден
+	}
 	return (
 		<div className='d-flex flex-column valign-center'>
 			<img width={'480px'} src={ingredient.image_large} alt={ingredient.name} />

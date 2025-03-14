@@ -18,7 +18,7 @@ export const IngredientDetailsPage = () => {
   return (
     <div>
       <p>Тут отображается информация об ингредиенте с ID: {id}</p>
-      <IngredientDetails ingredient={ingredient} />
+      <IngredientDetails />
     </div>
   );
 };

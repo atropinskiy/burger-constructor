@@ -7,13 +7,11 @@ import { Modal } from '../modal/modal';
 import s from './burger-ingredients.module.scss';
 import { IngredientDetails } from '../modal/ingredient-details/ingredient-details';
 import { openModal, closeModal } from '../../services/modal/modal-slices';
-import { useLocation, Link } from 'react-router-dom';
-
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const BurgerIngredients: React.FC = () => {
 	const [current, setCurrent] = useState<string>('one');
 	const dispatch = useDispatch();
-	const location = useLocation(); // Используем useLocation для отслеживания текущего пути
 	const { isOpen, title, ingredient } = useSelector((state) => state.modal);
 	const ingredients = useSelector((state) => state.ingredients.allItems);
 	const bunRef = useRef<HTMLDivElement | null>(null);
@@ -21,6 +19,7 @@ export const BurgerIngredients: React.FC = () => {
 	const mainRef = useRef<HTMLDivElement | null>(null);
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
+	// Группировка ингредиентов по типам
 	const groupedData = ingredients.reduce((acc, ingredient) => {
 		const { type, _id } = ingredient;
 		if (!acc[type]) {
@@ -50,14 +49,9 @@ export const BurgerIngredients: React.FC = () => {
 		}
 	};
 
-  const handleIngredientClick = (ingredient: IngredientModel) => {
-    dispatch(
-      openModal({
-        title: 'Детали ингредиента',
-        ingredient: ingredient,
-      })
-    );
-  };
+	// Обновленный обработчик клика
+
+	
 
 	const onScroll = () => {
 		const sections = [
@@ -96,15 +90,6 @@ export const BurgerIngredients: React.FC = () => {
 		};
 	}, []);
 
-	useEffect(() => {
-		// Эффект, чтобы обработать изменение пути, не перерисовывая компонент
-		const ingredientId = location.pathname.split('/').pop();
-		if (ingredientId) {
-			// Обработка состояния на основе текущего пути
-			// Например, если ingredientId соответствует какому-то ингредиенту
-		}
-	}, [location.pathname]); // Зависимость от пути URL
-
 	const handleModalClose = () => {
 		dispatch(closeModal());
 	};
@@ -113,38 +98,25 @@ export const BurgerIngredients: React.FC = () => {
 		<div>
 			<h1 className={'text text_type_main-large mt-10'}>Соберите бургер</h1>
 			<div className={'d-flex mt-5'}>
-				<Tab
-					value='one'
-					active={current === 'one'}
-					onClick={() => handleTabClick('one')}>
+				<Tab value='one' active={current === 'one'} onClick={() => handleTabClick('one')}>
 					Булки
 				</Tab>
-				<Tab
-					value='two'
-					active={current === 'two'}
-					onClick={() => handleTabClick('two')}>
+				<Tab value='two' active={current === 'two'} onClick={() => handleTabClick('two')}>
 					Соусы
 				</Tab>
-				<Tab
-					value='three'
-					active={current === 'three'}
-					onClick={() => handleTabClick('three')}>
+				<Tab value='three' active={current === 'three'} onClick={() => handleTabClick('three')}>
 					Начинки
 				</Tab>
 			</div>
 
-			<div
-				ref={containerRef}
-				className={`w-100 p100 mt-10 ml-2 ${s['ingredients-block']}`}>
+			<div ref={containerRef} className={`w-100 p100 mt-10 ml-2 ${s['ingredients-block']}`}>
 				{groupedData['bun']?.length > 0 && (
 					<div ref={bunRef} className='ingredient-group'>
 						<h3 className='text text_type_main-medium'>Булки</h3>
 						<div className='grid-col-2'>
 							{groupedData['bun'].map((ingredient) => (
 								<IngredientCard
-									key={ingredient._id}
 									ingredient={ingredient}
-									onClick={() => handleIngredientClick(ingredient)}
 								/>
 							))}
 						</div>
@@ -157,9 +129,7 @@ export const BurgerIngredients: React.FC = () => {
 						<div className='grid-col-2'>
 							{groupedData['sauce'].map((ingredient) => (
 								<IngredientCard
-									key={ingredient._id}
 									ingredient={ingredient}
-									onClick={() => handleIngredientClick(ingredient)}
 								/>
 							))}
 						</div>
@@ -172,21 +142,13 @@ export const BurgerIngredients: React.FC = () => {
 						<div className='grid-col-2'>
 							{groupedData['main'].map((ingredient) => (
 								<IngredientCard
-									key={ingredient._id}
 									ingredient={ingredient}
-									onClick={() => handleIngredientClick(ingredient)}
 								/>
 							))}
 						</div>
 					</div>
 				)}
 			</div>
-
-			{isOpen && ingredient && (
-				<Modal onClose={handleModalClose} title={title}>
-					<IngredientDetails ingredient={ingredient} />
-				</Modal>
-			)}
 		</div>
 	);
 };

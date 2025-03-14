@@ -1,20 +1,18 @@
 import React from 'react';
-import { useSelector } from '@hooks/index'; // Импортируем типизированные хуки
+import { useDispatch, useSelector } from '@hooks/index'; // Импортируем типизированные хуки
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '../../../types/auth/types';
 import s from './ingredient-card.module.scss';
 import { useDrag } from 'react-dnd';
+import { Link, useLocation } from 'react-router-dom';
+import { openModal } from '@services/modal/modal-slices';
 
 interface IngredientCardProps {
 	ingredient: IngredientModel;
-	onClick: () => void;
 }
 
-const IngredientCard: React.FC<IngredientCardProps> = ({
-	ingredient,
-	onClick,
-}) => {
-	// Получаем список ингредиентов из состояния с помощью типизированного useSelector
+const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
+	const location = useLocation();
 	const orderIngredients = useSelector((state) => state.order.ingredients);
 	const count = orderIngredients.filter((id) => id === ingredient._id).length;
 	const [{ isDragging }, drag] = useDrag({
@@ -25,21 +23,19 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 		}),
 	});
 
-	const handleKeyDown = (e: React.KeyboardEvent) => {
-		if (e.key === 'Enter' || e.key === ' ') {
-			onClick();
-		}
-	};
-
 	return (
+		<Link
+      key={ingredient._id}
+      to={`/ingredients/${ingredient._id}`}
+      state={{ background: location }}
+    >
 		<div
 			ref={drag}
 			className={s.card}
-			onClick={onClick}
 			role='button'
 			tabIndex={0}
-			onKeyDown={handleKeyDown} // Используем улучшенный обработчик
-			style={{ opacity: isDragging ? 0.5 : 1 }}>
+			style={{ opacity: isDragging ? 0.5 : 1 }}
+		>
 			<img src={ingredient.image} alt={ingredient.name} />
 			<span className='text text_type_digits-default w-100 d-flex justify-center'>
 				<span className='mr-1'>{ingredient.price}</span>
@@ -54,6 +50,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 				</div>
 			)}
 		</div>
+		</Link>
 	);
 };
 
