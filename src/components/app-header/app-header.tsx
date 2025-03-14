@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 
 export const AppHeader = () => {
 	const user = useSelector((state) => state.user.user?.name);
+	const isLogged = useSelector((state) => state.user.isLogged) === true;
 
 	return (
 		<header>
@@ -38,26 +39,19 @@ export const AppHeader = () => {
 							disabled={true}
 						/>
 					)}
-
-					<div className={`mt-2 ${s.ml_14}`}>
-						<Logo />
-					</div>
-				</div>
-				{user ? (
-					<Link to='/profile'>
-						<AppHeaderIconLabel
-							icon={<ProfileIcon type={user ? 'primary' : 'secondary'} />}
-							label='Личный кабинет'
-						/>
+					<Link to='/'>
+						<div className={`mt-2 ${s.ml_14}`}>
+							<Logo />
+						</div>
 					</Link>
-				) : (
+				</div>
+				<Link to='/profile'>
 					<AppHeaderIconLabel
 						icon={<ProfileIcon type={user ? 'primary' : 'secondary'} />}
 						label='Личный кабинет'
-						className='mr-2 color-white'
-						disabled={true}
+						disabled={!isLogged}
 					/>
-				)}
+				</Link>
 			</div>
 		</header>
 	);

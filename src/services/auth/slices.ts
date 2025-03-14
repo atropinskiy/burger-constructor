@@ -8,6 +8,7 @@ interface UserState {
 	loading: boolean;
 	isLogged: boolean | null;
 	isUserChecked: boolean;
+	visitedForgotPassword: boolean;
 }
 
 const initialState: UserState = {
@@ -16,6 +17,7 @@ const initialState: UserState = {
 	loading: false,
 	isLogged: null,
 	isUserChecked: false,
+	visitedForgotPassword: false,
 };
 
 const userSlice = createSlice({
@@ -47,6 +49,10 @@ const userSlice = createSlice({
 		setUserChecked: (state, action) => {
 			state.isUserChecked = action.payload;
 		},
+
+		setVisitedForgotPassword: (state, action) => {
+			state.visitedForgotPassword = action.payload;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -77,7 +83,13 @@ const userSlice = createSlice({
 	},
 });
 
-export const { setUser, setUserChecked, setTokens, setError, logout } =
-	userSlice.actions;
+export const {
+	setUser,
+	setUserChecked,
+	setTokens,
+	setError,
+	logout,
+	setVisitedForgotPassword,
+} = userSlice.actions;
 
 export default userSlice.reducer;

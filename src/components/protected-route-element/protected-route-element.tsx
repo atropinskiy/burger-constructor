@@ -13,6 +13,9 @@ const ProtectedRouteElement: React.FC<ProtectedRouteElementProps> = ({
 }) => {
 	const location = useLocation();
 	const isLogged = useSelector((state) => state.user.isLogged);
+	const visitedForgotPassword = useSelector(
+		(state) => state.user.visitedForgotPassword
+	);
 
 	const restrictedPaths = [
 		'/login',
@@ -20,6 +23,10 @@ const ProtectedRouteElement: React.FC<ProtectedRouteElementProps> = ({
 		'/forgot-password',
 		'/reset-password',
 	];
+
+	if (!visitedForgotPassword && location.pathname === '/reset-password') {
+		return <Navigate to='/' replace />;
+	}
 
 	if (isLogged && restrictedPaths.includes(location.pathname)) {
 		return <Navigate to='/' replace />;

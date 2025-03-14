@@ -5,7 +5,7 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from '@hooks/index';
 import s from './profile-form.module.scss';
-
+import { useForm } from '@hooks/use-form';
 import { updateUser } from '@services/auth/actions';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,21 +16,20 @@ export const ProfileForm: React.FC = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const [isEditing, setIsEditing] = useState(false);
-	const [login, setLogin] = useState(user?.name || '');
-	const [email, setEmail] = useState(user?.email || '');
-	const [password, setPassword] = useState('');
-	const [error, setError] = useState<string>('');
-	const [initialLogin] = useState(user?.name || '');
-	const [initialEmail] = useState(user?.email || '');
-	const [initialPassword] = useState('');
+	const { values, handleChange, setValues } = useForm({
+		login: user?.name || '',
+		email: user?.email || '',
+		password: '',
+	});
+
+	const [isEditing, setIsEditing] = React.useState<boolean>(false);
+	const [error, setError] = React.useState<string>('');
 
 	useEffect(() => {
 		if (user) {
-			setLogin(user.name);
-			setEmail(user.email);
+			setValues({ login: user.name, email: user.email, password: '' });
 		}
-	}, [user]);
+	}, [user, setValues]);
 
 	useEffect(() => {
 		loginRef.current?.focus();
@@ -41,14 +40,12 @@ export const ProfileForm: React.FC = () => {
 	};
 
 	const handleCancel = () => {
-		setLogin(initialLogin);
-		setEmail(initialEmail);
-		setPassword(initialPassword);
+		setValues({
+			login: user?.name || '',
+			email: user?.email || '',
+			password: '',
+		});
 		setIsEditing(false);
-	};
-
-	const onPasswordIconClick = () => {
-		navigate('/forgot-password');
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -61,7 +58,12 @@ export const ProfileForm: React.FC = () => {
 
 		try {
 			await dispatch(
-				updateUser({ email, name: login, password, token })
+				updateUser({
+					email: values.email,
+					name: values.login,
+					password: values.password,
+					token,
+				})
 			).unwrap();
 			setIsEditing(false);
 		} catch (error) {
@@ -79,8 +81,8 @@ export const ProfileForm: React.FC = () => {
 				<Input
 					type='text'
 					placeholder='Имя'
-					value={login}
-					onChange={(e) => setLogin(e.target.value)}
+					value={values.login}
+					onChange={handleChange}
 					onIconClick={onIconClick}
 					name='login'
 					icon='EditIcon'
@@ -94,10 +96,10 @@ export const ProfileForm: React.FC = () => {
 				<Input
 					type='text'
 					placeholder='Логин'
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					value={values.email}
+					onChange={handleChange}
 					onIconClick={onIconClick}
-					name='login'
+					name='email'
 					icon='EditIcon'
 					error={false}
 					errorText='Ошибка'
@@ -108,9 +110,9 @@ export const ProfileForm: React.FC = () => {
 				<Input
 					type='password'
 					placeholder='Пароль'
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-					onIconClick={onPasswordIconClick}
+					value={values.password}
+					onChange={handleChange}
+					onIconClick={onIconClick}
 					name='password'
 					icon='EditIcon'
 					error={false}

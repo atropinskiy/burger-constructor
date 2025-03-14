@@ -3,16 +3,21 @@ import {
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import s from '../login/login.module.scss';
 import { useDispatch } from '@hooks/index';
 import { forgotPassword } from '@services/auth/actions';
+import { setVisitedForgotPassword } from '@services/auth/slices';
 
 export const ForgotPassword: React.FC = () => {
 	const [email, setEmail] = useState('');
 	const dispatch = useDispatch();
 	const emailRef = useRef<HTMLInputElement | null>(null);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		dispatch(setVisitedForgotPassword(true));
+	}, [dispatch]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
