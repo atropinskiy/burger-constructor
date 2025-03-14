@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IngredientModel, OrderResponse } from '@utils/models';
+import { IngredientModel, OrderResponse } from '../types/auth/types';
 import { BASE_URL } from '@utils/constants';
 
 export const fetchIngredients = createAsyncThunk<IngredientModel[], void>(

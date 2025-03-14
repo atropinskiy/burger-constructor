@@ -5,17 +5,27 @@ interface AppHeaderIconLabelProps {
 	label: string;
 	className?: string;
 	icon?: React.ReactNode;
+	disabled?: boolean;
 }
 
 export const AppHeaderIconLabel = ({
 	label,
 	className,
 	icon,
+	disabled = false,
 }: AppHeaderIconLabelProps) => {
 	return (
-		<div className={`${s.bg} text text_type_main-default" ${className}`}>
-			{icon && <span className='mr-2'>{icon}</span>}{' '}
-			<p className='text text_type_main-default'>{label}</p>
+		<div
+			className={`${s.bg} text text_type_main-default ${className} ${
+				disabled ? s.disabled : ''
+			}`}>
+			{icon && <span className='mr-2'>{icon}</span>}
+			<p
+				className={`text text_type_main-default ${
+					disabled ? 'text_color_inactive' : 'color-white'
+				}`}>
+				{label}
+			</p>
 		</div>
 	);
 };

@@ -1,0 +1,20 @@
+.profile__nav {
+	box-sizing: border-box;
+	list-style: none;
+	margin-bottom: 80px;
+}
+
+.profile__li {
+	width: 320px;
+	height: 64px;
+	display: flex;
+	align-items: center;
+}
+
+.profile__info {
+	width: 320px;
+}
+
+.profile__active {
+	color: white !important;
+}

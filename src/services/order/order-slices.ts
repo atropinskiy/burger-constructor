@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderResponse } from '../../utils/models';
+import { OrderResponse } from '../../types/auth/types';
 import { createOrder } from '../actions';
 
 interface OrderState {

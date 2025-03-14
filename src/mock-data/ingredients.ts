@@ -1,6 +1,6 @@
 // Моковые данные для тестов
 
-import { IngredientModel } from '@utils/models';
+import { IngredientModel } from '../types/auth/types';
 
 export const IngredientMock: IngredientModel = {
 	_id: '643d69a5c3f7b9001cfa0949',
