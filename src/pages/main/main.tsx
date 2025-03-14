@@ -7,7 +7,11 @@ import { useDispatch, useSelector } from '@hooks/index';
 import { RootState } from '../../services/store';
 import { TotalPrice } from '@components/total-price/total-price';
 import { createOrder } from '../../services/actions';
-import { openModal, closeModal, setLoading } from '../../services/modal/modal-slices';
+import {
+	openModal,
+	closeModal,
+	setLoading,
+} from '../../services/modal/modal-slices';
 import { OrderDetails } from '@components/modal/order-details/order-details';
 import { clearSelectedItems } from '@services/ingredients/constructor_slices';
 import { clearOrder } from '@services/order/order-slices';
@@ -23,7 +27,7 @@ export const Main: React.FC = () => {
 	const orderIngredients = useSelector(
 		(state: RootState) => state.order.ingredients
 	);
-	const isLogged = useSelector((state) => state.user.isLogged) === true
+	const isLogged = useSelector((state) => state.user.isLogged) === true;
 	const error = useSelector((state) => state.order.error);
 	const isModalOpen = useSelector((state) => state.modal.isOpen);
 	const modalContent = useSelector((state) => state.modal.content);
@@ -72,7 +76,9 @@ export const Main: React.FC = () => {
 											htmlType='button'
 											type='primary'
 											size='large'
-											disabled={orderIngredients.length === 0 || isLogged === false}
+											disabled={
+												orderIngredients.length === 0 || isLogged === false
+											}
 											onClick={handleOrderClick}>
 											Оформить заказ
 										</Button>

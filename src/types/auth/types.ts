@@ -34,16 +34,16 @@ export interface User {
 }
 
 export interface RegistrationForm {
-  email: string;
-  password: string;
-  name: string;
+	email: string;
+	password: string;
+	name: string;
 }
 
 export interface RegistrationResponse {
-  success: boolean;
-  user: User;
-  accessToken: string;
-  refreshToken: string;
+	success: boolean;
+	user: User;
+	accessToken: string;
+	refreshToken: string;
 }
 
 export interface LoginForm {
@@ -59,40 +59,48 @@ export interface LoginResponse {
 }
 
 export interface Token {
-	token: string
+	token: string;
 }
 
 export interface FetchUserResponse {
-	success: boolean,
-	user: User
+	success: boolean;
+	user: User;
 }
 
 export interface RefreshTokenResponse {
-	success: boolean,
+	success: boolean;
 	accessToken: string;
 	refreshToken: string;
 }
 
 export interface LogoutResponse {
-	success: boolean,
-	message: string,
+	success: boolean;
+	message: string;
 }
 
 export interface ForgotPasswordResponse {
-	success: boolean,
-	message: string,	
+	success: boolean;
+	message: string;
 }
 
 export interface ResetPasswordRequest {
-	password: string,
-	token: string
+	password: string;
+	token: string;
 }
 
 export interface ResetPasswordResponse {
-	success: boolean,
-	message: string,	
+	success: boolean;
+	message: string;
 }
 
 export interface UpdateUserRequest {
-	
+	email: string;
+	name: string;
+	password: string;
+	token: string;
+}
+
+export interface UpdateUserResponse {
+	success: boolean;
+	user: User;
 }

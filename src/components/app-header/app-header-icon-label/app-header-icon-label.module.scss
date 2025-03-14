@@ -9,6 +9,6 @@
 }
 
 .disabled {
-  pointer-events: none !important; /* Отключение кликов */
-  cursor: not-allowed !important; /* Изменение курсора */
+	pointer-events: none !important;
+	cursor: not-allowed !important;
 }

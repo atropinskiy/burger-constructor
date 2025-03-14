@@ -1,22 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from '@hooks/index';
+import { useSelector } from '@hooks/index';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientModel } from '../../types/auth/types';
 import IngredientCard from './ingredient-card/ingredient-card';
 import s from './burger-ingredients.module.scss';
-import { closeModal } from '../../services/modal/modal-slices';
 
 export const BurgerIngredients: React.FC = () => {
 	const [current, setCurrent] = useState<string>('one');
-	const dispatch = useDispatch();
-	const { isOpen, title, ingredient } = useSelector((state) => state.modal);
 	const ingredients = useSelector((state) => state.ingredients.allItems);
 	const bunRef = useRef<HTMLDivElement | null>(null);
 	const sauceRef = useRef<HTMLDivElement | null>(null);
 	const mainRef = useRef<HTMLDivElement | null>(null);
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
-	// Группировка ингредиентов по типам
 	const groupedData = ingredients.reduce((acc, ingredient) => {
 		const { type, _id } = ingredient;
 		if (!acc[type]) {
@@ -45,10 +41,6 @@ export const BurgerIngredients: React.FC = () => {
 			});
 		}
 	};
-
-	// Обновленный обработчик клика
-
-	
 
 	const onScroll = () => {
 		const sections = [
@@ -87,35 +79,39 @@ export const BurgerIngredients: React.FC = () => {
 		};
 	}, []);
 
-	const handleModalClose = () => {
-		dispatch(closeModal());
-	};
-
 	return (
 		<div>
 			<h1 className={'text text_type_main-large mt-10'}>Соберите бургер</h1>
 			<div className={'d-flex mt-5'}>
-				<Tab value='one' active={current === 'one'} onClick={() => handleTabClick('one')}>
+				<Tab
+					value='one'
+					active={current === 'one'}
+					onClick={() => handleTabClick('one')}>
 					Булки
 				</Tab>
-				<Tab value='two' active={current === 'two'} onClick={() => handleTabClick('two')}>
+				<Tab
+					value='two'
+					active={current === 'two'}
+					onClick={() => handleTabClick('two')}>
 					Соусы
 				</Tab>
-				<Tab value='three' active={current === 'three'} onClick={() => handleTabClick('three')}>
+				<Tab
+					value='three'
+					active={current === 'three'}
+					onClick={() => handleTabClick('three')}>
 					Начинки
 				</Tab>
 			</div>
 
-			<div ref={containerRef} className={`w-100 p100 mt-10 ml-2 ${s['ingredients-block']}`}>
+			<div
+				ref={containerRef}
+				className={`w-100 p100 mt-10 ml-2 ${s['ingredients-block']}`}>
 				{groupedData['bun']?.length > 0 && (
 					<div ref={bunRef} className='ingredient-group'>
 						<h3 className='text text_type_main-medium'>Булки</h3>
 						<div className='grid-col-2'>
 							{groupedData['bun'].map((ingredient) => (
-								<IngredientCard
-									ingredient={ingredient}
-									key = {ingredient._id}
-								/>
+								<IngredientCard ingredient={ingredient} key={ingredient._id} />
 							))}
 						</div>
 					</div>
@@ -126,10 +122,7 @@ export const BurgerIngredients: React.FC = () => {
 						<h3 className='text text_type_main-medium'>Соусы</h3>
 						<div className='grid-col-2'>
 							{groupedData['sauce'].map((ingredient) => (
-								<IngredientCard
-									ingredient={ingredient}
-									key = {ingredient._id}
-								/>
+								<IngredientCard ingredient={ingredient} key={ingredient._id} />
 							))}
 						</div>
 					</div>
@@ -140,10 +133,7 @@ export const BurgerIngredients: React.FC = () => {
 						<h3 className='text text_type_main-medium'>Начинки</h3>
 						<div className='grid-col-2'>
 							{groupedData['main'].map((ingredient) => (
-								<IngredientCard
-									ingredient={ingredient}
-									key = {ingredient._id}
-								/>
+								<IngredientCard ingredient={ingredient} key={ingredient._id} />
 							))}
 						</div>
 					</div>

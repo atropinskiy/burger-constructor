@@ -3,11 +3,10 @@ import s from './ingredient-details.module.scss';
 import { useParams } from 'react-router-dom';
 import { useSelector } from '@hooks/index';
 
-
 export const IngredientDetails: React.FC = () => {
-	const { id } = useParams<{ id: string }>()
-	const ingredient = useSelector((state) => 
-		state.ingredients.allItems.find((item) => item._id === id) // Исправили ошибку в параметре
+	const { id } = useParams<{ id: string }>();
+	const ingredient = useSelector(
+		(state) => state.ingredients.allItems.find((item) => item._id === id) // Исправили ошибку в параметре
 	);
 	if (!ingredient) {
 		return <p>Ингредиент не найден</p>; // Можно вывести сообщение, если ingredient не найден

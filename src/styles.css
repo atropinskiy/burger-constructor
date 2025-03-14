@@ -11,28 +11,27 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-size-adjust: 100%;
-
 }
 
 a {
-  color: rgba(133, 133, 173, 1); 
-  text-decoration: none;
+	color: rgb(133 133 173 / 100%);
+	text-decoration: none;
 }
 
 a:visited {
-  color: rgba(133, 133, 173, 1); 
+	color: rgb(133 133 173 / 100%);
 }
 
 a:hover {
-  color: rgba(133, 133, 173, 1); 
+	color: rgb(133 133 173 / 100%);
 }
 
 a:active {
-  color: rgba(133, 133, 173, 1); 
+	color: rgb(133 133 173 / 100%);
 }
 
 .color-blue {
-	color: rgba(76, 76, 255, 1) !important;
+	color: rgb(76 76 255 / 100%) !important;
 }
 
 .color-white {
@@ -167,6 +166,6 @@ main {
 }
 
 .link_disabled {
-  pointer-events: none;
 	cursor: not-allowed !important;
+	pointer-events: none;
 }

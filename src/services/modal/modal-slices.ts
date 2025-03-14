@@ -17,7 +17,6 @@ const initialState: ModalState = {
 	isLoading: false,
 };
 
-// Слайс с явным указанием типа состояния
 const modalSlice = createSlice({
 	name: 'modal',
 	initialState,

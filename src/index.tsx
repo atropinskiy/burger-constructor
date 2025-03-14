@@ -12,9 +12,9 @@ const root = createRoot(domNode);
 root.render(
 	<StrictMode>
 		<Provider store={store}>
-			<BrowserRouter >
+			<BrowserRouter>
 				<App />
-			</BrowserRouter >
+			</BrowserRouter>
 		</Provider>
 	</StrictMode>
 );
