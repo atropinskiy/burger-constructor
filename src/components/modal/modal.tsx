@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ModalOverlay } from './modal-overlay/modal-overlay';
 
+// Хорошо, что изначально делал все на ts :)
 interface ModalProps {
 	onClose: () => void;
 	children: React.ReactNode;
