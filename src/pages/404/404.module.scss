@@ -1,0 +1,38 @@
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #ffffff;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	text-align: center;
+}
+
+.message-container {
+	text-align: center;
+	background-color: #9520b3;
+	padding: 40px;
+	border-radius: 15px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+	font-size: 100px;
+	margin: 0;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.text {
+	font-size: 20px;
+	margin: 20px 0;
+	color: #ffffff;
+}
+
+.link {
+	font-size: 18px;
+	color: #ffdd57;
+	text-decoration: none;
+	font-weight: bold;
+	padding: 10px 20px;
+	border-radius: 5px;
+}

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IngredientModel } from '@utils/models';
+import { IngredientModel } from '../../types/auth/types';
 
 interface ModalState {
 	isOpen: boolean;
@@ -17,7 +17,6 @@ const initialState: ModalState = {
 	isLoading: false,
 };
 
-// Слайс с явным указанием типа состояния
 const modalSlice = createSlice({
 	name: 'modal',
 	initialState,

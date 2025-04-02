@@ -1,0 +1,11 @@
+.auth_div {
+	display: flex;
+	justify-content: center; /* Центрирует по горизонтали */
+	align-items: top; /* Центрирует по вертикали */
+	margin-top: 180px;
+	height: 100vh; /* Задаём высоту контейнера */
+}
+
+.link {
+	color: rgba(76, 76, 255, 1);
+}

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
-import { IngredientModel } from '../../utils/models';
+import { IngredientModel } from '../../types/auth/types';
 import { fetchIngredients } from '../actions';
 
 interface IngredientsState {
@@ -78,10 +78,9 @@ const ingredientsSlice = createSlice({
 			}
 		},
 		clearSelectedItems: (state) => {
-			// Очищаем выбранные ингредиенты
 			state.selectedItems.bun = null;
 			state.selectedItems.fillings = [];
-			state.totalPrice = 0; // Сбрасываем общую цену
+			state.totalPrice = 0;
 		},
 
 		removeSelectedIngredient: (state, action: PayloadAction<string>) => {
