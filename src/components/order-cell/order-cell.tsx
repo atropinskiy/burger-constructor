@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import s from './order-cell.module.scss'
 import { IOrder } from '@customTypes/auth/types'
 import { FormattedDate, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -28,6 +28,18 @@ const getStatusText = (status: OrderStatus) => {
 };
 
 export const OrderCell: React.FC<OrderCellProps> = ({ order }) => {
+  const [showAllIngredients, setShowAllIngredients] = useState(false);
+
+  const visibleIngredients = showAllIngredients
+    ? order.ingredients
+    : order.ingredients.slice(0, 5);
+
+  const hiddenCount = order.ingredients.length - visibleIngredients.length;
+
+  const handleShowAll = () => {
+    setShowAllIngredients(true);
+  };
+
   const ingredients = useSelector((state) => state.ingredients);
   const totalPrice = order.ingredients.reduce((total, id) => {
     const ingredient = ingredients.allItems.find((item) => item._id === id);
@@ -51,14 +63,27 @@ export const OrderCell: React.FC<OrderCellProps> = ({ order }) => {
       </div>
       <div className='w-100 d-flex justify-between'>
         <div className={s.order__ingredients}>
-          {order.ingredients.map((id, index) => {
+          {visibleIngredients.map((id, index) => {
             const ingredient = ingredients.allItems.find((item) => item._id === id);
             if (!ingredient) return null;
+
+            const isLastVisible = index === visibleIngredients.length - 1 && hiddenCount > 0;
+
             return (
-              <div className={s.order__ingredients__div} style={{ zIndex: order.ingredients.length - index }}>
+              <div
+                key={`${id}-${index}`}
+                className={s.order__ingredients__div}
+                style={{ zIndex: visibleIngredients.length - index }}
+                onClick={isLastVisible ? handleShowAll : undefined}
+              >
                 <img className={s.order__ingredients__image} src={ingredient.image_mobile} alt="" />
+                {isLastVisible && hiddenCount > 0 && (
+                  <div className={s.overlay}>
+                    <span className="text text_type_main-small">+{hiddenCount}</span>
+                  </div>
+                )}
               </div>
-            )
+            );
           })}
         </div>
         <div className='d-flex valign-center'>
