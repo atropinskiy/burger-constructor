@@ -1,0 +1,39 @@
+.order_div {
+  height: 246px;
+  background-color: #1C1C21;
+  width: 100%;
+  margin-bottom: 24px;
+  border-radius: 40px;
+  box-sizing: border-box;
+  padding: 24px;
+}
+
+.order__ingredients {
+  display: flex;
+  max-width: 300px;
+  position: relative;
+  margin-left: 20px;
+  margin-top: 24px;
+}
+
+.order__ingredients__div {
+  border: 2px solid blue;
+  position: relative;
+  width: 64px;
+  margin-left: -20px;
+  border-radius: 50%;
+  background-color: #131316;
+}
+
+.order__ingredients__image {
+  width: 112px;
+  position: relative;
+  height: 56px;
+  margin-top: 2px;
+  margin-left: -25px;
+}
+
+.order__currency {
+  width: 24px;
+  height: 24px;
+}

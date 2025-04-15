@@ -17,8 +17,8 @@ export const Profile: React.FC = () => {
 		}
 	};
 	return (
-		<div className='d-flex mr-auto mt-30'>
-			<div>
+		<div className={`d-flex mt-10 ${s.profile__div}`}>
+			<div className='profile__menu'>
 				<nav>
 					<ul className={s.profile__nav}>
 						<li className={s.profile__li}>
@@ -58,7 +58,7 @@ export const Profile: React.FC = () => {
 					</p>
 				</nav>
 			</div>
-			<div>
+			<div className='w-100'>
 				<Outlet />
 			</div>
 		</div>

@@ -13,6 +13,7 @@ import {
 	Login,
 	Profile,
 	NotFound,
+	OrderDetails
 } from '@pages/index';
 import { AppHeader } from '@components/app-header/app-header';
 import { OrdersList } from '@components/orders-list/orders-list';
@@ -100,6 +101,7 @@ export const App = () => {
 					}>
 					<Route index element={<ProfileForm />} />
 					<Route path='orders' element={<OrdersList />} />
+					<Route path='orders/:id' element={<OrderDetails />} />
 				</Route>
 
 				<Route path='/ingredients/:id' element={<IngredientDetailsPage />} />

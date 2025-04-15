@@ -5,3 +5,4 @@ export { Main } from './main/main';
 export { Register } from './register/register';
 export { Profile } from './profile/profile';
 export { NotFound } from './404/404';
+export { OrderDetails } from './order-details/order-details'

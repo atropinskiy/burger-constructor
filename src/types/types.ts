@@ -10,3 +10,4 @@ export interface ApiResponse<T> {
 export interface ApiError {
 	message: string;
 }
+

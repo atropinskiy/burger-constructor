@@ -1,17 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderResponse } from '../../types/auth/types';
+import { IOrder, OrderResponse, IOrderResponse } from '../../types/auth/types';
 import { createOrder } from '../actions';
+import { fetchOrders } from './order-actions';
 
 interface OrderState {
 	number: number | null;
 	error: string | null;
 	ingredients: string[];
+	orders: IOrder[];
 }
 
 const initialState: OrderState = {
 	number: null,
 	error: null,
 	ingredients: [],
+	orders: []
 };
 
 const orderSlice = createSlice({
@@ -34,6 +37,9 @@ const orderSlice = createSlice({
 				state.ingredients.splice(indexToRemove, 1);
 			}
 		},
+		getOrders: (state, action: PayloadAction<string>) => {
+
+		},
 		removeBunsFromOrderById: (state, action: PayloadAction<string>) => {
 			const bunIdToRemove = action.payload;
 			state.ingredients = state.ingredients.filter(
@@ -55,7 +61,15 @@ const orderSlice = createSlice({
 			)
 			.addCase(createOrder.rejected, (state, action) => {
 				state.error = action.payload as string;
+			})
+			.addCase(fetchOrders.fulfilled, (state, action: PayloadAction<IOrderResponse>) => {
+				state.orders = action.payload.orders;
+			})
+			.addCase(fetchOrders.rejected, (state, action) => {
+				state.error = action.payload || 'Ошибка при загрузке заказов';
 			});
+
+			
 	},
 });
 
