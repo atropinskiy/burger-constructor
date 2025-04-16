@@ -13,7 +13,8 @@ import {
 	Login,
 	Profile,
 	NotFound,
-	OrderDetails
+	OrderDetails,
+	Feed
 } from '@pages/index';
 import { AppHeader } from '@components/app-header/app-header';
 import { OrdersList } from '@components/orders-list/orders-list';
@@ -82,6 +83,15 @@ export const App = () => {
 					}
 				/>
 				<Route
+					path='/feed'
+					element={
+						<ProtectedRouteElement
+							element={<Feed />}
+							redirectPath='/'
+						/>
+					}
+				/>
+				<Route
 					path='/reset-password'
 					element={
 						<ProtectedRouteElement
@@ -100,7 +110,7 @@ export const App = () => {
 						/>
 					}>
 					<Route index element={<ProfileForm />} />
-					<Route path='orders' element={<OrdersList />} />
+					{/* <Route path='orders' element={<OrdersList />} /> */}
 					<Route path='orders/:id' element={<OrderDetails />} />
 				</Route>
 

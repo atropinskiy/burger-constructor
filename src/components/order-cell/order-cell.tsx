@@ -95,7 +95,6 @@ export const OrderCell: React.FC<OrderCellProps> = ({ order }) => {
           </div>
         </div>
       </div>
-
     </div>
   )
 }

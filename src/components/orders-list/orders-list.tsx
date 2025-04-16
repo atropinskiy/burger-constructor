@@ -1,17 +1,12 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { fetchOrders } from '@services/order/order-actions';
-import { useDispatch, useSelector } from '@hooks/index';
 import { OrderCell } from '@components/order-cell/order-cell';
+import { IOrder } from '@customTypes/auth/types';
 
-export const OrdersList: React.FC = () => {
-	const dispatch = useDispatch();
-	const orders = useSelector((state) => state.order.orders);
-	useEffect(() => {
-		dispatch(fetchOrders());
-	}, [dispatch]);
+interface IOrderListProps {
+	orders: IOrder[]
+}
 
+export const OrdersList: React.FC<IOrderListProps> = ({ orders }) => {
 	return (
 		<div className='w-100'>
 			{orders.map((order) => (
