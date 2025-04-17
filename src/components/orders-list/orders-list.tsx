@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { OrderCell } from '@components/order-cell/order-cell';
 import { useDispatch, useSelector } from '@hooks/index';
 import { Link, useLocation } from 'react-router-dom';
+import s from './order-list.module.scss'
 
 export const OrdersList: React.FC = () => {
 	const dispatch = useDispatch();
@@ -21,7 +22,7 @@ export const OrdersList: React.FC = () => {
 	}, [dispatch, prefix]);
 
 	return (
-		<div className='w-100'>
+		<div className={s.order__list}>
 			{displayedOrders.length > 0 ? (
 				displayedOrders.map((order) => (
 					<Link

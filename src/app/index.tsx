@@ -136,15 +136,19 @@ export const App = () => {
 					/>
 				</Routes>
 			)}
-
 			{background && (
 				<Routes>
 					<Route
 						path='/profile/orders/:id'
 						element={
-							<Modal onClose={handleModalClose} title=''>
-								<OrderDetails padding={false} />
-							</Modal>
+							<ProtectedRouteElement
+								redirectPath='/login'
+								element={
+									<Modal onClose={handleModalClose} title=''>
+										<OrderDetails padding={false} />
+									</Modal>
+								}
+							/>
 						}
 					/>
 				</Routes>
