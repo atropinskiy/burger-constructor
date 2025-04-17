@@ -3,18 +3,13 @@ import s from './order-cell.module.scss'
 import { IOrder } from '@customTypes/auth/types'
 import { FormattedDate, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from '@hooks/index';
+import { OrderStatus } from '@customTypes/auth/types';
 
 interface OrderCellProps {
   order: IOrder;
 }
 
-enum OrderStatus {
-  Created = 'created',
-  Pending = 'pending',
-  Done = 'done',
-}
-
-const getStatusText = (status: OrderStatus) => {
+export const getStatusText = (status: OrderStatus) => {
   switch (status) {
     case OrderStatus.Created:
       return 'Создан';

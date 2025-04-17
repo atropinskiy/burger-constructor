@@ -6,10 +6,10 @@ import { useSelector } from '@hooks/index';
 export const IngredientDetails: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
 	const ingredient = useSelector(
-		(state) => state.ingredients.allItems.find((item) => item._id === id) // Исправили ошибку в параметре
+		(state) => state.ingredients.allItems.find((item) => item._id === id) 
 	);
 	if (!ingredient) {
-		return <p>Ингредиент не найден</p>; // Можно вывести сообщение, если ingredient не найден
+		return <p>Ингредиент не найден</p>; 
 	}
 	return (
 		<div className='d-flex flex-column valign-center'>

@@ -102,6 +102,16 @@ export const App = () => {
 				/>
 
 				<Route
+					path='/profile/orders/:id'
+					element={
+						<ProtectedRouteElement
+							element={<OrderDetails />}
+							redirectPath='/login'
+						/>
+					}
+				/>
+
+				<Route
 					path='/profile'
 					element={
 						<ProtectedRouteElement
@@ -110,10 +120,9 @@ export const App = () => {
 						/>
 					}>
 					<Route index element={<ProfileForm />} />
-					{/* <Route path='orders' element={<OrdersList />} /> */}
-					<Route path='orders/:id' element={<OrderDetails />} />
+					<Route path='orders' element={<OrdersList />} />
 				</Route>
-
+				<Route path='feed/:id' element={<OrderDetails />} />
 				<Route path='/ingredients/:id' element={<IngredientDetailsPage />} />
 				<Route path='*' element={<NotFound />} />
 			</Routes>
@@ -125,6 +134,21 @@ export const App = () => {
 						element={
 							<Modal onClose={handleModalClose} title='Детали ингредиента:'>
 								<IngredientDetails />
+							</Modal>
+						}
+					/>
+				</Routes>
+			)}
+
+
+
+			{background && (
+				<Routes>
+					<Route
+						path='/profile/orders/:id'
+						element={
+							<Modal onClose={handleModalClose} title=''>
+								<OrderDetails />
 							</Modal>
 						}
 					/>

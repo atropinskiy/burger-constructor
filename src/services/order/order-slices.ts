@@ -37,9 +37,6 @@ const orderSlice = createSlice({
 				state.ingredients.splice(indexToRemove, 1);
 			}
 		},
-		getOrders: (state, action: PayloadAction<string>) => {
-
-		},
 		removeBunsFromOrderById: (state, action: PayloadAction<string>) => {
 			const bunIdToRemove = action.payload;
 			state.ingredients = state.ingredients.filter(

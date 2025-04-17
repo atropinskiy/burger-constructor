@@ -121,3 +121,9 @@ export interface IOrderResponse {
 	total: number;
 	totalToday: number;
 }
+
+export enum OrderStatus {
+  Created = 'created',
+  Pending = 'pending',
+  Done = 'done',
+}
