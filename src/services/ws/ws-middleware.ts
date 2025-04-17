@@ -28,6 +28,7 @@ export const createWebSocketMiddleware = ({ url, actionPrefix, requireToken = fa
     const closeType = `${actionPrefix}/close`;
     const messageType = `${actionPrefix}/message`;
     const errorType = `${actionPrefix}/error`;
+    
 
     switch (action.type) {
       case connectType: {
@@ -42,15 +43,21 @@ export const createWebSocketMiddleware = ({ url, actionPrefix, requireToken = fa
         socket = new WebSocket(fullUrl);
 
         socket.onopen = () => {
-          console.log("WebSocket подключен");
+          console.log(`WebSocket подключен ${actionPrefix}`);
           store.dispatch({ type: 'ws/open' });
+
         };
 
         socket.onmessage = (event: MessageEvent) => {
           try {
             const data = JSON.parse(event.data);
             console.log('Полученные данные от WebSocket:', data); // Логируем полученные данные
-            store.dispatch({ type: 'ws/message', payload: { orders: data.orders } }); // Передаем данные в store
+            if (actionPrefix === 'wsFeed') {
+              store.dispatch({ type: 'ws/message', payload: { data: data } });
+            } else {
+              store.dispatch({ type: 'ws/messageProfile', payload: { data: data } });
+            }
+             // Передаем данные в store
           } catch (err) {
             console.error('Ошибка парсинга WebSocket-сообщения:', err);
           }

@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import React from 'react';
 import { useEffect } from 'react';
 import s from './order-details.module.scss';
@@ -10,7 +10,11 @@ import { FormattedDate, CurrencyIcon } from '@ya.praktikum/react-developer-burge
 import { useMemo } from 'react';
 import { IngredientModel } from '@customTypes/auth/types';
 
-export const OrderDetails: React.FC = () => {
+interface OrderDetailsProps {
+  padding: boolean;
+}
+
+export const OrderDetails: React.FC<OrderDetailsProps> = ({padding}) => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const currentOrder = useSelector((state) => state.ws.currentOrder);
@@ -51,7 +55,7 @@ export const OrderDetails: React.FC = () => {
   }
 
   return (
-    <div className={s.order__details__div}>
+    <div className={`${s.order__details__div} ${padding ? s.padding : ""}`}>
       <p className="text text_type_digits-default w-100 d-flex justify-center">#{currentOrder.number}</p>
       <p className='mt-10 text text_type_main-medium'>{currentOrder.name}</p>
       <p className='mt-2 text text_type_main-default'>{getStatusText(currentOrder.status as OrderStatus)}</p>

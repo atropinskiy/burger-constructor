@@ -3,7 +3,7 @@ import s from './feed-dashboard.module.scss'
 import { useSelector } from "@hooks/index";
 
 export const FeedDashboard: React.FC = () => {
-  const { orders } = useSelector((state) => state.ws);
+  const { orders, totalOrders, totalToday } = useSelector((state) => state.ws);
   const rdyOrders = orders
     .filter(order => order.status === "done")
 
@@ -47,13 +47,13 @@ export const FeedDashboard: React.FC = () => {
         <p className="text text_type_main-medium mt-15">Выполнено за все время:</p>
       </div>
       <div className={s.feed__total__div}>
-        <p className="text text_type_digits-large">28752</p>
+        <p className="text text_type_digits-large">{totalOrders}</p>
       </div>
       <div className="mt-15">
         <p className="text text_type_main-medium">Выполнено сегодня:</p>
       </div>
       <div className={s.feed__total__div}>
-        <p className="text text_type_digits-large">138</p>
+        <p className="text text_type_digits-large">{totalToday}</p>
       </div>
     </div>
   )

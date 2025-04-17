@@ -1,18 +1,24 @@
-import { IOrder } from '@customTypes/auth/types';
+import { IOrder, IOrderResponse } from '@customTypes/auth/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchOrder } from '@services/order/order-actions';
 
 interface WebSocketState {
   isConnected: boolean;
   orders: IOrder[];
+  profileOrders: IOrder[];
   currentOrder: IOrder | null;
-  error: string | null;  // изменили тип ошибки на string
+  error: string | null;
+  totalOrders: number;
+  totalToday: number;
 }
 
 const initialState: WebSocketState = {
   isConnected: false,
   orders: [],
+  profileOrders: [],
   currentOrder: null,
+  totalOrders: 0,
+  totalToday: 0,
   error: null,
 };
 
@@ -26,10 +32,16 @@ const wsSlice = createSlice({
     close(state) {
       state.isConnected = false;
     },
-    message(state, action: PayloadAction<{ orders: IOrder[] }>) {
-      state.orders = action.payload.orders.sort((a: IOrder, b: IOrder) => b.number - a.number);
-      console.log(state.orders)
+    message(state, action: PayloadAction<{ data: IOrderResponse }>) {
+      state.orders = action.payload.data.orders.sort((a: IOrder, b: IOrder) => b.number - a.number);
+      state.totalOrders = action.payload.data.total
+      state.totalToday = action.payload.data.totalToday
     },
+
+    messageProfile(state, action: PayloadAction<{ data: IOrderResponse }>) {
+      state.profileOrders = action.payload.data.orders.sort((a: IOrder, b: IOrder) => b.number - a.number);
+    },
+
     error(state, action: PayloadAction<string>) {  // исправлено на string
       state.error = action.payload;  // теперь сохраняем строку с ошибкой
     },

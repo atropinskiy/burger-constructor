@@ -1,6 +1,6 @@
 .order__details__div {
   width: 640px;
-  margin-top: 122px;
+  border: none;
 }
 
 .order__details__ingredients {
@@ -27,4 +27,8 @@
   border-radius: 50%; // опционально, для скругления углов
   overflow: hidden;
   padding: 5px;
+}
+
+.padding {
+  margin-top: 122px;
 }

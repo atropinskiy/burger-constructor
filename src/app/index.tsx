@@ -105,7 +105,7 @@ export const App = () => {
 					path='/profile/orders/:id'
 					element={
 						<ProtectedRouteElement
-							element={<OrderDetails />}
+							element={<OrderDetails padding={false} />}
 							redirectPath='/login'
 						/>
 					}
@@ -122,7 +122,7 @@ export const App = () => {
 					<Route index element={<ProfileForm />} />
 					<Route path='orders' element={<OrdersList />} />
 				</Route>
-				<Route path='feed/:id' element={<OrderDetails />} />
+				<Route path='feed/:id' element={<OrderDetails padding={true} />} />
 				<Route path='/ingredients/:id' element={<IngredientDetailsPage />} />
 				<Route path='*' element={<NotFound />} />
 			</Routes>
@@ -148,7 +148,7 @@ export const App = () => {
 						path='/profile/orders/:id'
 						element={
 							<Modal onClose={handleModalClose} title=''>
-								<OrderDetails />
+								<OrderDetails padding={false} />
 							</Modal>
 						}
 					/>
