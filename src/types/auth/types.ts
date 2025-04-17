@@ -123,7 +123,7 @@ export interface IOrderResponse {
 }
 
 export enum OrderStatus {
-  Created = 'created',
-  Pending = 'pending',
-  Done = 'done',
+	Created = 'created',
+	Pending = 'pending',
+	Done = 'done',
 }

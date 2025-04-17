@@ -4,10 +4,8 @@ import orderReducer from './order/order-slices';
 import modalReducer from './modal/modal-slices';
 import userReducer from './auth/slices';
 import wsReducer from './ws/ws-slices';
-import { createWebSocketMiddleware } from './ws/ws-middleware';
 import { feedMiddleware } from './ws/feedMiddleware';
 import { profileMiddleware } from './ws/profileMiddleware';
-
 
 export const store = configureStore({
 	reducer: {

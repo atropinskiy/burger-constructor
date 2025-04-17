@@ -1,34 +1,34 @@
 .order__details__div {
-  width: 640px;
-  border: none;
+	width: 640px;
+	border: none;
 }
 
 .order__details__ingredients {
-  max-height: 366px;
-  overflow-y: auto;
-  min-height: 100px;
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding-right: 24px;
+	max-height: 366px;
+	overflow-y: auto;
+	min-height: 100px;
+	margin-top: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding-right: 24px;
 }
 
 .ingredient {
-  display: flex;
-  align-items: center
+	display: flex;
+	align-items: center;
 }
 
 .ingredient__image {
-  width: 64px;
-  height: 64px;
-  object-fit: cover;
-  border: 2px solid blue;
-  border-radius: 50%; // опционально, для скругления углов
-  overflow: hidden;
-  padding: 5px;
+	width: 64px;
+	height: 64px;
+	object-fit: cover;
+	border: 2px solid blue;
+	border-radius: 50%; // опционально, для скругления углов
+	overflow: hidden;
+	padding: 5px;
 }
 
 .padding {
-  margin-top: 122px;
+	margin-top: 122px;
 }

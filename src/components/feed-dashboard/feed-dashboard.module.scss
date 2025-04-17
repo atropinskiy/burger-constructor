@@ -1,37 +1,35 @@
 .feed__div {
-  margin-left: 60px;
+	margin-left: 60px;
 }
 
 .feed__dash__div {
-  width: 580px;
-  display: flex;
+	width: 580px;
+	display: flex;
 }
 
 .feed__rdy__div {
-  width: 227px;
-  height: 206px;
-  flex-wrap: wrap;
-  max-height: 206px;
-  overflow-y: auto;
+	width: 227px;
+	height: 206px;
+	flex-wrap: wrap;
+	max-height: 206px;
+	overflow-y: auto;
 }
 
 .feed__rdy__color {
-  color: #00CCCC;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  
+	color: #00cccc;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
 }
 
 .feed__process__div {
-  width: 227px;
-  margin-left: 36px;
-  height: 206px;
+	width: 227px;
+	margin-left: 36px;
+	height: 206px;
 }
 
 .feed__total__div {
-  height: 120px;
-  display: flex;
-  align-items: center;
+	height: 120px;
+	display: flex;
+	align-items: center;
 }
-

@@ -14,7 +14,7 @@ import {
 	Profile,
 	NotFound,
 	OrderDetails,
-	Feed
+	Feed,
 } from '@pages/index';
 import { AppHeader } from '@components/app-header/app-header';
 import { OrdersList } from '@components/orders-list/orders-list';
@@ -85,10 +85,7 @@ export const App = () => {
 				<Route
 					path='/feed'
 					element={
-						<ProtectedRouteElement
-							element={<Feed />}
-							redirectPath='/'
-						/>
+						<ProtectedRouteElement element={<Feed />} redirectPath='/' />
 					}
 				/>
 				<Route
@@ -139,8 +136,6 @@ export const App = () => {
 					/>
 				</Routes>
 			)}
-
-
 
 			{background && (
 				<Routes>

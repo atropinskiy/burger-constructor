@@ -14,7 +14,7 @@ const initialState: OrderState = {
 	number: null,
 	error: null,
 	ingredients: [],
-	orders: []
+	orders: [],
 };
 
 const orderSlice = createSlice({
@@ -59,14 +59,15 @@ const orderSlice = createSlice({
 			.addCase(createOrder.rejected, (state, action) => {
 				state.error = action.payload as string;
 			})
-			.addCase(fetchOrders.fulfilled, (state, action: PayloadAction<IOrderResponse>) => {
-				state.orders = action.payload.orders;
-			})
+			.addCase(
+				fetchOrders.fulfilled,
+				(state, action: PayloadAction<IOrderResponse>) => {
+					state.orders = action.payload.orders;
+				}
+			)
 			.addCase(fetchOrders.rejected, (state, action) => {
 				state.error = action.payload || 'Ошибка при загрузке заказов';
 			});
-
-			
 	},
 });
 
