@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { OrderCell } from '@components/order-cell/order-cell';
 import { useDispatch, useSelector } from '@hooks/index';
 import { Link, useLocation } from 'react-router-dom';
-import s from './order-list.module.scss'
+import s from './order-list.module.scss';
 
 export const OrdersList: React.FC = () => {
 	const dispatch = useDispatch();
