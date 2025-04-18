@@ -26,7 +26,7 @@ export const AppHeader = () => {
 					</Link>
 
 					{user ? (
-						<Link to='/profile/orders'>
+						<Link to='/feed'>
 							<AppHeaderIconLabel
 								icon={<ListIcon type={user ? 'primary' : 'secondary'} />}
 								label='Лента заказов'

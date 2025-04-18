@@ -104,3 +104,26 @@ export interface UpdateUserResponse {
 	success: boolean;
 	user: User;
 }
+
+export interface IOrder {
+	_id: string;
+	ingredients: string[];
+	status: string;
+	name: string;
+	createdAt: string;
+	updatedAt: string;
+	number: number;
+}
+
+export interface IOrderResponse {
+	success: boolean;
+	orders: IOrder[];
+	total: number;
+	totalToday: number;
+}
+
+export enum OrderStatus {
+	Created = 'created',
+	Pending = 'pending',
+	Done = 'done',
+}

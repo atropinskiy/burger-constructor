@@ -13,6 +13,8 @@ import {
 	Login,
 	Profile,
 	NotFound,
+	OrderDetails,
+	Feed,
 } from '@pages/index';
 import { AppHeader } from '@components/app-header/app-header';
 import { OrdersList } from '@components/orders-list/orders-list';
@@ -81,11 +83,27 @@ export const App = () => {
 					}
 				/>
 				<Route
+					path='/feed'
+					element={
+						<ProtectedRouteElement element={<Feed />} redirectPath='/' />
+					}
+				/>
+				<Route
 					path='/reset-password'
 					element={
 						<ProtectedRouteElement
 							element={<ResetPassword />}
 							redirectPath='/'
+						/>
+					}
+				/>
+
+				<Route
+					path='/profile/orders/:id'
+					element={
+						<ProtectedRouteElement
+							element={<OrderDetails padding={false} />}
+							redirectPath='/login'
 						/>
 					}
 				/>
@@ -101,7 +119,7 @@ export const App = () => {
 					<Route index element={<ProfileForm />} />
 					<Route path='orders' element={<OrdersList />} />
 				</Route>
-
+				<Route path='feed/:id' element={<OrderDetails padding={true} />} />
 				<Route path='/ingredients/:id' element={<IngredientDetailsPage />} />
 				<Route path='*' element={<NotFound />} />
 			</Routes>
@@ -114,6 +132,23 @@ export const App = () => {
 							<Modal onClose={handleModalClose} title='Детали ингредиента:'>
 								<IngredientDetails />
 							</Modal>
+						}
+					/>
+				</Routes>
+			)}
+			{background && (
+				<Routes>
+					<Route
+						path='/profile/orders/:id'
+						element={
+							<ProtectedRouteElement
+								redirectPath='/login'
+								element={
+									<Modal onClose={handleModalClose} title=''>
+										<OrderDetails padding={false} />
+									</Modal>
+								}
+							/>
 						}
 					/>
 				</Routes>

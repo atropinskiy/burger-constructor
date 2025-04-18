@@ -4,7 +4,6 @@ import BurgerConstructor from '@components/burger-constructor/burger-constructor
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Modal } from '@components/modal/modal';
 import { useDispatch, useSelector } from '@hooks/index';
-import { RootState } from '../../services/store';
 import { TotalPrice } from '@components/total-price/total-price';
 import { createOrder } from '../../services/actions';
 import {
@@ -21,12 +20,8 @@ import { Link } from 'react-router-dom';
 
 export const Main: React.FC = () => {
 	const dispatch = useDispatch();
-	const totalPrice = useSelector(
-		(state: RootState) => state.ingredients.totalPrice
-	);
-	const orderIngredients = useSelector(
-		(state: RootState) => state.order.ingredients
-	);
+	const totalPrice = useSelector((state) => state.ingredients.totalPrice);
+	const orderIngredients = useSelector((state) => state.order.ingredients);
 	const isLogged = useSelector((state) => state.user.isLogged) === true;
 	const error = useSelector((state) => state.order.error);
 	const isModalOpen = useSelector((state) => state.modal.isOpen);

@@ -15,11 +15,14 @@ import {
 import { IngredientModel } from '../../types/auth/types';
 import FillingsElement from './fillings_element/fillings-element';
 import IngredientCell from '../ingredient-cell/ingredient-cell';
+import { RootState } from '@services/root-reucer';
 
 const BurgerConstructor: React.FC = () => {
 	const dispatch = useDispatch();
+
+	// Указываем тип состояния Redux
 	const { bun, fillings } = useSelector(
-		(state) => state.ingredients.selectedItems
+		(state: RootState) => state.ingredients.selectedItems
 	);
 
 	const handleAddIngredient = (ingredient: IngredientModel) => {
@@ -80,7 +83,8 @@ const BurgerConstructor: React.FC = () => {
 					)}
 				</div>
 
-				{fillings.map((ingredient, index) => (
+				{/* Типизируем ingredient */}
+				{fillings.map((ingredient: IngredientModel, index: number) => (
 					<div key={ingredient.id}>
 						<FillingsElement
 							ingredient={ingredient}

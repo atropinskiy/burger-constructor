@@ -1,0 +1,57 @@
+.order_div {
+	background-color: #1c1c21;
+	width: 100%;
+	margin-bottom: 24px;
+	border-radius: 40px;
+	box-sizing: border-box;
+	padding: 24px;
+	cursor: pointer;
+}
+
+.order__ingredients {
+	display: flex;
+	max-width: 600px;
+	flex-wrap: wrap;
+	gap: 8px;
+	position: relative;
+	margin-left: 20px;
+	margin-top: 24px;
+}
+
+.order__ingredients__div {
+	border: 2px solid blue;
+	position: relative;
+	width: 64px;
+	margin-left: -20px;
+	border-radius: 50%;
+	background-color: #131316;
+}
+
+.order__ingredients__image {
+	width: 112px;
+	position: relative;
+	height: 56px;
+	margin-top: 2px;
+	margin-left: -25px;
+}
+
+.order__currency {
+	width: 24px;
+	height: 24px;
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6); // затемнение
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	font-weight: bold;
+	font-size: 14px;
+	border-radius: 50%;
+}

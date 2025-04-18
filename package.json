@@ -13,6 +13,7 @@
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/react": "^16.2.0",
 		"@testing-library/user-event": "^14.6.1",
+		"@types/aria-query": "^5.0.4",
 		"@types/react": "^18.2.0",
 		"@types/react-dom": "^18.2.1",
 		"@types/react-redux": "^7.1.34",
@@ -78,7 +79,7 @@
 		"cypress": "cypress open"
 	},
 	"dependencies": {
-		"@reduxjs/toolkit": "^2.6.0",
+		"@reduxjs/toolkit": "^2.7.0",
 		"@ya.praktikum/react-developer-burger-ui-components": "^1.14.2",
 		"clsx": "^2.1.0",
 		"core-js": "^3.38.1",

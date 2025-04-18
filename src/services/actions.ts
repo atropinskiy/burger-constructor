@@ -23,10 +23,12 @@ export const createOrder = createAsyncThunk<OrderResponse, string[]>(
 	'order/createOrder',
 	async (ingredients: string[], { rejectWithValue }) => {
 		try {
+			const token = localStorage.getItem('accessToken')?.replace('Bearer ', '');
 			const response = await fetch(`${BASE_URL}/orders`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					Authorization: token ? `Bearer ${token}` : '',
 				},
 				body: JSON.stringify({ ingredients }),
 			})

@@ -103,6 +103,10 @@ main {
 	justify-content: top;
 }
 
+.justify-between {
+	justify-content: space-between;
+}
+
 .valign-bottom {
 	align-items: bottom;
 }
