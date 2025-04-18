@@ -1,8 +1,8 @@
 import { IOrder, IOrderResponse } from '@customTypes/auth/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchOrder } from '@services/order/order-actions';
-import { feedMessage } from '@services/ws/feedMiddleware';
-import { profileMessage } from '@services/ws/profileMiddleware';
+import { feedMessage } from '@services/ws/feed-middleware';
+import { profileMessage } from '@services/ws/profile-middleware';
 
 interface WebSocketState {
 	isConnected: boolean;

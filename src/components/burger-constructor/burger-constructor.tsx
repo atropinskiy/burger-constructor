@@ -15,7 +15,7 @@ import {
 import { IngredientModel } from '../../types/auth/types';
 import FillingsElement from './fillings_element/fillings-element';
 import IngredientCell from '../ingredient-cell/ingredient-cell';
-import { RootState } from '@services/rootReucer';
+import { RootState } from '@services/root-reucer';
 
 const BurgerConstructor: React.FC = () => {
 	const dispatch = useDispatch();

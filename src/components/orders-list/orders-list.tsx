@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from '@hooks/index';
 import { Link, useLocation } from 'react-router-dom';
-import { feedConnect, feedDisconnect } from '@services/ws/feedMiddleware';
+import { feedConnect, feedDisconnect } from '@services/ws/feed-middleware';
 import {
 	profileConnect,
 	profileDisconnect,
-} from '@services/ws/profileMiddleware';
+} from '@services/ws/profile-middleware';
 import s from './order-list.module.scss';
 import { OrderCell } from '@components/order-cell/order-cell';
 

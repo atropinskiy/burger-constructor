@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './rootReucer';
-import { feedMiddleware } from './ws/feedMiddleware';
-import { profileMiddleware } from './ws/profileMiddleware';
+import rootReducer from './root-reucer';
+import { feedMiddleware } from './ws/feed-middleware';
+import { profileMiddleware } from './ws/profile-middleware';
 
 export const store = configureStore({
 	reducer: rootReducer,

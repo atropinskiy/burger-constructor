@@ -1,6 +1,6 @@
 import { createAction, Middleware } from '@reduxjs/toolkit';
 import { createWebSocketMiddleware } from './ws-middleware';
-import { RootState } from '../rootReucer';
+import { RootState } from '../root-reucer';
 import { IOrderResponse } from '@customTypes/auth/types';
 
 type FeedSendMessage = {
