@@ -37,3 +37,4 @@ declare module '*.module.sass' {
 }
 
 /* eslint-enable  @typescript-eslint/no-explicit-any */
+declare module '@aashutoshrathi';

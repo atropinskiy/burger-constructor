@@ -3,7 +3,8 @@ import {
 	useDispatch as useReduxDispatch,
 	useSelector as useReduxSelector,
 } from 'react-redux';
-import { AppDispatch, RootState } from '../services/store';
+import { AppDispatch } from '../services/store';
+import { RootState } from '@services/rootReucer';
 
 // Типизированный хук useDispatch
 export const useDispatch = () => useReduxDispatch<AppDispatch>();

@@ -4,21 +4,18 @@ import {
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useRef, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '@hooks/index';
 import { loginUser } from '@services/auth/actions';
 import s from './login.module.scss';
-import { RootState, AppDispatch } from '@services/store';
 
 export const Login: React.FC = () => {
 	const [login, setLogin] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const loginRef = useRef<HTMLInputElement | null>(null);
 	const passwordRef = useRef<HTMLInputElement | null>(null);
-	const dispatch = useDispatch<AppDispatch>();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { error, loading, user } = useSelector(
-		(state: RootState) => state.user
-	);
+	const { error, loading, user } = useSelector((state) => state.user);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();

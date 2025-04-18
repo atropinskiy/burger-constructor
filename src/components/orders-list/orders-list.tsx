@@ -1,28 +1,43 @@
-import React, { useEffect } from 'react';
-import { OrderCell } from '@components/order-cell/order-cell';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from '@hooks/index';
 import { Link, useLocation } from 'react-router-dom';
+import { feedConnect, feedDisconnect } from '@services/ws/feedMiddleware';
+import {
+	profileConnect,
+	profileDisconnect,
+} from '@services/ws/profileMiddleware';
 import s from './order-list.module.scss';
+import { OrderCell } from '@components/order-cell/order-cell';
 
 export const OrdersList: React.FC = () => {
 	const dispatch = useDispatch();
-	const { orders, profileOrders } = useSelector((state) => state.ws);
+	const { orders, profileOrders, error } = useSelector((state) => state.ws);
 	const location = useLocation();
 	const isProfilePage = location.pathname.startsWith('/profile/orders');
 
-	const prefix = isProfilePage ? 'wsProfile' : 'wsFeed';
+	// Выбираем действия для подключения и отключения
+	const connectAction = isProfilePage ? profileConnect : feedConnect;
+	const disconnectAction = isProfilePage ? profileDisconnect : feedDisconnect;
+
 	const displayedOrders = isProfilePage ? profileOrders : orders;
+	const wsUrl = useMemo(
+		() =>
+			isProfilePage
+				? 'wss://norma.nomoreparties.space/orders'
+				: 'wss://norma.nomoreparties.space/orders/all',
+		[isProfilePage]
+	);
 
 	useEffect(() => {
-		dispatch({ type: `${prefix}/connect` });
-
+		dispatch(connectAction(wsUrl));
 		return () => {
-			dispatch({ type: `${prefix}/disconnect` });
+			dispatch(disconnectAction());
 		};
-	}, [dispatch, prefix]);
+	}, [dispatch, connectAction, disconnectAction, wsUrl]);
 
 	return (
 		<div className={s.order__list}>
+			{error && <p className={s.error}>Ошибка: {error}</p>}
 			{displayedOrders.length > 0 ? (
 				displayedOrders.map((order) => (
 					<Link

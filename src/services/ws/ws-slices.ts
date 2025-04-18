@@ -1,6 +1,8 @@
 import { IOrder, IOrderResponse } from '@customTypes/auth/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchOrder } from '@services/order/order-actions';
+import { feedMessage } from '@services/ws/feedMiddleware';
+import { profileMessage } from '@services/ws/profileMiddleware';
 
 interface WebSocketState {
 	isConnected: boolean;
@@ -32,20 +34,6 @@ const wsSlice = createSlice({
 		close(state) {
 			state.isConnected = false;
 		},
-		message(state, action: PayloadAction<{ data: IOrderResponse }>) {
-			state.orders = action.payload.data.orders.sort(
-				(a: IOrder, b: IOrder) => b.number - a.number
-			);
-			state.totalOrders = action.payload.data.total;
-			state.totalToday = action.payload.data.totalToday;
-		},
-
-		messageProfile(state, action: PayloadAction<{ data: IOrderResponse }>) {
-			state.profileOrders = action.payload.data.orders.sort(
-				(a: IOrder, b: IOrder) => b.number - a.number
-			);
-		},
-
 		error(state, action: PayloadAction<string>) {
 			// исправлено на string
 			state.error = action.payload; // теперь сохраняем строку с ошибкой
@@ -55,6 +43,29 @@ const wsSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
+		builder.addCase(
+			feedMessage,
+			(state, action: PayloadAction<IOrderResponse>) => {
+				const sortedOrders = action.payload.orders.sort(
+					(a, b) => b.number - a.number
+				);
+				state.orders = sortedOrders;
+				state.totalOrders = action.payload.total;
+				state.totalToday = action.payload.totalToday;
+			}
+		);
+
+		// Profile WebSocket message
+		builder.addCase(
+			profileMessage,
+			(state, action: PayloadAction<IOrderResponse>) => {
+				const sortedProfileOrders = action.payload.orders.sort(
+					(a, b) => b.number - a.number
+				);
+				state.profileOrders = sortedProfileOrders;
+			}
+		);
+
 		builder.addCase(fetchOrder.fulfilled, (state, action) => {
 			state.currentOrder = action.payload.orders[0];
 		});
@@ -66,5 +77,5 @@ const wsSlice = createSlice({
 	},
 });
 
-export const { open, close, message, error, getOrder } = wsSlice.actions;
+export const { open, close, error, getOrder } = wsSlice.actions;
 export default wsSlice.reducer;
