@@ -129,4 +129,6 @@ export const {
 	clearSelectedItems,
 	updateOrder,
 } = ingredientsSlice.actions;
+
+export const ingredientsReducer = ingredientsSlice.reducer;
 export default ingredientsSlice.reducer;
