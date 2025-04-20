@@ -82,7 +82,8 @@
 		"test": "jest",
 		"cypress": "cypress open",
 		"predeploy": "npm run build",
-		"deploy": "gh-pages -d dist"
+		"deploy": "gh-pages -d dist",
+		"deploy-script": "npm run build && scp -r ./dist/* vaskaop@84.201.157.219:/home/vaskaop/stellar-frontend"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^2.7.0",
