@@ -17,5 +17,5 @@ module.exports = {
 	output: {
     publicPath: '/burger-constructor/', // Указание на подкаталог
   },
-	plugins: [new ReactRefreshWebpackPlugin()],
+	plugins: [new ReactRefreshWebpackPlugin()], //123
 };
