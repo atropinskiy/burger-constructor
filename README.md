@@ -24,3 +24,7 @@
 - **SASS** - для стилизации.
 - **Axios** - для работы с HTTP-запросами.
 - **Jest** и **Cypress** - для тестирования.
+
+## Ссылка на деплой
+
+[Проект](https://atropinskiy.github.io/burger-constructor/)
