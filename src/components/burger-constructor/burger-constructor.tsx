@@ -68,7 +68,7 @@ const BurgerConstructor: React.FC = () => {
 			<div className='ml-10'>
 				<div>
 					{bun ? (
-						<div className='ml-7 mb-2'>
+						<div className='ml-7 mb-2' id='top-to-drag'>
 							<ConstructorElement
 								type='top'
 								isLocked={true}
