@@ -13,7 +13,9 @@ describe('wsSlice reducer', () => {
 	};
 
 	it('должен вернуть начальное состояние', () => {
-		expect(reducer(undefined, { type: 'UNKNOWN_ACTION' })).toEqual(initialState);
+		expect(reducer(undefined, { type: 'UNKNOWN_ACTION' })).toEqual(
+			initialState
+		);
 	});
 
 	it('обрабатывает open', () => {

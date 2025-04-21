@@ -13,7 +13,7 @@ export const ModalHeader: React.FC<ModalProps> = ({ title, onClose }) => {
 			<button
 				className={`${s['modal-close-btn']} ml-auto cursor-pointer`}
 				onClick={onClose}
-				data-testid="close-modal"
+				data-testid='close-modal'
 				aria-label='Close'>
 				<img src={closeIcon} alt='Close' />
 			</button>

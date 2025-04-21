@@ -54,7 +54,6 @@ const FillingsElement: React.FC<FillingsElementProps> = ({
 				<DragIcon type='primary' className='cursor-pointer' />
 			</div>
 			<ConstructorElement
-
 				text={ingredient.name}
 				price={ingredient.price}
 				thumbnail={ingredient.image}

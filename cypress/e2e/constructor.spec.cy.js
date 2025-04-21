@@ -100,6 +100,6 @@ describe('Создание заказа', () => {
 
     cy.get('button[test-id=order-button]').click();
     cy.wait(20000)
-    cy.get('[test-id="order_modal"]').should('be.visible');
+    cy.get('[data-testid="order_modal"]').should('be.visible');
   });
 });
