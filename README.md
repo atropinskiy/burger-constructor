@@ -27,4 +27,4 @@
 
 ## Ссылка на деплой
 
-[Проект](https://atropinskiy.github.io/burger-constructor/)
+[Проект](https://burgershop.students.nomorepartiessbs.ru/burger-constructor/)
