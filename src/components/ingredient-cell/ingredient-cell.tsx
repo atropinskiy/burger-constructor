@@ -9,7 +9,7 @@ interface ingredientCellProps {
 const IngredientCell: React.FC<ingredientCellProps> = ({ title, type }) => {
 	const cellClass = type === 'top' ? s.top_bun : s.bottom_bun;
 	return (
-		<div className={cellClass}>
+		<div data-testid='constructor-area' className={cellClass}>
 			<p className='text text_type_main-medium text_color_inactive'>{title}</p>
 		</div>
 	);

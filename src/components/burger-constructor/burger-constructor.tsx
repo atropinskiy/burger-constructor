@@ -66,9 +66,9 @@ const BurgerConstructor: React.FC = () => {
 	return (
 		<div ref={drop} className={s.constructorContainer}>
 			<div className='ml-10'>
-				<div>
+				<div data-testid='constructor-area'>
 					{bun ? (
-						<div className='ml-7 mb-2' id='top-to-drag'>
+						<div className='ml-7 mb-2'>
 							<ConstructorElement
 								type='top'
 								isLocked={true}
