@@ -83,6 +83,7 @@ export const Main: React.FC = () => {
 										htmlType='button'
 										type='primary'
 										size='large'
+										test-id='order-button'
 										disabled={orderIngredients.length === 0}
 										onClick={handleOrderClick}>
 										Оформить заказ

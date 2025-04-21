@@ -12,7 +12,9 @@ export const IngredientDetails: React.FC = () => {
 		return <p>Ингредиент не найден</p>;
 	}
 	return (
-		<div className='d-flex flex-column valign-center'>
+		<div
+			className='d-flex flex-column valign-center'
+			data-testid='ingredient-details-body'>
 			<img width={'480px'} src={ingredient.image_large} alt={ingredient.name} />
 			<h3 className='text text_type_main-medium'>{ingredient.name}</h3>
 			<p className='text text_type_main-default'></p>

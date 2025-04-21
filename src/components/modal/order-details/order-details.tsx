@@ -8,7 +8,9 @@ interface OrderDetailsProps {
 
 export const OrderDetails: React.FC<OrderDetailsProps> = ({ orderNumber }) => {
 	return (
-		<div className='mt-10 d-flex flex-column valign-center'>
+		<div
+			data-testid='order_modal'
+			className='mt-10 d-flex flex-column valign-center'>
 			<h1 className={`text text_type_digits-large ${s.digits}`}>
 				{orderNumber ?? '—'}
 			</h1>

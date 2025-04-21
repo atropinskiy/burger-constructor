@@ -12,7 +12,7 @@ const root = createRoot(domNode);
 root.render(
 	<StrictMode>
 		<Provider store={store}>
-			<BrowserRouter>
+			<BrowserRouter basename='/burger-constructor/'>
 				<App />
 			</BrowserRouter>
 		</Provider>

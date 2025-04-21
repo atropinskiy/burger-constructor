@@ -29,6 +29,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ ingredient }) => {
 			<div
 				ref={drag}
 				className={s.card}
+				data-testid='ingredient-card'
 				role='button'
 				tabIndex={0}
 				style={{ opacity: isDragging ? 0.5 : 1 }}>

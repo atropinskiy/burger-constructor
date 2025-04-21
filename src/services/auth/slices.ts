@@ -11,7 +11,7 @@ interface UserState {
 	visitedForgotPassword: boolean;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
 	user: null,
 	error: null,
 	loading: false,
@@ -66,7 +66,7 @@ const userSlice = createSlice({
 			})
 			.addCase(loginUser.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload as string;
+				state.error = action.payload || 'Неизвестная ошибка';
 			})
 			.addCase(registerUser.pending, (state) => {
 				state.loading = true;
@@ -78,7 +78,7 @@ const userSlice = createSlice({
 			})
 			.addCase(registerUser.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload as string;
+				state.error = action.payload || 'Неизвестная ошибка';
 			});
 	},
 });

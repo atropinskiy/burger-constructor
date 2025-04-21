@@ -33,6 +33,7 @@ export const Modal: React.FC<ModalProps> = ({ onClose, children, title }) => {
 			<div
 				ref={modalRef}
 				tabIndex={-1}
+				data-testid='modal'
 				aria-labelledby='modal-title'
 				aria-hidden='false'>
 				{children}

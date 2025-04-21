@@ -14,7 +14,7 @@ interface IngredientsState {
 	error: string | null;
 }
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
 	allItems: [],
 	selectedItems: {
 		bun: null,
@@ -129,4 +129,6 @@ export const {
 	clearSelectedItems,
 	updateOrder,
 } = ingredientsSlice.actions;
+
+export const ingredientsReducer = ingredientsSlice.reducer;
 export default ingredientsSlice.reducer;

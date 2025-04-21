@@ -48,6 +48,7 @@ const FillingsElement: React.FC<FillingsElementProps> = ({
 		<div
 			className='d-flex mt-2'
 			ref={(node) => drag(drop(node))}
+			data-testid='filligs-element'
 			style={{ opacity: isDragging ? 0.5 : 1 }}>
 			<div className='d-flex valign-center'>
 				<DragIcon type='primary' className='cursor-pointer' />
