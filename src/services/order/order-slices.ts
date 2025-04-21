@@ -10,7 +10,7 @@ interface OrderState {
 	orders: IOrder[];
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
 	number: null,
 	error: null,
 	ingredients: [],

@@ -1,17 +1,13 @@
-import reducer, { open, close, error, getOrder } from './ws-slices';
+import reducer, {
+	open,
+	close,
+	error,
+	getOrder,
+	initialState,
+} from './ws-slices';
 import { IOrder } from '@customTypes/auth/types';
 
 describe('wsSlice reducer', () => {
-	const initialState = {
-		isConnected: false,
-		orders: [],
-		profileOrders: [],
-		currentOrder: null,
-		error: null,
-		totalOrders: 0,
-		totalToday: 0,
-	};
-
 	it('должен вернуть начальное состояние', () => {
 		expect(reducer(undefined, { type: 'UNKNOWN_ACTION' })).toEqual(
 			initialState

@@ -14,7 +14,7 @@ interface IngredientsState {
 	error: string | null;
 }
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
 	allItems: [],
 	selectedItems: {
 		bun: null,

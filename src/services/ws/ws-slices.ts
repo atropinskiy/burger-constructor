@@ -14,7 +14,7 @@ interface WebSocketState {
 	totalToday: number;
 }
 
-const initialState: WebSocketState = {
+export const initialState: WebSocketState = {
 	isConnected: false,
 	orders: [],
 	profileOrders: [],

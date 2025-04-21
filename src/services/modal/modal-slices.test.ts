@@ -1,13 +1,10 @@
-import reducer, { openModal, closeModal, setLoading } from './modal-slices';
+import reducer, {
+	openModal,
+	closeModal,
+	setLoading,
+	initialState,
+} from './modal-slices';
 import { IngredientModel } from '../../types/auth/types';
-
-const initialState = {
-	isOpen: false,
-	title: undefined,
-	content: undefined,
-	ingredient: undefined,
-	isLoading: false,
-};
 
 describe('modalSlice', () => {
 	it('should handle openModal with full payload', () => {

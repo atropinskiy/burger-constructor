@@ -9,7 +9,7 @@ interface ModalState {
 	isLoading: boolean;
 }
 
-const initialState: ModalState = {
+export const initialState: ModalState = {
 	isOpen: false,
 	title: undefined,
 	content: undefined,

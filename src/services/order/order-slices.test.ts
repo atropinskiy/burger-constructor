@@ -4,17 +4,11 @@ import reducer, {
 	removeIngredientFromOrder,
 	addBunsToOrderById,
 	clearOrder,
+	initialState,
 } from './order-slices';
 import { createOrder } from '../actions';
 import { fetchOrders } from './order-actions';
 import { OrderResponse, IOrderResponse, IOrder } from '../../types/auth/types';
-
-const initialState = {
-	number: null,
-	error: null,
-	ingredients: [],
-	orders: [],
-};
 
 describe('orderSlice', () => {
 	it('should handle addIngredientToOrder', () => {

@@ -4,6 +4,7 @@ import reducer, {
 	setUserChecked,
 	setVisitedForgotPassword,
 	setTokens,
+	initialState
 } from './slices';
 import { RegistrationForm, User } from '@customTypes/auth/types';
 import { loginUser, registerUser } from './actions';
@@ -14,15 +15,6 @@ const store = configureStore({
 });
 
 describe('userSlice', () => {
-	const initialState = {
-		user: null,
-		isLogged: null,
-		error: null,
-		isUserChecked: false,
-		loading: false,
-		visitedForgotPassword: false,
-	};
-
 	it('должен вернуть начальное состояние', () => {
 		expect(reducer(undefined, { type: 'UNKNOWN_ACTION' })).toEqual(
 			initialState
@@ -66,15 +58,6 @@ describe('userSlice', () => {
 });
 
 describe('async actions', () => {
-	const initialState = {
-		user: null,
-		isLogged: null,
-		error: null,
-		isUserChecked: false,
-		loading: false,
-		visitedForgotPassword: false,
-	};
-
 	const regForm: RegistrationForm = {
 		email: 'test@example.com',
 		password: 'password123',

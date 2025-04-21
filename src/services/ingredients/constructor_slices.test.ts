@@ -5,6 +5,7 @@ import {
 	clearSelectedItems,
 	updateOrder,
 	ingredientsReducer as reducer,
+	initialState,
 } from './constructor_slices';
 import { IngredientModel } from '../../types/auth/types';
 
@@ -39,18 +40,6 @@ const sauce: IngredientModel = {
 };
 
 describe('ingredientsSlice', () => {
-	const initialState = {
-		allItems: [],
-		selectedItems: {
-			bun: null,
-			fillings: [],
-		},
-		bun: null,
-		totalPrice: 0,
-		loading: false,
-		error: null,
-	};
-
 	it('should handle setAllIngredients', () => {
 		const state = reducer(initialState, setAllIngredients([bun, sauce]));
 		expect(state.allItems).toHaveLength(2);
